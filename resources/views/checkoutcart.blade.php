@@ -166,7 +166,6 @@ h4 {
             <ul class="bread-list">
                 <li><a href="{{ route('form') }}">Home </a></li>
                 <li><img src="http://127.0.0.1:8000/assets/images/logo/arrow.png"alt=""></li>
-                <li><a href="{{ route('product.detail', ['id' => $product->id]) }}">Sản phẩm</a></li>
                 <li><img src="http://127.0.0.1:8000/assets/images/logo/arrow.png"alt=""></li>
                 <li>Thanh toán</li>
             </ul>
@@ -176,20 +175,23 @@ h4 {
     <div class="row">
         <!-- Product Summary -->
         <div class="col-md-8">
-            <h4>{{ $product->thuongHieu }} {{ $product->name }}</h4>
-            <div class="cart-summary">
-                <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/all/{{$product->image}}" alt="{{ $product->name }}" style="width: 100px;">
-                <p>{{ number_format($totalPrice) }} ₫</p>
-                <p style="margin-left: 20px;">Số lượng: {{ $quantity }}</p>
-            </div>
+                <h4>Giỏ Hàng của Bạn</h4>
+                @foreach($cartItems as $item)
+                    <div class="cart-item">
+                        <h5>{{ $item->name }}</h5>
+                        <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/all/{{$item->image}}" alt="{{ $item->name }}" style="width: 100px;">
+                        <p>Đơn giá: {{ number_format($item->giaTienLon) }} ₫</p>
+                        <p>Số lượng: {{ $item->quantity }}</p>
+                        <p>Thành tiền: {{ number_format($item->giaTienLon * $item->quantity) }} ₫</p>
+                    </div>
+                @endforeach
         </div>
-
         <!-- Checkout Form -->
         <div class="col-md-4">
             <h4>Thanh Toán và Giao Hàng</h4>
             <form action="{{ route('checkout.process', ['id' => $product->id]) }}" method="POST">
                 @csrf
-                <input type="hidden" name="so-luong" value="{{ $quantity }}">
+                <input type="hidden" name="so-luong" value="{{ $totalQuantity }}">
                 <div class="form-group">
                     <label for="full_name">Họ và tên *</label>
                     <input type="text" class="form-control" id="full_name" name="full_name" required>

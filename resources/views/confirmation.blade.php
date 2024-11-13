@@ -217,14 +217,14 @@
             </ul>
         </div>
    </section>
-   <div class="confirmation-container">
+<div class="confirmation-container">
     <h2>Đơn hàng đã nhận</h2>
     <div class="order-summary">
         <p>🙏 Cảm ơn bạn. Đơn hàng của bạn đã được nhận.</p>
         <div class="order-info">
             <p><strong>Mã Đơn Hàng:</strong> {{ $product->id }}</p>
             <p><strong>Ngày:</strong> {{ now()->format('d/m/Y') }}</p>
-            <p><strong>Tổng Cộng:</strong> {{ number_format($product->giaTienLon) }} ₫</p>
+            <p><strong>Tổng Cộng:</strong> {{ number_format(($totalPrice) ) }} ₫</p>
             <p><strong>Số điện thoại:</strong> {{ $phone }}</p>
             <p><strong>Phương Thức Thanh Toán:</strong> {{ ucfirst(str_replace('_', ' ', $payment_method)) }}</p>
             <p><strong>Địa Chỉ:</strong> {{ $address }}</p>
@@ -239,12 +239,12 @@
                     <th>Tổng</th>
                 </tr>
                 <tr>
-                    <td>{{ $product->name }} × {{ $product->quantity }}</td>
-                    <td>{{ number_format($product->giaTienLon) }} ₫</td>
+                    <td>{{ $product->name }} × {{ $quantity }}</td>
+                    <td>{{ number_format($totalPrice) }} ₫</td>
                 </tr>
                 <tr>
                     <td><strong>Tạm tính:</strong></td>
-                    <td>{{ number_format($product->giaTienLon) }} ₫</td>
+                    <td>{{ number_format($totalPrice) }} ₫</td>
                 </tr>
                 <tr>
                     <td><strong>Giao hàng:</strong></td>
@@ -256,7 +256,7 @@
                 </tr>
                 <tr>
                     <td><strong>Tổng cộng:</strong></td>
-                    <td>{{ number_format($product->giaTienLon) }} ₫</td>
+                    <td>{{ number_format($totalPrice) }} ₫</td>
                 </tr>
             </table>
         </div>

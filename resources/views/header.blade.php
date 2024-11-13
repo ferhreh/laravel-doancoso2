@@ -86,7 +86,7 @@
         <div class="header">
             <div class="information">
                 <div class="ht-header">
-                    <p>Hoàn tiền 100% nếu là hàng giả</p>
+                    <p>Xin chào!</p>
                 </div>
                 <div class="login">
                 <a href="{{ Auth::check() ? route('logout') : route('login') }}">
@@ -137,7 +137,7 @@
                         </div>
                         <div id="cart-overlai" class="overlai" onclick="closeCart()"></div>
                         <div id="cart-modal" class="cart-modal">
-                        @if($cartItems->isEmpty())
+@if($cartItems->isEmpty())
     <p>Giỏ hàng của bạn hiện đang trống. Vui lòng bấm vào đây để tiếp tục mua sắm.</p>
 @else
     <div class="cart-items">
@@ -174,7 +174,10 @@
         <span class="total-thanh-tien" style="display: block;">Thành tiền:</span>
         <span style="display: block;" class="total-price">{{ number_format($cartItems->sum(fn($item) => $item->giaTienLon * $item->quantity), 0, ',', '.') }} ₫</span>
         <button class="btn btn-view-cart">Xem Giỏ Hàng</button>
-        <button class="btn btn-checkout">Thanh Toán</button>
+        <form action="{{ route('checkout.cart') }}" method="post">
+        @csrf
+            <button class="btn btn-view-cart">Thanh toán</button>
+        </form>
     </div>
 @endif
 

@@ -71,3 +71,67 @@
 		</div>
 	</div>
 </main>
+<!-- @elseif(isset($cartItems))
+            <div class="col-md-8">
+                <h4>Giỏ Hàng của Bạn</h4>
+                @foreach($cartItems as $item)
+                    <div class="cart-item">
+                        <h5>{{ $item->name }}</h5>
+                        <img src="{{ asset('assets/images/anhnuochoa/all/' . $item->image) }}" alt="{{ $item->name }}" style="width: 100px;">
+                        <p>Đơn giá: {{ number_format($item->giaTienLon) }} ₫</p>
+                        <p>Số lượng: {{ $item->quantity }}</p>
+                        <p>Thành tiền: {{ number_format($item->giaTienLon * $item->quantity) }} ₫</p>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+        <div class="col-md-4">
+            <h4>Thanh Toán và Giao Hàng</h4>
+            <form action="{{ route('checkout.process', ['id' => $product->id]) }}" method="POST">
+                @csrf
+                <input type="hidden" name="so-luong" value="{{ $quantity }}">
+                <div class="form-group">
+                    <label for="full_name">Họ và tên *</label>
+                    <input type="text" class="form-control" id="full_name" name="full_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Địa chỉ *</label>
+                    <input type="text" class="form-control" id="address" name="address" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Số điện thoại *</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Ghi chú đơn hàng (tùy chọn)</label>
+                    <textarea class="form-control" id="notes" name="notes"></textarea>
+                </div>
+
+                <hr>
+                
+                <div class="summary">
+                    <p>Tạm tính (1 sản phẩm): {{ number_format($totalPrice) }} ₫</p>
+                    <p>Giao hàng: Miễn phí ship mọi đơn hàng</p>
+                    <p>Tổng: {{ number_format($totalPrice) }} ₫</p>
+                </div>
+
+                <div class="payment-method">
+                    <label>Chọn phương thức thanh toán:</label><br>
+                    <input type="radio" id="cash_on_delivery" name="payment_method" value="cash_on_delivery" checked>
+                    <label for="cash_on_delivery">Trả tiền mặt khi nhận hàng</label><br>
+
+                    <input type="radio" id="bank_transfer" name="payment_method" value="bank_transfer">
+                    <label for="bank_transfer">Chuyển khoản ngân hàng</label><br>
+
+                    <input type="radio" id="qr_transfer" name="payment_method" value="qr_transfer">
+                    <label for="qr_transfer">Chuyển khoản ngân hàng (Quét mã QR)</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">Đặt Hàng</button>
+            </form>
+        </div>
+    </div>
+</div> -->

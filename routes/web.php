@@ -44,6 +44,7 @@ Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.in
 Route::delete('/wishlist/remove/{productId}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 // thanh toán
 Route::get('/checkout/{id}', [CheckoutController::class, 'showCheckout'])->name('checkout.show');
+Route::post('/checkout/cart', [CheckoutController::class, 'showCartCheckout'])->name('checkout.cart');
 Route::post('/checkout/process/{id}', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
 Route::get('/Confirmation', [CheckoutController::class, 'showConfirmation'])->name('checkout.confirmation');
 

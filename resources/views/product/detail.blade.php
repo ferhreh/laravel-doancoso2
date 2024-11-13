@@ -204,9 +204,9 @@
 
     <!-- Quantity Selection -->
     <h4>Số lượng</h4>
-    <div class="quantity">
+    <div id="quantity" class="quantity">
         <button class="minus">-</button>
-        <input type="text" value="1">
+        <input type="text" id="so-luong" value="1">
         <button class="plus">+</button>
     </div>
 
@@ -216,10 +216,13 @@
             @csrf
             <input type="hidden" name="selectedVolume" id="selectedVolume" value="{{ $nuocHoa->dungTich }}">
             <input type="hidden" name="selectedPrice" id="selectedPrice" value="{{ $nuocHoa->giaTienLon }}">
+            <input type="hidden" name="quantity" id="hidden-quantity-cart" value="1"> <!-- Số lượng sẽ được cập nhật ở đây -->
             <button class="add-to-cart">THÊM VÀO GIỎ HÀNG</button>
         </form>
         <form action="{{ route('checkout.show', ['id' => $nuocHoa->id]) }}" method="GET">
-            <button type="submit" class="buy-now">MUA NGAY</button>
+            <input type="" id="hidden-quantity-checkout" name="quantity" value="1">
+            <input type="" name="selectedPrice" id="selectedPriceCheckout" value="{{ $nuocHoa->giaTienLon }}">
+            <button type="submit"  class="buy-now">MUA NGAY</button>
         </form>
     </div>
 
@@ -281,6 +284,8 @@
         const priceElement = document.getElementById('price');
         const selectedVolumeInput = document.getElementById('selectedVolume');
         const selectedPriceInput = document.getElementById('selectedPrice');
+        const selectedPriceInputCheckout = document.getElementById('selectedPriceCheckout');
+
 
         const mainPrice = "{{ $nuocHoa->giaTienLon }}";
         const smallPrice = "{{ $nuocHoa->giaTienNho }}";
@@ -296,6 +301,7 @@
             priceElement.textContent = parseInt(mainPrice).toLocaleString() + ' ₫';
             selectedVolumeInput.value = mainVolume;
             selectedPriceInput.value = mainPrice;
+            selectedPriceInputCheckout.value = mainPrice;
         });
 
         if (smallSizeBtn) {
@@ -305,9 +311,33 @@
                 priceElement.textContent = parseInt(smallPrice).toLocaleString() + ' ₫';
                 selectedVolumeInput.value = smallVolume;
                 selectedPriceInput.value = smallPrice;
+                selectedPriceInputCheckout.value = smallPrice;
+                
             });
         }
     });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const soluong = document.getElementById('so-luong');
+    const hiddenQuantityCart = document.getElementById('hidden-quantity-cart');
+    const hiddenQuantityCheckout = document.getElementById('hidden-quantity-checkout');
+
+    document.querySelector('.minus').addEventListener('click', () => {
+        if (parseInt(soluong.value) >= 1) {
+            soluong.value = parseInt(soluong.value) ;
+            hiddenQuantityCart.value = soluong.value; // Update cart form's hidden field
+            hiddenQuantityCheckout.value = soluong.value; // Update checkout form's hidden field
+        }
+    });
+
+    document.querySelector('.plus').addEventListener('click', () => {
+        soluong.value = parseInt(soluong.value) ;
+        hiddenQuantityCart.value = soluong.value; // Update cart form's hidden field
+        hiddenQuantityCheckout.value = soluong.value; // Update checkout form's hidden field
+    });
+});
+
 </script>
 </body>
 </html>
