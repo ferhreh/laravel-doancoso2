@@ -50,6 +50,9 @@
         border: 0.2rem solid #c4c4c4;
 
     }
+    h1{
+        text-align: center;
+    }
 </style>
 <body>
 @include('header')
@@ -63,6 +66,7 @@
             </ul>
         </div>
    </section>
+   <h1>Danh sách yêu thích</h1>
    <section class="wishlist-main">
    @foreach($wishlistItems as $item)
     <div class="wishlist-item">

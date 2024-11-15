@@ -189,7 +189,7 @@ h4 {
         <!-- Checkout Form -->
         <div class="col-md-4">
             <h4>Thanh Toán và Giao Hàng</h4>
-            <form action="{{ route('checkout.process', ['id' => $product->id]) }}" method="POST">
+            <form action="{{ route('checkout.processCart', ['id' => $product->id]) }}" method="POST">
                 @csrf
                 <input type="hidden" name="so-luong" value="{{ $totalQuantity }}">
                 <div class="form-group">
@@ -231,7 +231,7 @@ h4 {
                     <input type="radio" id="qr_transfer" name="payment_method" value="qr_transfer">
                     <label for="qr_transfer">Chuyển khoản ngân hàng (Quét mã QR)</label>
                 </div>
-
+                <input type="hidden" name="tong-tien" value="{{$totalPrice}}">
                 <button type="submit" class="btn btn-primary mt-3">Đặt Hàng</button>
             </form>
         </div>

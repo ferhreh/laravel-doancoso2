@@ -26,11 +26,14 @@ class PageController extends Controller
         return view('perfumes');
     }
 
-    public function news()
+    public function ReviewNuocHoa()
     {
-        return view('news');
+        return view('review-nh');
     }
-
+    public function TinTucNuocHoa()
+    {
+        return view('tinTuc-nh');
+    }
     public function contact()
     {
         return view('contact');

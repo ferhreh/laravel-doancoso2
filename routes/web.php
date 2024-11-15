@@ -6,6 +6,9 @@ use App\Http\Controllers\NuocHoaController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\UserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +26,8 @@ Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/thuong-hieu', [PageController::class, 'brands'])->name('brands');
 Route::get('/perfumes', [NuocHoaController::class, 'index'])->name('perfumes');
 Route::get('/san-pham/{id}', [NuocHoaController::class, 'show'])->name('product.detail');
-Route::get('/tin-tuc', [PageController::class, 'news'])->name('news');
+Route::get('/review-nuoc-hoa', [PageController::class, 'ReviewNuocHoa'])->name('review-nh');
+Route::get('/tinTuc-nuoc-hoa', [PageController::class, 'news'])->name('tinTuc-nh');
 Route::get('/lien-he', [PageController::class, 'contact'])->name('contact');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
@@ -46,7 +50,26 @@ Route::delete('/wishlist/remove/{productId}', [WishlistController::class, 'remov
 Route::get('/checkout/{id}', [CheckoutController::class, 'showCheckout'])->name('checkout.show');
 Route::post('/checkout/cart', [CheckoutController::class, 'showCartCheckout'])->name('checkout.cart');
 Route::post('/checkout/process/{id}', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+Route::post('/checkout/processCart/{id}', [CheckoutController::class, 'processCartCheckout'])->name('checkout.processCart');
 Route::get('/Confirmation', [CheckoutController::class, 'showConfirmation'])->name('checkout.confirmation');
+// admin
+Route::prefix('admin')->middleware('admin')->group(function(){
+
+    Route::get('/index', [AdminController::class, 'showIndex'])->name('admin.index');
+    Route::get('/don-hang', [AdminController::class, 'showAddDonHang'])->name('admin.form-add-don-hang');
+    Route::get('/add-san-pham', [AdminController::class, 'showAddSanPham'])->name('admin.form-add-san-pham');
+    Route::post('/add-san-pham', [AdminController::class, 'AddSanPham'])->name('admin.add-san-pham');
+    Route::get('/calendar', [AdminController::class, 'showCalendar'])->name('admin.page-calendar');
+    Route::get('/ban-hang', [AdminController::class, 'showBanHang'])->name('admin.phan-mem-ban-hang');
+    Route::get('/bao-cao', [AdminController::class, 'showBaoCao'])->name('admin.quan-ly-bao-cao');
+    Route::get('/oder', [AdminController::class, 'showDataOder'])->name('admin.table-data-oder');
+    Route::get('/menu', [AdminController::class, 'showDataProduct'])->name('admin.table-data-product');
+    Route::get('/khach-hang', [AdminController::class, 'QuanLyKhachHang'])->name('admin.quan-ly-khach-hang');
+    Route::get('/admin/khach-hang/{id}/edit', [AdminController::class, 'editNguoiDung'])->name('admin.edit-khach-hang');
+    Route::put('/admin/khach-hang/{id}', [AdminController::class, 'updateNguoiDung'])->name('admin.update-khach-hang');
+    Route::delete('/admin/khach-hang/{id}', [AdminController::class, 'destroyNguoiDung'])->name('admin.destroy-khach-hang');
+
+});
 
 
 

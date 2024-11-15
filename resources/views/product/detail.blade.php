@@ -135,6 +135,14 @@
     cursor: pointer;
 
 }
+.wishlist{
+    background: #fff;
+    border: 0.2rem solid #c4c4c4;
+    cursor: pointer;
+}
+.wishlist:focus{
+    background: #FF6A6A
+}
 .quantity>input{
     border: none;
     width: 1rem;
@@ -220,8 +228,8 @@
             <button class="add-to-cart">THÊM VÀO GIỎ HÀNG</button>
         </form>
         <form action="{{ route('checkout.show', ['id' => $nuocHoa->id]) }}" method="GET">
-            <input type="" id="hidden-quantity-checkout" name="quantity" value="1">
-            <input type="" name="selectedPrice" id="selectedPriceCheckout" value="{{ $nuocHoa->giaTienLon }}">
+            <input type="hidden" id="hidden-quantity-checkout" name="quantity" value="1">
+            <input type="hidden" name="selectedPrice" id="selectedPriceCheckout" value="{{ $nuocHoa->giaTienLon }}">
             <button type="submit"  class="buy-now">MUA NGAY</button>
         </form>
     </div>

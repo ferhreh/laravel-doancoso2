@@ -60,6 +60,11 @@ class AuthController extends Controller
             $emailName = explode('@', Auth::user()->email)[0];
             // Lưu tên vào session
             session(['user_display_name' => $emailName]);
+                    // Kiểm tra role của người dùng
+            if ($user->role == 1) {
+                return redirect()->route('admin.index');
+            }
+
             return redirect()->route('form');
         }
 

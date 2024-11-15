@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\NuocHoa;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
@@ -44,7 +45,7 @@ public function processCheckout(Request $request, $id)
     // Tìm sản phẩm dựa trên id
     $product = NuocHoa::findOrFail($id);
     $quantity = $request->input('so-luong', 1);
-    $totalPrice = $product->giaTienLon * $quantity;
+    $totalPrice = $request->input('tong-tien');
 
     // Truyền dữ liệu trực tiếp vào view mà không dùng session
     return view('confirmation', [
@@ -56,5 +57,32 @@ public function processCheckout(Request $request, $id)
         'totalPrice' => $totalPrice, // Số tiền tổng cộng
     ]);
 }
+public function processCartCheckout(Request $request, $id)
+{
+    // Tìm sản phẩm và lấy thông tin giỏ hàng
+    $product = NuocHoa::findOrFail($id);
+    $cartItems = $request->session()->get('cartItems', []);
+    $quantity = $request->input('so-luong', 1);
+    $totalPrice = $request->input('tong-tien', 0);
 
+    // Xử lý logic thanh toán và lưu thông tin đặt hàng (tuỳ vào yêu cầu của bạn)
+
+  // Lấy thông tin giỏ hàng từ session
+  $cartItems = $request->session()->get('cartItems', []);
+  $totalPrice = $request->input('tong-tien', 0);
+  // Xử lý logic thanh toán và lưu thông tin đặt hàng, ví dụ lưu thông tin vào bảng orders
+  DB::table('cart_items')
+  ->where('cart_id', auth()->id())
+  ->delete();  
+    // Truyền dữ liệu vào view xác nhận
+    return view('confirmation', [
+        'product' => $product,
+        'cartItems' => $cartItems,
+        'phone' => $request->input('phone'),
+        'payment_method' => $request->input('payment_method'),
+        'address' => $request->input('address'),
+        'quantity' => $quantity,
+        'totalPrice' => $totalPrice,
+    ]);
+}
 }

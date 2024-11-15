@@ -229,7 +229,7 @@ h4 {
                     <input type="radio" id="qr_transfer" name="payment_method" value="qr_transfer">
                     <label for="qr_transfer">Chuyển khoản ngân hàng (Quét mã QR)</label>
                 </div>
-
+                <input type="hidden" name="tong-tien" value="{{$totalPrice}}">
                 <button type="submit" class="btn btn-primary mt-3">Đặt Hàng</button>
             </form>
         </div>

@@ -459,11 +459,11 @@
                             </div>
                         </li>
                         <li class="tintuc">
-                            <a href="{{ route('news') }}">Tin tức</a><span class="toggle-arrow-L">&#9660;</span>
+                            <a href="">Tin tức</a><span class="toggle-arrow-L">&#9660;</span>
                             <div class="menu-mega">
                                 <ul class="menu-list">
-                                    <li class="menu-item"><a href="">Review nước hoa</a></li>
-                                    <li class="menu-item"><a href="">kinh nghiệm chọn mua nước hoa</a></li>
+                                    <li class="menu-item"><a href="{{ route('review-nh') }}">Review nước hoa</a></li>
+                                    <li class="menu-item"><a href="{{route('tinTuc-nh')}}">kinh nghiệm chọn mua nước hoa</a></li>
                                 </ul>
                             </div>    
                         </li>

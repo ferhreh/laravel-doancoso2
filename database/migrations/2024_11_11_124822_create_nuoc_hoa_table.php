@@ -21,7 +21,8 @@ class CreateNuocHoaTable extends Migration
             $table->decimal('giaTienNho', 15, 2)->nullable();
             $table->string('dungTichNho', 255);
             $table->string('image', 255)->nullable();
-            $table->timestamps();
+            $table->tinyInteger('tinh_trang')->default(1);
+            $table->integer('so_luong');
         });
     }
 

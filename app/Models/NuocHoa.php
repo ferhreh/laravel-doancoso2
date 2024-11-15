@@ -11,6 +11,6 @@ class NuocHoa extends Model
     protected $table = 'nuoc_hoa';
 
     protected $fillable = [
-        'thuongHieu', 'name', 'gioiTinh', 'nongDo', 'dungTich', 'doLuuHuong', 'doToaHuong', 'giaTienLon', 'giaTienNho', 'dungTichNho','image',
+        'thuongHieu', 'name', 'gioiTinh', 'nongDo', 'dungTich', 'doLuuHuong', 'doToaHuong', 'giaTienLon', 'giaTienNho', 'dungTichNho','image','tinh_trang','so_luong',
     ];
 }
