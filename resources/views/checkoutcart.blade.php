@@ -188,6 +188,8 @@ h4 {
         </div>
         <!-- Checkout Form -->
         <div class="col-md-4">
+            <?php
+             ?>
             <h4>Thanh Toán và Giao Hàng</h4>
             <form action="{{ route('checkout.processCart', ['id' => $product->id]) }}" method="POST">
                 @csrf

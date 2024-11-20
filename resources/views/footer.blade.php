@@ -26,16 +26,15 @@
                     <h3>VỀ CHÚNG TÔI</h3>
                     <a href="">Trang Chủ</a>
                     <a href="">Sản Phẩm</a>
-                    <a href="">Blog</a>
                 </div>
                 <div class="footer-service">
                     <h3>DỊCH VỤ KHÁCH HÀNG</h3>
-                    <a href="">Chính sách kiểm hàng</a>
-                    <a href="">Chính sách vận chuyển và giao hàng</a>
-                    <a href="">Chính sách xử lý khiếu nại</a>
-                    <a href="">Chính sách thanh toán</a>
-                    <a href="">Chính sách bảo hành</a>
-                    <a href="">Chính sách bảo mật thông tin</a>
+                    <a href="{{route('kiemHang')}}">Chính sách kiểm hàng</a>
+                    <a href="{{route('vanChuyen')}}">Chính sách vận chuyển và giao hàng</a>
+                    <a href="{{route('khieuNai')}}">Chính sách xử lý khiếu nại</a>
+                    <a href="{{route('thanhToan')}}">Chính sách thanh toán</a>
+                    <a href="{{route('baoHanh')}}">Chính sách bảo hành</a>
+                    <a href="{{route('baoMat')}}">Chính sách bảo mật thông tin</a>
                 </div>
                 <div class="footer-system">
                     <h3>HỆ THỐNG CỬA HÀNG</h3>

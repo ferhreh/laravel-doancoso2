@@ -229,7 +229,7 @@
                         <a class="link" href="">
                             <span class="txt">Thông tin sản phẩm</span>
                          </a>           
-                        <a class="link" href="">
+                        <a class="link" href="{{ route('lich_su_don_hang') }}">
                             <span class="txt">Lịch sử đơn hàng</span>
                          </a>
                          <a class="link" href="">

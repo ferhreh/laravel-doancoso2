@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 use App\Models\NuocHoa;
+use App\Models\DonHang;
 use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
@@ -47,6 +49,21 @@ public function processCheckout(Request $request, $id)
     $quantity = $request->input('so-luong', 1);
     $totalPrice = $request->input('tong-tien');
 
+        // Thêm đơn hàng vào bảng don_hang
+        DB::table('don_hang')->insert([
+            'user_id' => Auth::id(), 
+            'maDonHang' => uniqid('DH'), // Tạo mã đơn hàng tự động
+            'hinhThucMua' => $request->input('payment_method'),
+            'ngayDatHang' => now(),
+            'tongTien' => $totalPrice,
+            'trangThai' => 1, // Trạng thái mặc định (1: Mới tạo)
+            'ghiChu' => $request->input('notes'),
+            'soLuong' => $quantity,
+            'tenKhachHang' => $request->input('full_name'),
+            'tenDonHang' => $product->name, // Tên sản phẩm
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     // Truyền dữ liệu trực tiếp vào view mà không dùng session
     return view('confirmation', [
         'product' => $product,
@@ -61,16 +78,30 @@ public function processCartCheckout(Request $request, $id)
 {
     // Tìm sản phẩm và lấy thông tin giỏ hàng
     $product = NuocHoa::findOrFail($id);
-    $cartItems = $request->session()->get('cartItems', []);
+    $cartItems = DB::table('cart_items')
+    ->join('carts', 'cart_items.cart_id', '=', 'carts.id')
+    ->where('carts.user_id', Auth::id())
+    ->select('cart_items.*')
+    ->get();
+
     $quantity = $request->input('so-luong', 1);
     $totalPrice = $request->input('tong-tien', 0);
-
-    // Xử lý logic thanh toán và lưu thông tin đặt hàng (tuỳ vào yêu cầu của bạn)
-
-  // Lấy thông tin giỏ hàng từ session
-  $cartItems = $request->session()->get('cartItems', []);
-  $totalPrice = $request->input('tong-tien', 0);
-  // Xử lý logic thanh toán và lưu thông tin đặt hàng, ví dụ lưu thông tin vào bảng orders
+    foreach ($cartItems as $item) {
+        DB::table('don_hang')->insert([
+            'user_id' => Auth::id(), 
+            'maDonHang' => uniqid('DH'), // Tạo mã đơn hàng tự động
+            'hinhThucMua' => $request->input('payment_method'),
+            'ngayDatHang' => now(),
+            'tongTien' => $item->giaTienLon * $item->quantity,
+            'trangThai' => 1, // Trạng thái mặc định (1: Mới tạo)
+            'ghiChu' => $request->input('notes'),
+            'soLuong' => $item->quantity,
+            'tenKhachHang' => $request->input('full_name'),
+            'tenDonHang' => $item->name, // Tên sản phẩm
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
   DB::table('cart_items')
   ->where('cart_id', auth()->id())
   ->delete();  
@@ -84,5 +115,12 @@ public function processCartCheckout(Request $request, $id)
         'quantity' => $quantity,
         'totalPrice' => $totalPrice,
     ]);
+}
+public function lichSuDonHang()
+{
+    $user = Auth::user(); // Lấy thông tin người dùng đăng nhập
+    $donHangs = DonHang::where('user_id', $user->id)->get();
+
+    return view('lich_su_don_hang', compact('donHangs'));
 }
 }

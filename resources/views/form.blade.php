@@ -28,85 +28,105 @@
             </h2>
             <div class="wr-prods-home">
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 37]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/ex-nihilo.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">EX NIHILO</a></h3>
                         <a href="">Ex Nihilo Santal Calling EDP</a>
                         <span>8.500.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <!-- và các sản phẩm khác tương tự -->
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 38]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/griti.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">GRITI</a></h3>
                         <a href="">Griti Tangerina</a>
                         <span>5.500.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/rp.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">ROJA PARFUMS</a></h3>
                         <a href="">Roja Parfum Isola Blu Parfum</a>
                         <span>13.400.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/am.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">ATELIER MATERI</a></h3>
                         <a href="">Atelier Materi Santal Blond EDP</a>
                         <span>6.500.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/btd-fp.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">BORNTOSTANDOUT</a></h3>
                         <a href="">BTSO Dirty Rice EDP</a>
                         <span>5.330.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/cb.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Carner Barcelona</a></h3>
                         <a href="">Carner Barcelona Latin Lover EDP</a>
                         <span>3.950.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/cct.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Clive Christian</a></h3>
                         <a href="">Clive Christian E Cashmere Musk</a>
                         <span>12.200.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/grt-NE.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Gritti</a></h3>
                         <a href="">Gritti Neroli Extreme</a>
                         <span>8.500.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/mf.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Meo Fusciuni</a></h3>
                         <a href="">Meo Fusciuni Little Song</a>
                         <span>8.500.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/btd.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">BORNTOSTANDOUT</a></h3>
                         <a href="">BTSO Mary Jane EDP</a>
                         <span>8.500.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
             </div>
             <div class="prods-item">

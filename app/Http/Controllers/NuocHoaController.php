@@ -50,7 +50,11 @@ class NuocHoaController extends Controller
     }
     public function show($id)
     {
-        $nuocHoa = NuocHoa::findOrFail($id);
+        $nuocHoa = NuocHoa::with('moTa')->findOrFail($id);
+
+        if ($nuocHoa->moTa->isEmpty()) {
+            // Thêm logic xử lý nếu không có mô tả
+        }
         return view('product.detail', compact('nuocHoa'));
     }
 }

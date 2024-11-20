@@ -128,8 +128,8 @@ table th, table td {
                                     <td>{{ number_format($product->giaTienLon, 0, ',', '.') }} VND</td>
                                     <td>{{ $product->gioiTinh }}</td>
                                     <td>
-                                        <a href="" class="btn btn-warning btn-sm">✏️</a>
-                                        <form action="" method="POST" style="display:inline;">
+                                        <a href="{{route('admin.edit-san-pham',[ $product->id])}}" class="btn btn-warning btn-sm">✏️</a>
+                                        <form action="{{ route('admin.delete-san-pham', $product->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">🗑️</button>
@@ -143,69 +143,7 @@ table th, table td {
                 </div>
             </div>
         </div>
-    </main>
-
-<!--
-  MODAL
--->
-<div class="modal fade" id="ModalUP" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
-data-keyboard="false">
-<div class="modal-dialog modal-dialog-centered" role="document">
-  <div class="modal-content">
-
-    <div class="modal-body">
-      <div class="row">
-        <div class="form-group  col-md-12">
-          <span class="thong-tin-thanh-toan">
-            <h5>Chỉnh sửa thông tin sản phẩm cơ bản</h5>
-          </span>
-        </div>
-      </div>
-      <div class="row">
-        <div class="form-group col-md-6">
-            <label class="control-label">Mã sản phẩm </label>
-            <input class="form-control" type="number" value="71309005">
-          </div>
-        <div class="form-group col-md-6">
-            <label class="control-label">Tên sản phẩm</label>
-          <input class="form-control" type="text" required value="Bàn ăn gỗ Theresa">
-        </div>
-        <div class="form-group  col-md-6">
-            <label class="control-label">Số lượng</label>
-          <input class="form-control" type="number" required value="20">
-        </div>
-        <div class="form-group col-md-6 ">
-            <label for="exampleSelect1" class="control-label">Tình trạng sản phẩm</label>
-            <select class="form-control" id="exampleSelect1">
-              <option>Còn hàng</option>
-              <option>Hết hàng</option>
-              <option>Đang nhập hàng</option>
-            </select>
-          </div>
-          <div class="form-group col-md-6">
-            <label class="control-label">Giá bán</label>
-            <input class="form-control" type="text" value="5.600.000">
-          </div>
-      </div>
-      <BR>
-      <a href="#" style="    float: right;
-    font-weight: 600;
-    color: #ea0000;">Chỉnh sửa sản phẩm nâng cao</a>
-      <BR>
-      <BR>
-      <button class="btn btn-save" type="button">Lưu lại</button>
-      <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-      <BR>
-    </div>
-    <div class="modal-footer">
-    </div>
-  </div>
-</div>
-</div>
-<!--
-MODAL
--->
-
+    </main> 
     <!-- Essential javascripts for application to work-->
     <script src="http://127.0.0.1:8000/assets/js/jquery-3.2.1.min.js"></script>
     <script src="http://127.0.0.1:8000/assets/js/popper.min.js"></script>
@@ -262,33 +200,6 @@ MODAL
         return i;
       }
     }
-    </script>
-    <script>
-        function deleteRow(r) {
-            var i = r.parentNode.parentNode.rowIndex;
-            document.getElementById("myTable").deleteRow(i);
-        }
-        jQuery(function () {
-            jQuery(".trash").click(function () {
-                swal({
-                    title: "Cảnh báo",
-                    text: "Bạn có chắc chắn là muốn xóa sản phẩm này?",
-                    buttons: ["Hủy bỏ", "Đồng ý"],
-                })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            swal("Đã xóa thành công.!", {
-
-                            });
-                        }
-                    });
-            });
-        });
-        oTable = $('#sampleTable').dataTable();
-        $('#all').click(function (e) {
-            $('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
-            e.stopImmediatePropagation();
-        });
     </script>
 </body>
 

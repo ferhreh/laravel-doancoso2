@@ -70,63 +70,43 @@
   </aside>
   <div>
   <main class="app-content">
-      <div class="app-title">
-        <ul class="app-breadcrumb breadcrumb side">
-          <li class="breadcrumb-item active"><a href="#"><b>Danh sách đơn hàng</b></a></li>
-        </ul>
-        <div id="clock"></div>
-      </div>
-      <div class="container-oder">
-    <h1>Quản lý đơn hàng</h1>
-    @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-<table class="table table-striped" id="sampleTable">
-    <thead>
-        <tr>
-            <th>Mã đơn hàng</th>
-            <th>Tên khách hàng</th>
-            <th>Tên đơn hàng</th>
-            <th>Ngày đặt hàng</th>
-            <th>Tổng tiền</th>
-            <th>Số lượng</th>
-            <th>Hình thức mua</th>
-            <th>Ghi chú</th>
-            <th>Trạng thái</th>
-            <th>Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($orders as $order)
-            <tr>
-                <td>{{ $order->maDonHang }}</td>
-                <td>{{ $order->tenKhachHang }}</td>
-                <td>{{ $order->tenDonHang }}</td>
-                <td>{{ $order->ngayDatHang }}</td>
-                <td>{{ number_format($order->tongTien, 2) }} VND</td>
-                <td>{{ $order->soLuong }}</td>
-                <td>{{ $order->hinhThucMua }}</td>
-                <td>{{ $order->ghiChu }}</td>
-                <td>
-                    @switch($order->trangThai)
-                        @case(1) Đang xử lý @break
-                        @case(2) Đã xác nhận @break
-                        @case(3) Đã hủy @break
-                        @case(4) Đang giao hàng @break
-                        @case(5) Đã hoàn thành @break
-                    @endswitch
-                </td>
-                <td>
-                    <a href="{{ route('admin.orders.edit', $order->id) }}" class="btn btn-warning btn-sm">Sửa</a>
-                    <form action="{{ route('admin.orders.delete', $order->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')">Xóa</button>
-                    </form>
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
+  <div class="container">
+    <h1>Sửa Đơn Hàng</h1>
+    <form action="{{ route('admin.orders.update', $order->id) }}" method="POST">
+        @csrf
+        <div class="mb-3">
+            <label for="tenKhachHang" class="form-label">Tên khách hàng</label>
+            <input type="text" name="tenKhachHang" class="form-control" value="{{ $order->tenKhachHang }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="tenDonHang" class="form-label">Tên đơn hàng</label>
+            <input type="text" name="tenDonHang" class="form-control" value="{{ $order->tenDonHang }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="hinhThucMua" class="form-label">Hình thức mua</label>
+            <input type="text" name="hinhThucMua" class="form-control" value="{{ $order->hinhThucMua }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="trangThai" class="form-label">Trạng thái</label>
+            <select name="trangThai" class="form-select">
+                <option value="1" {{ $order->trangThai == 1 ? 'selected' : '' }}>Đang xử lý</option>
+                <option value="2" {{ $order->trangThai == 2 ? 'selected' : '' }}>Đã xác nhận</option>
+                <option value="3" {{ $order->trangThai == 3 ? 'selected' : '' }}>Đã hủy</option>
+                <option value="4" {{ $order->trangThai == 4 ? 'selected' : '' }}>Đang giao hàng</option>
+                <option value="5" {{ $order->trangThai == 5 ? 'selected' : '' }}>Đã hoàn thành</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="soLuong" class="form-label">Số lượng</label>
+            <input type="number" name="soLuong" class="form-control" value="{{ $order->soLuong }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="ghiChu" class="form-label">Ghi chú</label>
+            <textarea name="ghiChu" class="form-control">{{ $order->ghiChu }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+        <a href="{{ route('admin.table-data-oder') }}" class="btn btn-secondary">Hủy</a>
+    </form>
 </div>
     </main>
     <!-- Essential javascripts for application to work-->

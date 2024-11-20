@@ -30,10 +30,6 @@ class PageController extends Controller
     {
         return view('review-nh');
     }
-    public function TinTucNuocHoa()
-    {
-        return view('tinTuc-nh');
-    }
     public function contact()
     {
         return view('contact');

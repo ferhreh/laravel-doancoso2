@@ -137,51 +137,49 @@
                         </div>
                         <div id="cart-overlai" class="overlai" onclick="closeCart()"></div>
                         <div id="cart-modal" class="cart-modal">
-@if($cartItems->isEmpty())
-    <p>Giỏ hàng của bạn hiện đang trống. Vui lòng bấm vào đây để tiếp tục mua sắm.</p>
-@else
-    <div class="cart-items">
-        @foreach($cartItems as $item)
-            <div class="cart-item">
-                <img width="200" height="200" src="http://127.0.0.1:8000/assets/images/anhnuochoa/all/{{ $item->image }}" alt="{{ $item->name }}" class="cart-item-image">
-                <div class="cart-item-details">
-                    <!-- Quantity Controls -->
-                    <div class="cart-item-quantity">
-                        <form action="{{ route('cart.update', $item->id) }}" method="POST">
-                            @csrf
-                            @method('PUT')
-                            <span style="display: block !important;" class="cart-item-name">{{ $item->name }}</span>
-                            <span style="display: block !important;" class="cart-item-dung-tich">{{ $item->dungTich }}</span>
-                            <div class="edit-quantity">
-                            <button type="submit" name="action" value="decrease" class="btn-quantity">-</button>
-                            <span style="display: block;">{{ $item->quantity }}</span>
-                            <button type="submit" name="action" value="increase" class="btn-quantity">+</button>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- Delete Button -->
-                    <form action="{{ route('cart.destroy', $item->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button style="border: none; background-color: #fff;" type="submit" class="btn-delete"><img src="http://127.0.0.1:8000/assets/images/logo/close.png" alt=""></button>
-                    </form>
-                </div>
-            </div>
-        @endforeach
-    </div>
+                            @if($cartItems->isEmpty())
+                                <p>Giỏ hàng của bạn hiện đang trống. Vui lòng bấm vào đây để tiếp tục mua sắm.</p>
+                            @else
+                                <div class="cart-items">
+                                    @foreach($cartItems as $item)
+                                        <div class="cart-item">
+                                            <img width="200" height="200" src="http://127.0.0.1:8000/assets/images/anhnuochoa/all/{{ $item->image }}" alt="{{ $item->name }}" class="cart-item-image">
+                                            <div class="cart-item-details">
+                                                <!-- Quantity Controls -->
+                                                <div class="cart-item-quantity">
+                                                    <form action="{{ route('cart.update', $item->id) }}" method="POST">
+                                                       @csrf
+                                                        @method('PUT')
+                                                        <span style="display: block !important;" class="cart-item-name">{{ $item->name }}</span>
+                                                        <span style="display: block !important;" class="cart-item-dung-tich">{{ $item->dungTich }}</span>
+                                                        <div class="edit-quantity">
+                                                        <button type="submit" name="action" value="decrease" class="btn-quantity">-</button>
+                                                        <span style="display: block;">{{ $item->quantity }}</span>
+                                                        <button type="submit" name="action" value="increase" class="btn-quantity">+</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <!-- Delete Button -->
+                                                <form action="{{ route('cart.destroy', $item->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button style="border: none; background-color: #fff;" type="submit" class="btn-delete"><img src="http://127.0.0.1:8000/assets/images/logo/close.png" alt=""></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
 
-    <div class="cart-footer">
-        <span class="total-thanh-tien" style="display: block;">Thành tiền:</span>
-        <span style="display: block;" class="total-price">{{ number_format($cartItems->sum(fn($item) => $item->giaTienLon * $item->quantity), 0, ',', '.') }} ₫</span>
-        <button class="btn btn-view-cart">Xem Giỏ Hàng</button>
-        <form action="{{ route('checkout.cart') }}" method="post">
-        @csrf
-            <button class="btn btn-view-cart">Thanh toán</button>
-        </form>
-    </div>
-@endif
-
-
+                                <div class="cart-footer">
+                                    <span class="total-thanh-tien" style="display: block;">Thành tiền:</span>
+                                    <span style="display: block;" class="total-price">{{ number_format($cartItems->sum(fn($item) => $item->giaTienLon * $item->quantity), 0, ',', '.') }} ₫</span>
+                                    <button class="btn btn-view-cart">Xem Giỏ Hàng</button>
+                                    <form action="{{ route('checkout.cart') }}" method="post">
+                                        @csrf
+                                        <button class="btn btn-view-cart">Thanh toán</button>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -457,15 +455,6 @@
                                     </ul>
                                 </div>
                             </div>
-                        </li>
-                        <li class="tintuc">
-                            <a href="">Tin tức</a><span class="toggle-arrow-L">&#9660;</span>
-                            <div class="menu-mega">
-                                <ul class="menu-list">
-                                    <li class="menu-item"><a href="{{ route('review-nh') }}">Review nước hoa</a></li>
-                                    <li class="menu-item"><a href="{{route('tinTuc-nh')}}">kinh nghiệm chọn mua nước hoa</a></li>
-                                </ul>
-                            </div>    
                         </li>
                         <li><a href="{{ route('contact') }}">Liên Hệ</a></li>
                     </ul>

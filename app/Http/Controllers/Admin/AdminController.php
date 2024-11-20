@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use App\Models\NuocHoa;
+use App\Models\DonHang;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -73,7 +74,71 @@ class AdminController extends Controller
 
     return redirect()->route('admin.table-data-product')->with('success', 'Thêm sản phẩm thành công!');
 }
+public function editSanPham($id)
+{
+    $nuocHoa = NuocHoa::findOrFail($id);
+    return view('admin.edit-san-pham', compact('nuocHoa'));
+}
+public function updateSanPham(Request $request, $id)
+{
+    // Tìm sản phẩm cần cập nhật
+    $nuocHoa = NuocHoa::findOrFail($id);
 
+    // Validate dữ liệu
+    $request->validate([
+        'thuongHieu' => 'required|string|max:255',
+        'name' => 'required|string|max:255',
+        'gioiTinh' => 'required|string',
+        'nongDo' => 'required|string|max:255',
+        'dungTich' => 'required|string|max:255',
+        'giaTienLon' => 'nullable|numeric|min:0',
+        'dungTichNho' => 'required|string|max:255',
+        'giaTienNho' => 'nullable|numeric|min:0',
+        'doLuuHuong' => 'required|string|max:255',
+        'doToaHuong' => 'required|string|max:255',
+        'so_luong' => 'required|integer|min:0',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Giới hạn file ảnh
+        'tinh_trang' => 'required|boolean',
+    ]);
+    // Lấy dữ liệu từ request
+    $data = $request->all();
+    // Xử lý ảnh mới nếu có
+    if ($request->hasFile('image')) {
+        // Đường dẫn thư mục lưu trữ ảnh
+        $imagePath = public_path('assets/images/all');
+
+        // Xóa ảnh cũ nếu tồn tại
+        if ($nuocHoa->image && file_exists($imagePath . '/' . $nuocHoa->image)) {
+            unlink($imagePath . '/' . $nuocHoa->image);
+        }
+
+        // Sử dụng tên gốc của ảnh
+        $file = $request->file('image');
+        $imageName = $file->getClientOriginalName(); // Lấy tên gốc của ảnh
+
+        // Di chuyển ảnh vào thư mục `public/images/all`
+        $file->move($imagePath, $imageName);
+
+        // Chỉ lưu tên ảnh vào cơ sở dữ liệu
+        $data['image'] = $imageName;
+    } else {
+        // Nếu không tải lên ảnh mới, giữ nguyên ảnh cũ
+        $data['image'] = $nuocHoa->image;
+    }
+    // Cập nhật dữ liệu sản phẩm
+    $nuocHoa->update($data);
+
+    // Chuyển hướng về danh sách sản phẩm kèm thông báo
+    return redirect()->route('admin.table-data-product')->with('success', 'Sản phẩm đã được cập nhật thành công!');
+}
+    // Xóa sản phẩm
+    public function deleteSanPham($id)
+    {
+        $nuocHoa = NuocHoa::findOrFail($id);
+        $nuocHoa->delete();
+
+        return redirect()->route('admin.table-data-product')->with('success', 'Sản phẩm đã được xóa!');
+    }
 
     public function QuanLyKhachHang(Request $request)
     {
@@ -129,5 +194,39 @@ public function destroyNguoiDung($id)
     // Chuyển hướng về danh sách khách hàng với thông báo thành công
     return redirect()->route('admin.quan-ly-khach-hang')->with('success', 'Xóa khách hàng thành công.');
 }
-    
+// đơn hàng
+public function QuanLyDonHang()
+{
+    $orders = DonHang::orderBy('ngayDatHang', 'desc')->get();
+    return view('admin.table-data-oder', compact('orders'));
+}
+public function editDonHang($id)
+    {
+        $order = DonHang::findOrFail($id);
+        return view('admin.orders-edit', compact('order'));
+    }
+
+    // Xử lý cập nhật đơn hàng
+    public function updateDonHang(Request $request, $id)
+    {
+        $order = DonHang::findOrFail($id);
+        $order->update($request->only([
+            'tenKhachHang', 
+            'tenDonHang', 
+            'hinhThucMua', 
+            'trangThai', 
+            'ghiChu'
+        ]));
+        
+        return redirect()->route('admin.table-data-oder')->with('success', 'Cập nhật đơn hàng thành công!');
+    }
+
+    // Xóa đơn hàng
+    public function destroyDonHang($id)
+    {
+        $order = DonHang::findOrFail($id);
+        $order->delete();
+
+        return redirect()->route('admin.table-data-oder')->with('success', 'Xóa đơn hàng thành công!');
+    }
 }
