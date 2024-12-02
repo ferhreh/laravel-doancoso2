@@ -7,6 +7,7 @@
     <link rel="icon" href="http://127.0.0.1:8000/assets/images/logo/logo-brand-web.png" type="image/png">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+
 </head>
 <style>
         h1{
@@ -153,69 +154,7 @@
     gap: 1rem;
 }
 /*  */
-.product-detail-tabs {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-}
 
-.tabs {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 20px;
-    padding: 0;
-    list-style: none;
-}
-
-.tab-item {
-    cursor: pointer;
-    padding: 10px 15px;
-    border-bottom: 2px solid transparent;
-    font-weight: bold;
-    color: #333;
-}
-
-.tab-item.active {
-    border-color: #9c8679; /* Đường viền dưới của tab đang chọn */
-    color: #9c8679;
-}
-
-.tab-pane {
-    display: none;
-    padding: 15px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-top: none;
-}
-
-.tab-pane.active {
-    display: block;
-}
-
-.customer-benefits {
-    margin-top: 30px;
-    background: #f9f9f9;
-    padding: 15px;
-    border: 1px solid #ddd;
-}
-
-.customer-benefits h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #9c8679;
-}
-
-.customer-benefits ul {
-    list-style: none;
-    padding: 0;
-}
-
-.customer-benefits ul li {
-    margin-bottom: 10px;
-    font-size: 14px;
-    line-height: 1.5;
-}
 .usage-instructions {
     font-family: Arial, sans-serif;
     line-height: 1.8;
@@ -275,7 +214,302 @@
         .support-contact {
             margin-top: 10px;
         }
+        .product-detail-wrapper {
+    display: flex;
+    gap: 20px; /* Khoảng cách giữa các phần */
+    margin: 0 150px;
+}
 
+.product-detail-tabs {
+    flex: 2; /* Chiếm nhiều không gian hơn */
+}
+
+.customer-benefits {
+    flex: 1; /* Chiếm ít không gian hơn */
+    background: #f9f9f9; /* Màu nền để làm nổi bật (tuỳ chọn) */
+    padding: 20px; /* Khoảng cách bên trong */
+    border: 1px solid #ddd; /* Viền để phân biệt */
+    height: 13rem;
+}
+
+.product-detail-tabs {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.tab-item {
+    cursor: pointer;
+    padding: 10px 15px;
+    border-bottom: 2px solid transparent;
+    font-weight: bold;
+    color: #333;
+}
+
+.tab-item.active {
+    border-color: #9c8679; /* Đường viền dưới của tab đang chọn */
+    color: #9c8679;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.tab-pane {
+    display: none;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out; /* Hiệu ứng mờ dần */
+}
+
+.tab-pane.active {
+    display: block;
+    opacity: 1; /* Khi tab active, độ mờ là 1 */
+}
+
+.customer-benefits {
+    margin-top: 30px;
+    background: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.customer-benefits h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #9c8679;
+}
+
+.customer-benefits ul {
+    list-style: none;
+    padding: 0;
+}
+
+.customer-benefits ul li {
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.review-item{
+    gap: 1rem;
+    display: flex;
+    justify-content: center;
+}
+.review-section {
+    max-width: 800px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    background-color:#fff;
+}
+.review-section h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    color: #333;
+}
+
+.review-summary {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.review-summary p {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.rating-filter {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.filter-btn {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    padding: 8px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.3s;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background-color:#9c8679;
+    border-color: #9c8679;
+    color: #fff;
+}
+
+.review-list {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+}
+.similar-products {
+    margin-top: 2rem;
+    overflow: hidden; /* Prevents scrollbars from showing */
+    position: relative;
+    user-select: none; /* Ngăn chọn văn bản */
+}
+.product-list{
+    height: 20rem;
+}
+.similar-products .product-list {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth; /* Smooth scrolling effect */
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.similar-products .product-card {
+    flex: 0 0 calc(18% - 1rem); /* 20% width for 5 products per row */
+    border: 1px solid #ddd;
+    padding: 1rem;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    user-select: none; /* Ngăn chọn trong từng sản phẩm */
+    pointer-events: none; /* Ngăn mọi tương tác với các phần tử */
+}
+.similar-products .product-card:hover {
+    transform: translateY(-10px); /* Lifts the card slightly on hover */
+}
+
+.similar-products .product-card img {
+    width: 70%;
+    height: auto;
+    border-radius: 8px;
+}
+.similar-products h2{
+    color: #9c8679;
+    text-align: center;
+}
+.similar-products .product-card h3 {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    text-overflow: ellipsis;
+}
+
+.similar-products .product-card .price {
+    color: #9c8679;
+    font-weight: bold;
+}
+
+.similar-products .product-card a {
+    pointer-events: auto; /* Cho phép nhấp vào link trong sản phẩm */
+}
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .product-detail-wrapper {
+        flex-direction: column; /* Chuyển layout thành cột trên màn hình nhỏ */
+        margin: 0 30px;
+    }
+
+    .customer-benefits {
+        height: auto; /* Cho phép chiều cao tự động thay đổi */
+    }
+}
+
+@media (max-width: 768px) {
+    .tabs {
+        flex-direction: column; /* Đặt các tab thành cột */
+    }
+
+    .product-detail-wrapper {
+        margin: 0 20px;
+    }
+
+    .tab-item {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .product-detail-tabs {
+        max-width: 100%; /* Cho phép tabs chiếm toàn bộ chiều rộng */
+    }
+    .review-section {
+        padding: 15px;
+    }
+
+    .rating-filter {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .filter-btn {
+        flex: 1 1 calc(33.33% - 10px); /* Mỗi nút chiếm 1/3 hàng */
+        text-align: center;
+        font-size: 12px;
+    }
+
+    .review-summary p, .review-list p {
+        font-size: 12px;
+    }
+    .similar-products .product-card {
+        flex: 0 0 calc(40% - 1rem); /* Show 2 products per row on smaller screens */
+    }
+
+}
+
+@media (max-width: 480px) {
+    .product-detail-wrapper {
+        margin: 0 10px;
+    }
+
+    .customer-benefits {
+        margin-top: 20px;
+    }
+
+    .tabs {
+        flex-direction: column; /* Đặt các tab thành cột */
+    }
+
+    .tab-item {
+        font-size: 14px; /* Giảm kích thước font chữ cho các tab */
+        padding: 8px 10px;
+    }
+
+    .customer-benefits h3 {
+        font-size: 16px; /* Giảm kích thước font chữ cho tiêu đề */
+    }
+
+    .customer-benefits ul li {
+        font-size: 12px; /* Giảm kích thước font chữ cho các mục */
+    }
+    .filter-btn {
+        flex: 1 1 calc(50% - 10px); /* Mỗi nút chiếm 1/2 hàng */
+        font-size: 10px;
+        padding: 6px 10px;
+    }
+}
+.review-item img {
+    max-width: 100px;
+    margin-top: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.review-item video {
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
 </style>
 <body>
 @include('header')
@@ -299,8 +533,8 @@
             </div>
         </div>
         <div class="product-info-sp">
-            <h2>{{ $nuocHoa->tenSanPham }}</h2>
-            <div class="rating">⭐⭐⭐⭐⭐ 0 đánh giá</div>
+            <h2>{{ $nuocHoa->name }}</h2>
+            <div class="rating">⭐⭐⭐⭐⭐ {{ $danhGia->count()}} đánh giá</div>
             <form action="{{ route('wishlist.add', ['productId' => $nuocHoa->id]) }}" method="POST" style="display: inline;">
                 @csrf
                 <input type="hidden" name="name" value="{{ $nuocHoa->name }}">
@@ -337,7 +571,8 @@
                     <input type="hidden" name="quantity" id="hidden-quantity-cart" value="1"> <!-- Số lượng sẽ được cập nhật ở đây -->
                     <button class="add-to-cart">THÊM VÀO GIỎ HÀNG</button>
                 </form>
-                <form action="{{ route('checkout.show', ['id' => $nuocHoa->id]) }}" method="GET">
+                <form action="{{ route('checkout.show', ['id' => $nuocHoa->id]) }}" method="POST">
+                    @csrf
                     <input type="hidden" id="hidden-quantity-checkout" name="quantity" value="1">
                     <input type="hidden" name="selectedPrice" id="selectedPriceCheckout" value="{{ $nuocHoa->giaTienLon }}">
                     <button type="submit"  class="buy-now">MUA NGAY</button>
@@ -361,8 +596,45 @@
             </ul>
         </div>
     </div>
-    <div class="product-detail-tabs">
-     <ul class="tabs">
+<div class="review-section">
+    <h3>ĐÁNH GIÁ SẢN PHẨM</h3>
+    <div class="review-summary">
+        <p>{{ $danhGia->count() > 0 ? 'Tổng cộng: ' . $danhGia->count() . ' đánh giá' : 'Hiện tại chưa có đánh giá nào cho sản phẩm này!' }}</p>
+        <div class="rating-filter">
+            <button class="filter-btn active">Tất cả</button>
+            @for ($i = 5; $i >= 1; $i--)
+                <button class="filter-btn">
+                    {{ $i }} Điểm ({{ $danhGia->where('rating', $i)->count() }})
+                </button>
+            @endfor
+        </div>
+    </div>
+
+<div class="review-list">
+    <p style="display: none;">Hiện chưa có bài đánh giá nào</p>
+    @foreach ($danhGia as $item)
+    <div class="review-item" data-rating="{{ $item->rating }}">
+        <p><strong>{{ $item->user->name }}</strong> - {{ $item->rating }} sao</p>
+        <p>{{ $item->comment }}</p>
+        @if ($item->image || $item->video)
+            @if ($item->image)
+                <img class="anh-don-hang" style="width: 100px; height: 100px;" src="{{ asset('storage/' . $item->image) }}" alt="Ảnh đánh giá" width="100">
+            @endif
+            @if ($item->video)
+                <video controls width="150" height="150">
+                    <source src="{{ asset('storage/' . $item->video) }}" type="video/mp4">
+                </video>
+            @endif
+        @else
+            <p>Người dùng không gửi ảnh hoặc video trong đánh giá này.</p>
+        @endif
+    </div>
+@endforeach
+</div>
+</div>
+    <div class="product-detail-wrapper">
+        <div class="product-detail-tabs">
+        <ul class="tabs">
         <li class="tab-item active" data-tab="tab-1">Mô tả sản phẩm</li>
         <li class="tab-item" data-tab="tab-2">Sử dụng và bảo quản</li>
         <li class="tab-item" data-tab="tab-3">Vận chuyển và đổi trả</li>
@@ -398,11 +670,11 @@
     <p><strong>Ngày sản xuất:</strong> In trên bao bì sản phẩm</p>
 
     <p>
-        Cảm ơn quý khách đã tin tưởng và lựa chọn Laluz Parfums. Chúng tôi cam kết sẽ mang đến những sản phẩm chính
+        Cảm ơn quý khách đã tin tưởng và lựa chọn TUANHALAN. Chúng tôi cam kết sẽ mang đến những sản phẩm chính
         hãng và chất lượng tuyệt vời cho bạn.
     </p>
     <p>
-        Sau khi sử dụng sản phẩm, quý khách vui lòng để lại nhận xét đánh giá, Laluz Parfums sẽ dựa vào đó để thay đổi
+        Sau khi sử dụng sản phẩm, quý khách vui lòng để lại nhận xét đánh giá, TUANHALAN sẽ dựa vào đó để thay đổi
         ngày một tốt hơn, mang đến những trải nghiệm tuyệt vời cho bạn.
     </p>
 </div>
@@ -418,12 +690,12 @@
         <p>Sản phẩm phải còn đầy đủ tem, hộp của nhà sản xuất và tem bảo hành của Missi.</p>
 
         <h3>QUY TRÌNH BẢO HÀNH</h3>
-        <p>Khách hàng gửi sản phẩm về 215 Nam Kỳ Khởi Nghĩa, P. Võ Thị Sáu, Q.3, TpHCM.<br>
-        Missi sẽ kiểm tra và tiến hành hoàn tiền cho quý khách từ 1-2 ngày làm việc.</p>
+        <p>Khách hàng gửi sản phẩm về 470 Đ. Trần Đại Nghĩa, Hoà Hải, Ngũ Hành Sơn, Đà Nẵng 550000, Vietnam.<br>
+        TUANHALAN sẽ kiểm tra và tiến hành hoàn tiền cho quý khách từ 1-2 ngày làm việc.</p>
 
         <h3>CÁC TRƯỜNG HỢP KHÔNG HỖ TRỢ BẢO HÀNH</h3>
-        <p>- Sản phẩm không phải do Missi trực tiếp bán.<br>
-        - Sản phẩm đã bị can thiệp vào các phần vỏ, tem bảo hành của Missi.</p>
+        <p>- Sản phẩm không phải do TUANHALAN trực tiếp bán.<br>
+        - Sản phẩm đã bị can thiệp vào các phần vỏ, tem bảo hành của TUANHALAN.</p>
 
         <h3>HỖ TRỢ</h3>
         <p class="support-contact">Hotline: 0917 513 519 (Zalo)<br>
@@ -433,8 +705,8 @@
 
         </div>
     </div>
-
-    <div class="customer-benefits">
+        </div>
+        <div class="customer-benefits">
         <h3>Quyền lợi khách hàng tại TUANHALAN</h3>
         <ul>
             <li>Cam kết sản phẩm chính hãng 100% (đền 200% giá trị sản phẩm nếu phát hiện hàng giả)</li>
@@ -443,7 +715,22 @@
             <li>Miễn phí giao hàng cho hóa đơn từ 1 triệu</li>
         </ul>
     </div>
+    </div>
+    <div class="similar-products">
+    <h2>Sản phẩm tương tự</h2>
+    <div class="product-list">
+        @foreach($similarProducts as $product)
+            <div class="product-card">
+                <a href="{{ route('product.detail', ['id' => $product->id]) }}">
+                    <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/all/{{ $product->image }}" alt="{{ $product->name }}">
+                    <h3>{{ $product->name }}</h3>
+                    <p class="price">{{ number_format($product->giaTienLon, 0, ',', '.') }} ₫</p>
+                </a>
+            </div>
+        @endforeach
+    </div>
 </div>
+
     <div class="fixed-nav">
         <ul class="fixed-nav-list">    
             <li class="fixed-nav-item"> <a class="link-items" href="tel:0917513519"><i class="fa-solid fa-phone-volume"></i></a></li>
@@ -553,6 +840,70 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const reviewItems = document.querySelectorAll(".review-item");
+    const noReviewMessage = document.querySelector(".review-list p");
+
+    filterButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+            filterButtons.forEach((btn) => btn.classList.remove("active"));
+            this.classList.add("active");
+
+            const rating = this.textContent.match(/\d+/); // Lấy số sao (1-5) từ nút, hoặc null nếu là "Tất cả"
+            let hasVisibleReview = false;
+
+            reviewItems.forEach((item) => {
+                const itemRating = parseInt(item.dataset.rating); // Dùng dataset thay vì textContent
+                if (!rating || itemRating === parseInt(rating[0])) {
+                    item.style.display = "flex"; // Hiển thị
+                    hasVisibleReview = true;
+                } else {
+                    item.style.display = "none"; // Ẩn
+                }
+            });
+
+            noReviewMessage.style.display = hasVisibleReview ? "none" : "flex";
+        });
+    });
+});
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const productList = document.querySelector('.similar-products .product-list');
+        
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        productList.addEventListener('mousedown', (e) => {
+            isDown = true;
+            productList.classList.add('active');
+            startX = e.pageX - productList.offsetLeft;
+            scrollLeft = productList.scrollLeft;
+        });
+
+        productList.addEventListener('mouseleave', () => {
+            isDown = false;
+            productList.classList.remove('active');
+        });
+
+        productList.addEventListener('mouseup', () => {
+            isDown = false;
+            productList.classList.remove('active');
+        });
+
+        productList.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - productList.offsetLeft;
+            const walk = (x - startX) * 2; // Scroll-fast
+            productList.scrollLeft = scrollLeft - walk;
+        });
+    });
 </script>
 </body>
 </html>

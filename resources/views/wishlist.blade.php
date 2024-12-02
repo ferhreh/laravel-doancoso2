@@ -22,7 +22,7 @@
         margin: 0px 3px 0px 3px;
     }
     .bread-list li:nth-child(3){
-        color: #C96F3B;
+        color: #9c8679;
     }
     .bread-content{
         width: 100%;
@@ -53,6 +53,129 @@
     h1{
         text-align: center;
     }
+    .wishlist-main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.wishlist-item {
+    text-align: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    background-color: #fff;
+    transition: box-shadow 0.3s ease;
+}
+
+.wishlist-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.wishlist-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.wishlist-item form button {
+    background-color: #9c8679;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.wishlist-item form button:hover {
+    background-color: #9c8679;
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Nút điều hướng cố định */
+.fixed-nav {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.fixed-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.fixed-nav-item a,
+.back-to-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color:#9c8679;
+    color: #fff;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+}
+
+.fixed-nav-item a:hover,
+.back-to-top:hover {
+    background-color: #9c8679;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .bread-list {
+        flex-direction: column;
+        align-items: center;
+        font-size: 0.85rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .wishlist-item form button {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    .wishlist-main {
+        grid-template-columns: 1fr;
+    }
+
+    .wishlist-item {
+        padding: 10px;
+    }
+
+    .wishlist-item img {
+        max-width: 150px;
+    }
+
+    .fixed-nav-item a,
+    .back-to-top {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
 </style>
 <body>
 @include('header')

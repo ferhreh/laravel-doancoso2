@@ -183,7 +183,6 @@ h4 {
                 <p style="margin-left: 20px;">Số lượng: {{ $quantity }}</p>
             </div>
         </div>
-
         <!-- Checkout Form -->
         <div class="col-md-4">
             <h4>Thanh Toán và Giao Hàng</h4>
@@ -209,9 +208,7 @@ h4 {
                     <label for="notes">Ghi chú đơn hàng (tùy chọn)</label>
                     <textarea class="form-control" id="notes" name="notes"></textarea>
                 </div>
-
-                <hr>
-                
+                <hr>   
                 <div class="summary">
                     <p>Tạm tính (1 sản phẩm): {{ number_format($totalPrice) }} ₫</p>
                     <p>Giao hàng: Miễn phí ship mọi đơn hàng</p>
@@ -222,9 +219,6 @@ h4 {
                     <label>Chọn phương thức thanh toán:</label><br>
                     <input type="radio" id="cash_on_delivery" name="payment_method" value="cash_on_delivery" checked>
                     <label for="cash_on_delivery">Trả tiền mặt khi nhận hàng</label><br>
-
-                    <input type="radio" id="bank_transfer" name="payment_method" value="bank_transfer">
-                    <label for="bank_transfer">Chuyển khoản ngân hàng</label><br>
 
                     <input type="radio" id="qr_transfer" name="payment_method" value="qr_transfer">
                     <label for="qr_transfer">Chuyển khoản ngân hàng (Quét mã QR)</label>

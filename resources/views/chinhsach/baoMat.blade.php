@@ -102,6 +102,9 @@
         font-size: 1.25rem;
     }
 }
+.menu-item a{
+    text-align: left;
+}
 </style>
 <body>
 @include('header')

@@ -69,5 +69,42 @@
 				</li>
 			</ul>
 		</div>
-	</div>
+	</div>   
 </main>
+        <h2>Cảm ơn bạn đã đặt hàng!</h2>
+        <p>Thông tin đơn hàng của bạn:</p>
+        <table>
+            <tr>
+                <th>Mã đơn hàng</th>
+                <td>{{ $orderDetails['maDonHang'] }}</td>
+            </tr>
+            <tr>
+                <th>Họ và tên</th>
+                <td>{{ $orderDetails['tenKhachHang'] }}</td>
+            </tr>
+            <tr>
+                <th>Tên sản phẩm</th>
+                <td>{{ $orderDetails['tenDonHang'] }}</td>
+            </tr>
+            <tr>
+                <th>Số lượng</th>
+                <td>{{ $orderDetails['soLuong'] }}</td>
+            </tr>
+            <tr>
+                <th>Phương thức thanh toán</th>
+                <td>{{ $orderDetails['hinhThucMua'] }}</td>
+            </tr>
+            <tr>
+                <th>Ngày đặt hàng</th>
+                <td>{{ $orderDetails['ngayDatHang'] }}</td>
+            </tr>
+            <th>Địa chỉ</th>
+                <td>{{ $orderDetails['diaChi'] }}</td>
+            </tr>
+            <tr>
+                <th>Tổng tiền</th>
+                <td>{{ number_format($orderDetails['tongTien']) }} ₫</td>
+            </tr>
+        </table>
+
+        <p class="footer">Chúng tôi sẽ liên hệ bạn sớm nhất để giao hàng.</p>

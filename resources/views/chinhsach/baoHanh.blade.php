@@ -89,7 +89,9 @@ strong {
 .notice li {
     font-weight: bold;
 }
-
+.menu-item a{
+    text-align: left;
+}
 /* Responsive Styles */
 @media (max-width: 768px) {
     .container-baoHanh {

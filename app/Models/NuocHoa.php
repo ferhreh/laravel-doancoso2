@@ -17,4 +17,8 @@ class NuocHoa extends Model
     {
         return $this->hasMany(MoTaNuocHoa::class, 'nuoc_hoa_id');
     }
+    public function danhGia()
+{
+    return $this->hasMany(DanhGia::class, 'nuoc_hoa_id');
+}
 }

@@ -3,31 +3,74 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
+use App\Models\NuocHoa;
 class ChinhSachController extends Controller
 {
     public function KiemHang()
     {
-        return view('chinhsach.kiemHang');
+        $hotProducts = DB::table('don_hang')
+        ->select('tenDonHang', DB::raw('SUM(soLuong) as total_quantity'), 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào select
+        ->groupBy('tenDonHang', 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào groupBy
+        ->orderBy('total_quantity', 'desc')
+        ->limit(7)
+        ->get();
+        $brands = NuocHoa::select('thuongHieu')->distinct()->get();
+        return view('chinhsach.kiemHang', compact('hotProducts','brands'));
     }
     public function baoMat()
     {
-        return view('chinhsach.baoMat');
+        $hotProducts = DB::table('don_hang')
+        ->select('tenDonHang', DB::raw('SUM(soLuong) as total_quantity'), 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào select
+        ->groupBy('tenDonHang', 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào groupBy
+        ->orderBy('total_quantity', 'desc')
+        ->limit(7)
+        ->get();
+        $brands = NuocHoa::select('thuongHieu')->distinct()->get();
+        return view('chinhsach.baoMat', compact('hotProducts','brands'));
     }
     public function vanChuyen()
     {
-        return view('chinhsach.vanChuyen');
+        $hotProducts = DB::table('don_hang')
+        ->select('tenDonHang', DB::raw('SUM(soLuong) as total_quantity'), 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào select
+        ->groupBy('tenDonHang', 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào groupBy
+        ->orderBy('total_quantity', 'desc')
+        ->limit(7)
+        ->get();
+        $brands = NuocHoa::select('thuongHieu')->distinct()->get();
+        return view('chinhsach.vanChuyen', compact('hotProducts','brands'));
     }
     public function khieuNai()
     {
-        return view('chinhsach.khieuNai');
+        $hotProducts = DB::table('don_hang')
+        ->select('tenDonHang', DB::raw('SUM(soLuong) as total_quantity'), 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào select
+        ->groupBy('tenDonHang', 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào groupBy
+        ->orderBy('total_quantity', 'desc')
+        ->limit(7)
+        ->get();
+        $brands = NuocHoa::select('thuongHieu')->distinct()->get();
+        return view('chinhsach.khieuNai', compact('hotProducts','brands'));
     }
     public function thanhToan()
     {
-        return view('chinhsach.thanhToan');
+        $hotProducts = DB::table('don_hang')
+        ->select('tenDonHang', DB::raw('SUM(soLuong) as total_quantity'), 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào select
+        ->groupBy('tenDonHang', 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào groupBy
+        ->orderBy('total_quantity', 'desc')
+        ->limit(7)
+        ->get();
+        $brands = NuocHoa::select('thuongHieu')->distinct()->get();
+        return view('chinhsach.thanhToan', compact('hotProducts','brands'));
     }
     public function baoHanh()
     {
-        return view('chinhsach.baoHanh');
+        $hotProducts = DB::table('don_hang')
+        ->select('tenDonHang', DB::raw('SUM(soLuong) as total_quantity'), 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào select
+        ->groupBy('tenDonHang', 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào groupBy
+        ->orderBy('total_quantity', 'desc')
+        ->limit(7)
+        ->get();
+        $brands = NuocHoa::select('thuongHieu')->distinct()->get();
+        return view('chinhsach.baoHanh', compact('hotProducts','brands'));
     }
 }

@@ -2,8 +2,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\NuocHoa;
+use App\Models\DanhGia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class NuocHoaController extends Controller
 {
@@ -37,16 +39,20 @@ class NuocHoaController extends Controller
                 $html = view('partials.product_list', compact('perfumes'))->render();
                 return response()->json(['html' => $html]);
             }
-
-                        
+             
             // Lấy giá trị riêng biệt cho các bộ lọc từ bảng `nuoc_hoa`
             $brands = NuocHoa::distinct()->pluck('thuongHieu');
             $nameProduct=NuocHoa::distinct()->pluck('name');
             $genders = NuocHoa::distinct()->pluck('gioiTinh');
             $concentrations = NuocHoa::distinct()->pluck('nongDo');
             $volumes = NuocHoa::distinct()->pluck('dungTich');
-
-            return view('perfumes', compact('perfumes', 'brands','nameProduct', 'genders', 'concentrations', 'volumes', 'minPrice', 'maxPrice'));
+            $hotProducts = DB::table('don_hang')
+            ->select('tenDonHang', DB::raw('SUM(soLuong) as total_quantity'), 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào select
+            ->groupBy('tenDonHang', 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào groupBy
+            ->orderBy('total_quantity', 'desc')
+            ->limit(7)
+            ->get();
+            return view('perfumes', compact('perfumes', 'brands','nameProduct', 'genders', 'concentrations', 'volumes', 'minPrice', 'maxPrice','hotProducts'));
     }
     public function show($id)
     {
@@ -55,7 +61,37 @@ class NuocHoaController extends Controller
         if ($nuocHoa->moTa->isEmpty()) {
             // Thêm logic xử lý nếu không có mô tả
         }
-        return view('product.detail', compact('nuocHoa'));
+        $danhGia = DanhGia::where('nuoc_hoa_id', $id)
+        ->with('user') // Eager loading để lấy thông tin user
+        ->orderBy('created_at', 'desc') // Sắp xếp theo thời gian mới nhất
+        ->get();
+        $brands = NuocHoa::select('thuongHieu')->distinct()->get();
+        // san pham tuong tu
+        $similarProducts = NuocHoa::where('id', '!=', $id) // Exclude current product
+        ->where(function ($query) use ($nuocHoa) {
+            $query->where('thuongHieu', $nuocHoa->thuongHieu)
+                ->orWhere('gioiTinh', $nuocHoa->gioiTinh)
+                ->orWhere('nongDo', $nuocHoa->nongDo);
+        })
+        ->take(7)
+        ->get();
+        return view('product.detail', compact('nuocHoa','brands','danhGia','similarProducts'));
     }
+    public function search(Request $request)
+    {
+        $query = $request->input('search');
+
+        $products = DB::table('nuoc_hoa')
+            ->when($query, function ($q) use ($query) {
+                return $q->where('name', 'like', "%{$query}%");
+            })
+            ->get();
+                // Tạo đường dẫn chi tiết sản phẩm
+    $products->each(function ($product) {
+        $product->link = route('product.detail', ['id' => $product->id]);
+    });
+        return response()->json($products);
+    }
+    
 }
 

@@ -145,9 +145,18 @@ table tbody tr:hover {
                                 @case(1) Đang xử lý @break
                                 @case(2) Đã xác nhận @break
                                 @case(3) Đã hủy @break
-                                @case(4) Đã giao hàng @break
-                                @case(5) Đã hoàn thành @break
-                                @default Không rõ
+                                @case(4) Đang giao hàng @break
+                                @case(5) Đã hoàn thành 
+                                @if(!$donHang->is_reviewed)
+                                    <form action="{{ route('danhGia.showForm', $donHang->id) }}" method="GET" style="display: inline;">
+                                        <button type="submit" style="background: #28a745; color: white; padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer;">
+                                            Đánh giá sản phẩm
+                                        </button>
+                                    </form>
+                                @else
+                                    (Đã đánh giá)
+                                @endif
+                                @break
                             @endswitch
                         </td>
                         <td data-label="Tên Khách Hàng">{{ $donHang->tenKhachHang }}</td>

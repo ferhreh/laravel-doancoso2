@@ -237,7 +237,8 @@ input[type="checkbox"]:checked::after {
 .product-item>img{
     width: 100%;
     max-width: 200px;
-    height: auto;
+    height: 10rem;
+    object-fit: cover;
     transition: 0.5s;
 }
 .product-item:hover{

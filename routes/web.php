@@ -8,7 +8,8 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ChinhSachController;
-
+use App\Http\Controllers\DanhGiaController;
+use App\Models\NuocHoa;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +30,8 @@ Route::get('/san-pham/{id}', [NuocHoaController::class, 'show'])->name('product.
 Route::get('/lien-he', [PageController::class, 'contact'])->name('contact');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+
+
 Route::get('/logout', [AuthController::class, 'showLogout'])->name('logout');
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/account-info/update', [AuthController::class, 'updateAccountInfo'])->name('account.update');
@@ -47,11 +48,25 @@ Route::delete('/wishlist/remove/{productId}', [WishlistController::class, 'remov
 // contact
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 // thanh toán
-Route::get('/checkout/{id}', [CheckoutController::class, 'showCheckout'])->name('checkout.show');
-Route::post('/checkout/cart', [CheckoutController::class, 'showCartCheckout'])->name('checkout.cart');
+Route::middleware(['web'])->group(function () {
+    Route::post('/checkout/{id}', [CheckoutController::class, 'showCheckout'])
+    ->name('checkout.show');
+    Route::get('/checkout/cart', [CheckoutController::class, 'showCartCheckout'])->name('checkout.cart');
+});
+// giohang
+
 Route::post('/checkout/process/{id}', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
 Route::post('/checkout/processCart/{id}', [CheckoutController::class, 'processCartCheckout'])->name('checkout.processCart');
 Route::get('/Confirmation', [CheckoutController::class, 'showConfirmation'])->name('checkout.confirmation');
+//login
+Route::middleware(['web'])->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+});
+// tìm kiếm
+Route::middleware(['web'])->group(function () {
+    Route::get('/search', [NuocHoaController::class, 'search'])->name('search');
+});
 //lich su don hang
 Route::get('/lich-su-don-hang', [CheckoutController::class, 'lichSuDonHang'])
     ->middleware('auth')
@@ -87,8 +102,20 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::delete('/admin/khach-hang/{id}', [AdminController::class, 'destroyNguoiDung'])->name('admin.destroy-khach-hang');
 
 });
+// loc thuong hieu
+Route::get('/thuong-hieu/{letter?}', function ($letter = null) {
+    if ($letter && $letter !== 'All') {
+        $brands = NuocHoa::where('thuongHieu', 'LIKE', $letter . '%')->distinct()->get();
+    } else {
+        $brands = NuocHoa::select('thuongHieu')->distinct()->get();
+    }
+    return response()->json($brands);
+})->name('thuongHieu.filter');
+// danh gia
 
 
+Route::get('don-hang/{id}/danh-gia', [DanhGiaController::class, 'showForm'])->name('danhGia.showForm');
+Route::post('don-hang/{id}/danh-gia', [DanhGiaController::class, 'store'])->name('danhGia.store');
 
 
 

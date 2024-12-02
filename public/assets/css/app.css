@@ -176,7 +176,7 @@ a {
     .boxSearch {
         top: 4rem;
         right: 5rem;
-        width: 15rem;
+        width: 250px !important;
     }
 }
 @media (max-width: 361px) {
@@ -2291,6 +2291,56 @@ body.no-scroll {
 .fixed-nav-item i,
 .back-to-top i {
     font-size: 24px;
+}
+@media (max-width: 768px) {
+    .fixed-nav {
+        right: 10px; /* Điều chỉnh vị trí sát hơn */
+        bottom: 10px;
+    }
+
+    .fixed-nav-item {
+        width: 50px; /* Thu nhỏ kích thước nút */
+        height: 50px;
+    }
+
+    .back-to-top {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* Very small screens (màn hình nhỏ hơn 480px) */
+@media (max-width: 480px) {
+    .fixed-nav {
+        right: 5px; /* Sát lề hơn */
+        bottom: 5px;
+    }
+
+    .fixed-nav-item {
+        width: 50px; /* Thu nhỏ kích thước nút */
+        height: 50px;
+    }
+
+    .back-to-top {
+        width: 50px;
+        height: 50px;
+    }
+}
+@media (max-width: 376px) {
+    .fixed-nav {
+        right: 5px; /* Sát hơn lề phải */
+        bottom: 5px; /* Sát hơn đáy */
+    }
+
+    .fixed-nav-item {
+        width: 50px; /* Thu nhỏ kích thước nút */
+        height: 50px;
+    }
+
+    .back-to-top {
+        width: 50px;
+        height: 50px;
+    }
 }
 /* phan gio hang */
 /* Lớp phủ mờ */

@@ -80,6 +80,38 @@
     right: 0;
     position: absolute;
 }
+/*  */
+.search-results {
+    position: absolute;
+    background: #fff;
+    top: 3rem;
+    max-height: 400px; /* Chiều cao tối đa */
+    width: 100%;
+    overflow-y: auto; /* Cho phép cuộn dọc */
+    z-index: 10;
+}
+
+.search-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.search-item:hover {
+    background-color: #f5f5f5;
+}
+.search-item>a>div{
+    display: flex;
+    align-items: center;
+
+}
+.search-item img {
+    width: 80px !important;
+    height: 80px !important;
+}
+
 </style>
 <body>
     <header>
@@ -89,12 +121,12 @@
                     <p>Xin chào!</p>
                 </div>
                 <div class="login">
-                <a href="{{ Auth::check() ? route('logout') : route('login') }}">
-    <img src="http://127.0.0.1:8000/assets/images/logo/user-profile.png" alt="">
-    <span>
-        {{ Auth::check() ? 'Đăng xuất' : 'Đăng nhập/ Đăng ký' }}
-    </span>
-</a>
+                    <a href="{{ Auth::check() ? route('logout') : route('login') }}">
+                        <img src="http://127.0.0.1:8000/assets/images/logo/user-profile.png" alt="">
+                        <span>
+                            {{ Auth::check() ? 'Đăng xuất' : 'Đăng nhập/ Đăng ký' }}
+                        </span>
+                    </a>
                     <button class="login-btn">
                         <span>
                             @if(Auth::check())
@@ -120,18 +152,19 @@
                             </button>
                             <input type="text" name="search" id="search" placeholder="Tìm sản phẩm của bạn">
                         </form>
+                        <div id="searchResults" class="search-results" style="display: block;"></div>
                     </div>
                     <!-- Nút thay thế chỉ hiển thị khi màn hình nhỏ hơn 700px -->
                     <button class="searchToggleBtn" style="display: none;">
                         <img src="http://127.0.0.1:8000/assets/images/logo/search.png" alt="Search Icon">
                     </button>
                     <div class="ic-Toolbar">
-                    <div class="ic-heart">
-    <a href="{{ route('wishlist.index') }}">
-        <img src="http://127.0.0.1:8000/assets/images/logo/love.png" alt="">
-        <span>Sản phẩm yêu thích</span>
-    </a>
-</div>
+                        <div class="ic-heart">
+                         <a href="{{ route('wishlist.index') }}">
+                             <img src="http://127.0.0.1:8000/assets/images/logo/love.png" alt="">
+                             <span>Sản phẩm yêu thích</span>
+                         </a>
+                        </div>
                         <div class="ic-cart">
                             <a  href="" onclick="handleCartClick(event)"><img src="http://127.0.0.1:8000/assets/images/logo/bag.png" alt=""><span>Giỏ hàng</span></a>
                         </div>
@@ -169,12 +202,11 @@
                                         </div>
                                     @endforeach
                                 </div>
-
                                 <div class="cart-footer">
                                     <span class="total-thanh-tien" style="display: block;">Thành tiền:</span>
                                     <span style="display: block;" class="total-price">{{ number_format($cartItems->sum(fn($item) => $item->giaTienLon * $item->quantity), 0, ',', '.') }} ₫</span>
                                     <button class="btn btn-view-cart">Xem Giỏ Hàng</button>
-                                    <form action="{{ route('checkout.cart') }}" method="post">
+                                    <form action="{{ route('checkout.cart') }}" method="get">
                                         @csrf
                                         <button class="btn btn-view-cart">Thanh toán</button>
                                     </form>
@@ -197,12 +229,31 @@
                                     <div class="menu-mega-item">
                                         <a href="" class="menu-header">Thương hiệu bán chạy</a><span class="toggle-arrow">&#9660;</span>
                                         <ul class="menu-list">
-                                            <li class="menu-item"><a href="">Roja Parfums</a></li>
-                                            <li class="menu-item"><a href="">Atelier Materi</a></li>
-                                            <li class="menu-item"><a href="">Liquides Imaginaies</a></li>
-                                            <li class="menu-item"><a href="">Argos Fragrances</a></li>
-                                            <li class="menu-item"><a href="">Clive Christian</a></li>
-                                            <li class="menu-item"><a href="">Matiere Premiere</a></li>
+                                        @if(isset($hotProducts) && $hotProducts->isNotEmpty())
+                                        @foreach ($hotProducts as $product)
+                                            @php
+                                                // Lấy các query string hiện tại
+                                                $currentQuery = request()->query();
+                                                // Tạo hoặc cập nhật giá trị của `thuongHieu[]`
+                                                $thuongHieu = $currentQuery['thuongHieu'] ?? [];
+                                               if (!in_array($product->thuongHieu, $thuongHieu)) {
+                                                    $thuongHieu[] = $product->thuongHieu; // Thêm thương hiệu mới
+                                                }
+
+                                                // Xây dựng query mới
+                                                $newQuery = array_merge($currentQuery, ['thuongHieu' => $thuongHieu]);
+
+                                                // Tạo URL
+                                                $url = route('perfumes', $newQuery);
+                                            @endphp
+
+                                            <li class="menu-item">
+                                                <a href="{{ $url }}">{{ $product->thuongHieu }}</a>
+                                            </li>
+                                        @endforeach
+                                        @else
+                                            <li class="menu-item">Không có sản phẩm</li>
+                                        @endif
                                         </ul>
                                     </div>
                                 </div>
@@ -210,203 +261,30 @@
                                     <a href="" class="menu-header">Thương hiệu nước hoa</a><span class="toggle-arrow">&#9660;</span>
                                     <div class="word-nav">
                                         <ul class="word-list">
-                                            <li class="word-it">
+                                             <!-- Nút "All" -->
+                                            <li class="word-it" data-tab="All">
                                                 <label for="w-all">
                                                     <input type="radio" name="w-all" id="w-all">
-                                                    <div class="box">
-                                                        <span class="txt">All</span>
-                                                    </div>
+                                                    <div class="box"><span class="txt">All</span></div>
                                                 </label>
                                             </li>
-                                            <li class="word-it" data-tab="A">
-                                                <label for="w-A">
-                                                    <input type="radio" id="w-A" value="A">
-                                                    <div class="box is-loading-group"> <span class="txt">A</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="B">
-                                                <label for="w-B">
-                                                    <input type="radio" id="w-B" value="B">
-                                                    <div class="box is-loading-group"> <span class="txt">B</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="C">
-                                                <label for="w-C">
-                                                    <input type="radio" id="w-C" value="C">
-                                                    <div class="box is-loading-group"> <span class="txt">C</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="D">
-                                                <label for="w-D">
-                                                    <input type="radio" id="w-D" value="D">
-                                                    <div class="box is-loading-group"> <span class="txt">D</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="E">
-                                                <label for="w-E">
-                                                    <input type="radio" id="w-E" value="E">
-                                                    <div class="box is-loading-group"> <span class="txt">E</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="F">
-                                                <label for="w-F">
-                                                    <input type="radio" id="w-F" value="F">
-                                                    <div class="box is-loading-group"> <span class="txt">F</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="G">
-                                                <label for="w-G">
-                                                    <input type="radio" id="w-G" value="G">
-                                                    <div class="box is-loading-group"> <span class="txt">G</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="H">
-                                                <label for="w-H">
-                                                    <input type="radio" id="w-H" value="H">
-                                                    <div class="box is-loading-group"> <span class="txt">H</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="I">
-                                                <label for="w-I">
-                                                    <input type="radio" id="w-I" value="I">
-                                                    <div class="box is-loading-group"> <span class="txt">I</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="J">
-                                                <label for="w-J">
-                                                    <input type="radio" id="w-J" value="J">
-                                                    <div class="box is-loading-group"> <span class="txt">J</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="K">
-                                                <label for="w-K">
-                                                    <input type="radio" id="w-K" value="K">
-                                                    <div class="box is-loading-group"> <span class="txt">K</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="L">
-                                                <label for="w-L">
-                                                    <input type="radio" id="w-L" value="L">
-                                                    <div class="box is-loading-group"> <span class="txt">L</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="M">
-                                                <label for="w-M">
-                                                    <input type="radio" id="w-M" value="M">
-                                                    <div class="box is-loading-group"> <span class="txt">M</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="N">
-                                                <label for="w-N">
-                                                    <input type="radio" id="w-N" value="N">
-                                                    <div class="box is-loading-group"> <span class="txt">N</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="O">
-                                                <label for="w-O">
-                                                    <input type="radio" id="w-O" value="O">
-                                                    <div class="box is-loading-group"> <span class="txt">O</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="P">
-                                                <label for="w-P">
-                                                    <input type="radio" id="w-P" value="P">
-                                                    <div class="box is-loading-group"> <span class="txt">P</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="Q">
-                                                <label for="w-Q">
-                                                    <input type="radio" id="w-Q" value="Q">
-                                                    <div class="box is-loading-group"> <span class="txt">Q</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="R">
-                                                <label for="w-R">
-                                                    <input type="radio" id="w-R" value="R">
-                                                    <div class="box is-loading-group"> <span class="txt">R</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="S">
-                                                <label for="w-S">
-                                                    <input type="radio" id="w-S" value="S">
-                                                    <div class="box is-loading-group"> <span class="txt">S</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="T">
-                                                <label for="w-T">
-                                                    <input type="radio" id="w-T" value="T">
-                                                    <div class="box is-loading-group"> <span class="txt">T</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="U">
-                                                <label for="w-U">
-                                                    <input type="radio" id="w-U" value="U">
-                                                    <div class="box is-loading-group"> <span class="txt">U</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="V">
-                                                <label for="w-V">
-                                                    <input type="radio" id="w-V" value="V">
-                                                    <div class="box is-loading-group"> <span class="txt">V</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="W">
-                                                <label for="w-W">
-                                                    <input type="radio" id="w-W" value="W">
-                                                    <div class="box is-loading-group"> <span class="txt">W</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="X">
-                                                <label for="w-X">
-                                                    <input type="radio" id="w-X" value="X">
-                                                    <div class="box is-loading-group"> <span class="txt">X</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="Y">
-                                                <label for="w-Y">
-                                                    <input type="radio" id="w-Y" value="Y">
-                                                    <div class="box is-loading-group"> <span class="txt">Y</span></div>
-                                                </label>
-                                            </li>
-                                            <li class="word-it" data-tab="Z">
-                                                <label for="w-Z">
-                                                    <input type="radio" id="w-Z" value="Z">
-                                                    <div class="box is-loading-group"> <span class="txt">Z</span></div>
-                                                </label>
-                                            </li>
+                                             <!-- Các chữ cái -->
+                                            @foreach (range('A', 'Z') as $letter)
+                                                <li class="word-it" data-tab="{{ $letter }}">
+                                                    <label for="w-{{ $letter }}">
+                                                           <input type="radio" id="w-{{ $letter }}" value="{{ $letter }}">
+                                                        <div class="box"><span class="txt">{{ $letter }}</span></div>
+                                                    </label>
+                                                </li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                     <ul class="brand-list" id="Perfume">
-                                        <li class="brand-it"><a href="">Afnan</a></li>
-                                        <li class="brand-it"><a href="">Al Haramain</a></li>
-                                        <li class="brand-it"><a href="">Alaia</a></li>
-                                        <li class="brand-it"><a href="">Alexandria Fragrances</a></li>
-                                        <li class="brand-it"><a href="">Amouage</a></li>
-                                        <li class="brand-it"><a href="">Argos Fragrances</a></li>
-                                        <li class="brand-it"><a href="">Armaf</a></li>
-                                        <li class="brand-it"><a href="">Astrophil Stella</a></li>
-                                        <li class="brand-it"><a href="">Atelier Cologne</a></li>
-                                        <li class="brand-it"><a href="">ATELIER MATERI</a></li>
-                                        <li class="brand-it"><a href="">Attar Collection</a></li>
-                                        <li class="brand-it"><a href="">Azzaro</a></li>
-                                        <li class="brand-it"><a href="">BDK Parfums</a></li>
-                                        <li class="brand-it"><a href="">BORNTOSTANDOUT</a></li>
-                                        <li class="brand-it"><a href="">Burberry</a></li>
-                                        <li class="brand-it"><a href="">Butterfly Thai Perfume</a></li>
-                                        <li class="brand-it"><a href="">Bvlgari</a></li>
-                                        <li class="brand-it"><a href="">Byredo</a></li>
-                                        <li class="brand-it"><a href="">Calvin Klein</a></li>
-                                        <li class="brand-it"><a href="">Carner Barcelona</a></li>
-                                        <li class="brand-it"><a href="">Carolina Herrera</a></li>
-                                        <li class="brand-it"><a href="">Chabaud</a></li>
-                                        <li class="brand-it"><a href="">Chanel</a></li>
-                                        <li class="brand-it"><a href="">Chasing Scents</a></li>
-                                        <li class="brand-it"><a href="">Chlóe</a></li>
-                                        <li class="brand-it"><a href="">Christian Louboutin</a></li>
-                                        <li class="brand-it"><a href="">City Rhythm</a></li>
-                                        <li class="brand-it"><a href="">Clive Christian</a></li>
-                                        <li class="brand-it"><a href="">Creed</a></li>
-                                        <li class="brand-it"><a href="">Dame Perfumery</a></li>
+                                        @foreach ($brands as $brand)
+                                            <li class="brand-it">
+                                                <a href="">{{ is_object($brand) ? $brand->thuongHieu : $brand }}</a>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -463,7 +341,84 @@
             </div>
         </div>
     </header>
+    <script>
+    document.getElementById('search').addEventListener('input', function () {
+    const query = this.value;
+    const searchResults = document.getElementById('searchResults');
+    
+    // Gửi yêu cầu AJAX tới server
+    fetch(`/search?search=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+            // Xóa kết quả cũ
+            searchResults.innerHTML = '';
+            // Hiển thị kết quả mới
+            data.forEach(product => {
+                const item = document.createElement('div');
+                item.className = 'search-item';
+                item.innerHTML = `
+                    <a href="${product.link}" class="product-link">
+                        <div>
+                            <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/all/${product.image}" alt="${product.name}" width="50">
+                            <p>${product.name} - ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.giaTienLon)}</p>
+                        </div>
+                    </a>
+                `;
+                searchResults.appendChild(item);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+});
+// Ẩn khung kết quả khi nhấn ra ngoài
+document.addEventListener('click', function (event) {
+    const searchInput = document.getElementById('search');
+    const searchResults = document.getElementById('searchResults');
+    
+    if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+        searchResults.style.display = 'none'; // Ẩn khung kết quả
+    }
+});
 
+// Hiển thị lại khung kết quả khi focus vào ô tìm kiếm
+document.getElementById('search').addEventListener('focus', function () {
+    const searchResults = document.getElementById('searchResults');
+    if (this.value.trim() !== '') {
+        searchResults.style.display = 'block'; // Hiển thị kết quả
+    }
+});
+
+</script>
+<script>
+    document.querySelectorAll('.word-it').forEach(item => {
+    item.addEventListener('click', function () {
+        const letter = this.getAttribute('data-tab') || 'All'; // Lấy chữ cái hoặc 'All'
+        const perfumeList = document.getElementById('Perfume');
+        
+        // Hiển thị trạng thái loading
+        perfumeList.innerHTML = '<li>Loading...</li>';
+
+        // Gửi yêu cầu AJAX đến server
+        fetch(`/thuong-hieu/${letter}`)
+            .then(response => response.json())
+            .then(data => {
+                perfumeList.innerHTML = ''; // Xóa "Loading..."
+                if (data.length) {
+                    data.forEach(brand => {
+                        perfumeList.innerHTML += `<li class="brand-it"><a href="#">${brand.thuongHieu}</a></li>`;
+                    });
+                } else {
+                    perfumeList.innerHTML = '<li>No brands found</li>';
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                perfumeList.innerHTML = '<li>Error loading brands</li>';
+            });
+    });
+});
+</script>
     
 </body>
 </html>

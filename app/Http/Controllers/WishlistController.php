@@ -2,7 +2,8 @@
 // app/Http/Controllers/WishlistController.php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Models\Wishlist; // Giả sử bạn có model Wishlist
+use App\Models\Wishlist; 
+use App\Models\NuocHoa; 
 use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
@@ -37,8 +38,9 @@ class WishlistController extends Controller
 
     public function index()
     {
+        $brands = NuocHoa::select('thuongHieu')->distinct()->get();
         $wishlistItems = Wishlist::where('user_id', Auth::id())->get();
-        return view('wishlist', compact('wishlistItems'));
+        return view('wishlist', compact('wishlistItems','brands'));
     }
 
     public function remove($productId)

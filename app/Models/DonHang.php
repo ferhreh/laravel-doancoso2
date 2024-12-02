@@ -12,8 +12,10 @@ class DonHang extends Model
     protected $table = 'don_hang'; // Tên bảng
     protected $fillable = [
         'user_id',
+        'order_id',
         'maDonHang',
         'tenKhachHang',
+        'thuongHieu',
         'tenDonHang',
         'hinhThucMua',
         'ngayDatHang',
@@ -21,6 +23,8 @@ class DonHang extends Model
         'soLuong',
         'trangThai',
         'ghiChu',
+        'image',
+        'diaChi',
     ];
 
     // Quan hệ với model User

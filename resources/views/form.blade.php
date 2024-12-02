@@ -49,7 +49,7 @@
                     </a>
                 </div>
                 <div class="prod-it">
-                    <a href="">
+                    <a href="{{ route('product.detail', ['id' => 46]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/rp.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">ROJA PARFUMS</a></h3>
@@ -59,7 +59,7 @@
                     </a>
                 </div>
                 <div class="prod-it">
-                    <a href="">
+                    <a href="{{ route('product.detail', ['id' => 47]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/am.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">ATELIER MATERI</a></h3>
@@ -69,7 +69,7 @@
                     </a>
                 </div>
                 <div class="prod-it">
-                    <a href="">
+                    <a href="{{ route('product.detail', ['id' => 48]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/btd-fp.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">BORNTOSTANDOUT</a></h3>
@@ -79,7 +79,7 @@
                     </a>
                 </div>
                 <div class="prod-it">
-                    <a href="">
+                    <a href="{{ route('product.detail', ['id' => 49]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/cb.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Carner Barcelona</a></h3>
@@ -89,7 +89,7 @@
                     </a>
                 </div>
                 <div class="prod-it">
-                    <a href="">
+                    <a href="{{ route('product.detail', ['id' => 50]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/cct.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Clive Christian</a></h3>
@@ -99,7 +99,7 @@
                     </a>
                 </div>
                 <div class="prod-it">
-                    <a href="">
+                    <a href="{{ route('product.detail', ['id' => 51]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/grt-NE.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Gritti</a></h3>
@@ -109,7 +109,7 @@
                     </a>
                 </div>
                 <div class="prod-it">
-                    <a href="">
+                    <a href="{{ route('product.detail', ['id' => 52]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/mf.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Meo Fusciuni</a></h3>
@@ -119,7 +119,7 @@
                     </a>
                 </div>
                 <div class="prod-it">
-                    <a href="">
+                    <a href="{{ route('product.detail', ['id' => 53]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/unisex/btd.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">BORNTOSTANDOUT</a></h3>
@@ -148,84 +148,104 @@
             </h2>
             <div class="wr-prods-home">
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 54]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nam/creed.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Creed</a></h3>
                         <a href="">Creed Absolu Aventus</a>
                         <span>8.800.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 55]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nam/image.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Xerjoff</a></h3>
                         <a href="">Xerjoff Torino 21</a>
                         <span>5.950.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 56]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nam/jpg.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Jean Paul Gaultier</a></h3>
                         <a href="">Jean Paul Gaultier Le Beau Paradise Garden EDP</a>
                         <span>3.350.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 57]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nam/pdm.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Parfums de Marly</a></h3>
                         <a href="">Parfums de Marly Galloway</a>
                         <span>5.450.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 58]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nam/pm.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Parfums MDCI</a></h3>
                         <a href="">Parfums MDCI Bleu Satin EDP</a>
                         <span>5.330.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 59]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nam/prada.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Prada</a></h3>
                         <a href="">Prada Black Luna Rossa</a>
                         <span>2.750.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 60]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nam/pdm2.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Parfums de Marly</a></h3>
                         <a href="">Parfums De Marly Sedley</a>
                         <span>580.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 61]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nam/rjp.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Roja Parfums</a></h3>
                         <a href="">Roja Parfums Burlington 1819</a>
                         <span>11.500.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
-                    <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nam/vr.png" alt="">
+                    <a href="{{ route('product.detail', ['id' => 62]) }}">
+                    <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nam/miss.png" alt="">
                     <div class="prod-info">
-                        <h3><a href="">Viktor & Rolf</a></h3>
-                        <a href="">Viktor & Rolf Spicebomb For Men EDT/a>
-                        <span>2.250.000&#8363;</span>
+                        <h3><a href="">Missoni</a></h3>
+                        <a href="">Missoni Wave Pour Homme EDT</a>
+                        <span>1.450.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 63]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nam/rjp2.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Roja Parfums</a></h3>
                         <a href="">Roja Parfums Diaghilev Parfum</a>
                         <span>29.500.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
             </div>
             <div class="prods-item">
@@ -247,84 +267,104 @@
             </h2>
             <div class="wr-prods-home">
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 64]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nu/en.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">EX NIHILO</a></h3>
                         <a href="">Ex Nihilo Fleur Narcotique 10 Years Limited</a>
                         <span>8.500.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 65]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nu/af.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Argos Fragrances</a></h3>
                         <a href="">Argos Pour Femme EDP</a>
                         <span>4.250.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 66]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nu/griti.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Gritti</a></h3>
                         <a href="">Gritti TuTù</a>
                         <span>7.200.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 67]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nu/ia.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Imaginary Authors</a></h3>
                         <a href="">Imaginary Authors Fox In The Flowerbed</a>
                         <span>3.200.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 45]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nu/jpg.jpg" alt="">
                     <div class="prod-info">
                         <h3><a href="">Jean Paul Gaultier</a></h3>
                         <a href="">Jean Paul Gaultier Scandal EDP</a>
                         <span>360.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 68]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nu/pm.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Parfums MDCI</a></h3>
                         <a href="">Parfums MDCI Cio Cio San EDP</a>
                         <span>3.950.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 69]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nu/griti2.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Gritti</a></h3>
                         <a href="">Gritti Adèle</a>
                         <span>5.500.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 70]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nu/pm2.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Parfums MDCI</a></h3>
                         <a href="">Parfums MDCI Paris Peche Cardinal EDP</a>
                         <span>6.950.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 71]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nu/prada.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">Prada</a></h3>
                         <a href="">Prada Paradoxe EDP</a>
                         <span>2.650.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
                 <div class="prod-it">
+                    <a href="{{ route('product.detail', ['id' => 72]) }}">
                     <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/nu/en2.png" alt="">
                     <div class="prod-info">
                         <h3><a href="">EX NIHILO</a></h3>
                         <a href="">Ex Nihilo My Sweetest Morphine</a>
                         <span>8.500.000&#8363;</span>
                     </div>
+                    </a>
                 </div>
             </div>
             <div class="prods-item">
@@ -363,34 +403,14 @@
         <section class="hot-product">
             <div class="title-hot">SẢN PHẨM HOT</div>
             <div class="slide-nav-product">
+            @foreach ($hotProducts as $product)
                 <div class="product-it">
-                    <p>Anna Sui Fantasia Mermaid</p>
-                    <a href=""> <img src="http://127.0.0.1:8000/assets/images/anhnuochoa/product_hot/Anna-Sui-Fantasia-Mermaid-4.webp" alt=""></a>
+                    <p>{{ $product->tenDonHang }}</p>
+                    <a href="{{ route('product.detail', ['id' => $product->order_id]) }}">
+                        <img src="assets/images/anhnuochoa/all/{{$product->image}}" alt="{{$product->image}}">
+                    </a>
                 </div>
-                <div class="product-it">
-                    <p>Bleu de Chanel</p>
-                    <a href=""><img src="http://127.0.0.1:8000/assets/images/anhnuochoa/product_hot/bleu_de_chanel.png" alt=""></a>
-                </div>
-                <div class="product-it">
-                    <p>Coco Mademoiselle</p>
-                    <a href=""><img src="http://127.0.0.1:8000/assets/images/anhnuochoa/product_hot/coco_chanel.jpg" alt=""></a>
-                </div>
-                <div class="product-it">
-                    <p>Acqua Di Giò</p>
-                    <a href=""><img src="http://127.0.0.1:8000/assets/images/anhnuochoa/product_hot/gio.jpg" alt=""></a>
-                </div>
-                <div class="product-it">
-                    <p>Maison Francis Kurkdjian A La Rose</p>
-                    <a href=""><img src="http://127.0.0.1:8000/assets/images/anhnuochoa/product_hot/mfk-ala-rose-femme.jpg" alt=""></a>
-                </div>
-                <div class="product-it">
-                    <p>Roja Haute Luxe</p>
-                    <a href=""><img src="http://127.0.0.1:8000/assets/images/anhnuochoa/product_hot/roja.jpg" alt=""></a>
-                </div>
-                <div class="product-it">
-                    <p>Jean Paul Gaultier So Scandal</p>
-                    <a href=""><img src="http://127.0.0.1:8000/assets/images/anhnuochoa/product_hot/sandal.jpg" alt=""></a>
-                </div>
+            @endforeach
             </div>
         </section>
         <div class="container">

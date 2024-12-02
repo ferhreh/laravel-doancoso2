@@ -92,6 +92,9 @@ strong {
         font-size: 14px;
     }
 }
+.menu-item a{
+    text-align: left;
+}
 </style>
 <body>
 @include('header')

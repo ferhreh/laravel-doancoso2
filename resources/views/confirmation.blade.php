@@ -230,7 +230,18 @@
             <p><strong>Địa Chỉ:</strong> {{ $address }}</p>
         </div>
         <p class="delivery-message">Trả tiền mặt khi giao hàng.</p>
-        
+        @if($payment_method === 'qr_transfer')
+            <div class="qr-payment-info" style="margin-top: 15px; border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
+                <h4>Thông tin thanh toán qua chuyển khoản</h4>
+                <p><strong>Mã QR:</strong></p>
+                <img src="http://127.0.0.1:8000/assets/images/qr_thanhtoan/mbank.jpg" alt="QR Code" style="width: 150px; height: 150px;">
+                <p><strong>Số tài khoản:</strong> 2302200567899</p>
+                <p><strong>Tên ngân hàng:</strong>MBank</p>
+                <p><strong>Chủ tài khoản:</strong>Diệp Mạnh Tuấn</p>
+            </div>
+        @else
+            <p class="delivery-message">Trả tiền mặt khi giao hàng.</p>
+        @endif
         <div class="order-details">
             <h4>Chi tiết đơn hàng</h4>
             <table>
@@ -252,7 +263,7 @@
                 </tr>
                 <tr>
                     <td><strong>Phương thức thanh toán:</strong></td>
-                    <td>{{ $product->payment_method }}</td>
+                    <td>{{ ucfirst(str_replace('_', ' ', $payment_method)) }}</td>
                 </tr>
                 <tr>
                     <td><strong>Tổng cộng:</strong></td>

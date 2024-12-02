@@ -107,7 +107,9 @@ strong {
     }
 }
 
-
+.menu-item a{
+    text-align: left;
+}
 </style>
 <body>
 @include('header')

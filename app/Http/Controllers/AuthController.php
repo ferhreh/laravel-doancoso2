@@ -3,18 +3,27 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
+use App\Models\NuocHoa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     //
     public function showRegisterForm()
     {
-        return view('register');
+        $hotProducts = DB::table('don_hang')
+        ->select('tenDonHang', DB::raw('SUM(soLuong) as total_quantity'), 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào select
+        ->groupBy('tenDonHang', 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào groupBy
+        ->orderBy('total_quantity', 'desc')
+        ->limit(7)
+        ->get();
+        $brands = NuocHoa::select('thuongHieu')->distinct()->get();
+        return view('register', compact('hotProducts','brands'));
     }
 
     // Xử lý đăng ký
@@ -42,7 +51,14 @@ class AuthController extends Controller
     // Hiển thị form đăng nhập
     public function showLoginForm()
     {
-        return view('login');
+        $hotProducts = DB::table('don_hang')
+        ->select('tenDonHang', DB::raw('SUM(soLuong) as total_quantity'), 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào select
+        ->groupBy('tenDonHang', 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào groupBy
+        ->orderBy('total_quantity', 'desc')
+        ->limit(7)
+        ->get();
+        $brands = NuocHoa::select('thuongHieu')->distinct()->get();
+        return view('login', compact('hotProducts','brands'));
     }
 
     // Xử lý đăng nhập
@@ -76,8 +92,9 @@ class AuthController extends Controller
     // Đăng xuất
     public function showLogout()
     {
+        $brands = NuocHoa::select('thuongHieu')->distinct()->get();
         $user = Auth::user(); // Lấy thông tin người dùng đang đăng nhập
-        return view('logout', compact('user'));
+        return view('logout', compact('user','brands'));
     }
     public function logout()
     {
@@ -108,64 +125,95 @@ class AuthController extends Controller
     } 
     public function showEmailForm()
 {
-    return view('forgot-pass');
+    $hotProducts = DB::table('don_hang')
+    ->select('tenDonHang', DB::raw('SUM(soLuong) as total_quantity'), 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào select
+    ->groupBy('tenDonHang', 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào groupBy
+    ->orderBy('total_quantity', 'desc')
+    ->limit(7)
+    ->get();
+    $brands = NuocHoa::select('thuongHieu')->distinct()->get();
+    return view('forgot-pass', compact('hotProducts','brands'));
 }
 
 // Gửi mã xác thực đến email
 public function sendResetCode(Request $request)
 {
-    // Xác thực thông tin đầu vào
-    $request->validate([
+    // Xác thực đầu vào
+    $validator = Validator::make($request->all(), [
         'register_email' => 'required|email|exists:users,email',
     ]);
 
+    if ($validator->fails()) {
+        return back()->withErrors($validator)->withInput();
+    }
     // Tạo mã xác thực ngẫu nhiên
     $code = rand(100000, 999999);
-    // Lưu mã xác thực vào session
+
+    // Lưu mã và email vào session
     $request->session()->put('reset_code', $code);
     $request->session()->put('email', $request->register_email);
-        Mail::send('email', compact('code'),function ($email)  use ($request) {
-            $email->to($request->register_email)
-            ->subject('Mã xác thực đặt lại mật khẩu');
-        });
-        Log::info('Mã xác thực đã được gửi tới email: ' . $request->register_email);
-    return redirect()->route('reset-password')->with('success', 'Mã xác thực đã được gửi tới email của bạn.');
-}
 
+    // Gửi email
+    try {
+        Mail::send('emails.reset-code', ['code' => $code], function ($message) use ($request) {
+            $message->to($request->register_email)
+                    ->subject('Mã xác thực đặt lại mật khẩu');
+        });
+    } catch (\Exception $e) {
+        Log::error("Lỗi gửi email: " . $e->getMessage());
+        return back()->with('error', 'Không thể gửi mã xác thực, vui lòng thử lại sau.');
+    }
+
+    Log::info('Mã xác thực đã được gửi tới email: ' . $request->register_email);
+    return redirect()->route('reset-password')
+                     ->with('success', 'Mã xác thực đã được gửi tới email của bạn.');
+}
 // Hiển thị form nhập mã xác thực và mật khẩu mới
 public function showResetForm()
 {
-    return view('reset-password');
+    $brands = NuocHoa::select('thuongHieu')->distinct()->get();
+    return view('reset-password',compact('brands'));
 }
-
 // Xác minh mã và đặt lại mật khẩu
 public function resetPassword(Request $request)
 {
-    // Xác thực thông tin đầu vào
-    $request->validate([
-        'reset_code' => 'required',
-        'password' => 'required|min:8|confirmed',
-    ]);
+    
+    // Kiểm tra mật khẩu
+    $password = $request->password;
+    $passwordConfirmation = $request->password_confirmation;
+
+    if (strlen($password) < 8) {
+        return redirect()->back()
+                         ->with('warning', 'Mật khẩu phải có ít nhất 8 ký tự.');
+    }
+
+    if ($password !== $passwordConfirmation) {
+        return redirect()->back()
+                         ->with('warning', 'Mật khẩu và xác nhận mật khẩu không khớp.');
+    }
 
     // Kiểm tra mã xác thực
-    if ($request->reset_code != session('reset_code') || $request->email != session('email')) {
-        return back()->withErrors(['reset_code' => 'Mã xác thực không đúng.']);
+    if ($request->reset_code != session('reset_code')) {
+        return back()->withErrors(['reset_code' => 'Mã xác thực không đúng.'])
+                     ->with('warning', 'Mã xác thực không hợp lệ.');
     }
 
-    // Cập nhật mật khẩu mới cho người dùng
+    // Tìm người dùng qua email trong session
     $user = User::where('email', session('email'))->first();
-    
-    if($user) { // Kiểm tra nếu người dùng tồn tại
-        $user->password = Hash::make($request->password);
-        $user->save();
 
-        // Xóa mã xác thực khỏi session
-        $request->session()->forget(['reset_code', 'email']);
-
-        return redirect()->route('login')->with('success', 'Mật khẩu của bạn đã được cập nhật thành công.');
+    if (!$user) {
+        return back()->withErrors(['email' => 'Người dùng không tồn tại.'])
+                     ->with('warning', 'Không tìm thấy người dùng với email này.');
     }
 
-    return back()->withErrors(['email' => 'Có lỗi xảy ra, vui lòng thử lại.']);
+    // Cập nhật mật khẩu
+    $user->password = Hash::make($request->password);
+    $user->save();
+
+    // Xóa session
+    $request->session()->forget(['reset_code', 'email']);
+
+    return redirect()->route('login')->with('success', 'Mật khẩu của bạn đã được cập nhật thành công.');
 }
 
     

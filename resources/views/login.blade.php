@@ -115,11 +115,98 @@
         gap: 5px; 
         }
     }
+    .warning-popup {
+        position: fixed;
+    top: 20px;
+    right: -400px; /* Khởi đầu nằm ngoài màn hình bên phải */
+    background-color: #fff;
+    color: #d9534f;
+    padding: 10px 20px;
+    border: 1px solid #d9534f;
+    border-left: 5px solid #d9534f; /* Đường viền màu đỏ bên trái */
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: right 0.5s ease-in-out; /* Hiệu ứng trượt */
+}
 
+.warning-popup.show {
+    right: 20px;
+}
+.warning-popup .icon {
+    color: #d9534f;
+    font-size: 20px;
+}
+
+.warning-popup .title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.warning-popup .message {
+    margin: 0;
+}
+.warning-success {
+        position: fixed;
+    top: 20px;
+    right: -500px; /* Khởi đầu nằm ngoài màn hình bên phải */
+    background-color: #fff;
+    color: #33CC66;
+    padding: 10px 20px;
+    border: 1px solid #33CC66;
+    border-left: 5px solid #33CC66; /* Đường viền màu đỏ bên trái */
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: right 0.5s ease-in-out; /* Hiệu ứng trượt */
+}
+
+.warning-success.show {
+    right: 20px;
+}
+.warning-success .icon {
+    color: #33CC66;
+    font-size: 20px;
+}
+
+.warning-success .title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.warning-success .message {
+    margin: 0;
+}
 </style>
 <body>
 @include('header')
 <main>
+@if(session('warning'))
+<div class="warning-popup">
+    <div class="icon">❌</div> <!-- Thay bằng icon hoặc SVG -->
+    <div>
+        <div class="title">Lỗi</div>
+        <div class="message">{{ session('warning') }}</div>
+    </div>
+</div>
+@endif
+@if(session('success'))
+<div class="warning-success">
+    <div class="icon">✅</div> <!-- Thay bằng icon hoặc SVG -->
+    <div>
+        <div class="title">Thành công</div>
+        <div class="message">{{ session('success') }}</div>
+    </div>
+</div>
+@endif
    <section class="nav-bread">
         <div class="bread-content">
             <ul class="bread-list">
@@ -139,15 +226,14 @@
                     <form action="{{ route('login') }}" method="post">
                         @csrf
                         <div class="box-form">
-                        <div class="group-form">
-    <label class="txt" for="email">Email</label>
-    <input id="email" name="email" type="text" placeholder="Email" required autocomplete="email">
-</div>
-<div class="group-form">
-    <label class="txt" for="password">Mật khẩu</label>
-    <input id="password" class="re-input" name="password" type="password" placeholder="Mật khẩu" required autocomplete="current-password">
-</div>
-
+                            <div class="group-form">
+                                <label class="txt" for="email">Email</label>
+                                <input id="email" name="email" type="text" placeholder="Email" required autocomplete="email">
+                            </div>
+                            <div class="group-form">
+                                <label class="txt" for="password">Mật khẩu</label>
+                                <input id="password" class="re-input" name="password" type="password" placeholder="Mật khẩu" required autocomplete="current-password">
+                            </div>
                             <div class="group-sup">
                                 <a class="txt forgot-password" href="{{ route( 'forgot-pass') }}">Quên mật khẩu</a>
                                 <a class="txt sign-up" href="{{ route('register') }}">Bạn là thành viên mới? Đăng ký tại đây</a>
@@ -172,6 +258,32 @@
     </div>
 </main>
 <script src="http://127.0.0.1:8000/assets/js/scriptabout.js"></script>
+@if(session('warning'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const warningPopup = document.querySelector('.warning-popup');
+            if (warningPopup) {
+                warningPopup.classList.add('show');
+                setTimeout(function() {
+                    warningPopup.classList.remove('show');
+                }, 2000);  
+            }
+        });
+    </script>
+@endif
+@if(session('success'))
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const warningPopup = document.querySelector('.warning-success');
+            if (warningPopup) {
+                warningPopup.classList.add('show');
+                setTimeout(function() {
+                    warningPopup.classList.remove('show');
+                }, 2000);  
+            }
+        });
+    </script>
+@endif
 @include('footer')
 </body>
 </html>

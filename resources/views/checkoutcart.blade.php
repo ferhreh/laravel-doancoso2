@@ -226,10 +226,6 @@ h4 {
                     <label>Chọn phương thức thanh toán:</label><br>
                     <input type="radio" id="cash_on_delivery" name="payment_method" value="cash_on_delivery" checked>
                     <label for="cash_on_delivery">Trả tiền mặt khi nhận hàng</label><br>
-
-                    <input type="radio" id="bank_transfer" name="payment_method" value="bank_transfer">
-                    <label for="bank_transfer">Chuyển khoản ngân hàng</label><br>
-
                     <input type="radio" id="qr_transfer" name="payment_method" value="qr_transfer">
                     <label for="qr_transfer">Chuyển khoản ngân hàng (Quét mã QR)</label>
                 </div>

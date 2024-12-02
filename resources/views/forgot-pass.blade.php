@@ -34,6 +34,123 @@
         align-items: center;
         text-align: center;
     }
+    /* CSS cơ bản */
+.forgot-password {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+.inner {
+    max-width: 400px;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.forgot-form {
+    text-align: center;
+}
+
+.forgot-hd .tt-sec {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.box-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.group-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.group-form .txt {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.group-form input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.group-form input:focus {
+    border-color: #9c8679;
+}
+
+.btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #9c8679;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+.btn-pri .txt {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .inner {
+        padding: 15px;
+    }
+
+    .forgot-hd .tt-sec {
+        font-size: 1.3rem;
+    }
+
+    .group-form input {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .forgot-password {
+        padding: 10px;
+    }
+
+    .forgot-hd .tt-sec {
+        font-size: 1.2rem;
+    }
+
+    .btn {
+        padding: 7px 10px;
+        font-size: 0.8rem;
+    }
+}
+
 </style>
 <body>
 @include('header')
@@ -58,7 +175,7 @@
                     <div class="box-form">
                         <div class="group-form">
                             <label class="txt" for="register_email">Nhập Email</label>
-                            <input type="email" id="register_email" name="register_email" placeholder="Email" required autocomplete="email">
+                            <input type="email" id="register_email" name="register_email" placeholder="Email" required>
                         </div>
                         <button class="btn btn-pri" type="submit"><span class="txt">Gửi</span></button>
                     </div>
