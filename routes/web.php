@@ -102,6 +102,8 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::delete('/admin/khach-hang/{id}', [AdminController::class, 'destroyNguoiDung'])->name('admin.destroy-khach-hang');
 
 });
+    //bao cao doanh thu
+    Route::get('/admin/revenue', [AdminController::class, 'getRevenueData'])->name('admin.revenue');
 // loc thuong hieu
 Route::get('/thuong-hieu/{letter?}', function ($letter = null) {
     if ($letter && $letter !== 'All') {

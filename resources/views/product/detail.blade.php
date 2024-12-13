@@ -45,13 +45,16 @@
     }
     .product-detail {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
     justify-content: center;
 }
 .product-image>img {
+    max-width: 100%;
     width: 300px;
     height: auto;
+    flex: 1 1 300px;
 }
 .product-info-sp {
     max-width: 400px;
@@ -65,6 +68,9 @@
     overflow: hidden;
     transition: 0.4s ease-out;
 }
+.product-detail-info {
+        flex: 1 1 400px;
+    }
 .product-details{
     padding: 10px;
     width: 20%;
@@ -362,6 +368,7 @@
     font-size: 14px;
 }
 .similar-products {
+    padding: 0 20px;
     margin-top: 2rem;
     overflow: hidden; /* Prevents scrollbars from showing */
     position: relative;
@@ -373,13 +380,13 @@
 .similar-products .product-list {
     display: flex;
     overflow-x: auto;
-    scroll-behavior: smooth; /* Smooth scrolling effect */
+    scroll-behavior: smooth; 
     gap: 1rem;
     padding: 1rem 0;
 }
 
 .similar-products .product-card {
-    flex: 0 0 calc(18% - 1rem); /* 20% width for 5 products per row */
+    flex: 0 0 calc(18% - 1rem); 
     border: 1px solid #ddd;
     padding: 1rem;
     text-align: center;
@@ -409,6 +416,7 @@
 .similar-products .product-card .price {
     color: #9c8679;
     font-weight: bold;
+    text-align: center;
 }
 
 .similar-products .product-card a {
@@ -425,7 +433,11 @@
         height: auto; /* Cho phép chiều cao tự động thay đổi */
     }
 }
-
+@media (max-width: 1024px) {
+    .product-details{
+        width: 80%;
+    }
+}
 @media (max-width: 768px) {
     .tabs {
         flex-direction: column; /* Đặt các tab thành cột */
@@ -464,7 +476,7 @@
     .similar-products .product-card {
         flex: 0 0 calc(40% - 1rem); /* Show 2 products per row on smaller screens */
     }
-
+    
 }
 
 @media (max-width: 480px) {
@@ -509,6 +521,86 @@
     margin-top: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
+}
+/* thay doi 12/12 */
+@media (max-width: 768px) {
+        h1 {
+            font-size: 24px;
+        }
+        p {
+            font-size: 16px;
+        }
+        .nav-bread {
+            padding: 8px;
+        }
+        .bread-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 20px;
+            text-align: center;
+        }
+        p {
+            font-size: 14px;
+            text-align: justify;
+        }
+        .nav-bread {
+            padding: 5px;
+        }
+        .bread-content {
+            text-align: center;
+        }
+        .product-detail-info h2 {
+            font-size: 20px;
+        }
+        .product-detail-info .price {
+            font-size: 18px;
+        }
+        .product-detail-info .description {
+            font-size: 14px;
+        }
+    }
+    @media screen and (max-width: 1025px) {
+    .similar-products .product-card {
+        flex: 0 0 calc(21% - 1rem); 
+    }
+    .similar-products{
+        padding: 0 100px;
+    }
+    .similar-products .product-card img {
+        width: 100%;
+    }
+}
+
+/* Dưới 800px: Hiển thị 3 sản phẩm */
+@media screen and (max-width: 800px) {
+    .similar-products .product-card {
+        flex: 0 0 calc(29% - 1rem); 
+    }
+    .similar-products{
+        padding: 0 20px;
+    }
+}
+
+/* Dưới 540px: Hiển thị 2 sản phẩm */
+@media screen and (max-width: 540px) {
+    .similar-products .product-card {
+        flex: 0 0 calc(42% - 1rem); 
+    }
+    .similar-products{
+        padding: 0 20px;
+    }
+    .similar-products .product-card .price {
+    font-size: 16px;
+    }
+    .product-list{
+        height: 18rem;
+    }
 }
 </style>
 <body>
@@ -569,12 +661,14 @@
                     <input type="hidden" name="selectedVolume" id="selectedVolume" value="{{ $nuocHoa->dungTich }}">
                     <input type="hidden" name="selectedPrice" id="selectedPrice" value="{{ $nuocHoa->giaTienLon }}">
                     <input type="hidden" name="quantity" id="hidden-quantity-cart" value="1"> <!-- Số lượng sẽ được cập nhật ở đây -->
+                    <input type="hidden" id="hidden-quantity-small-cart" name="soLuongDungTichNho" value="0">
                     <button class="add-to-cart">THÊM VÀO GIỎ HÀNG</button>
                 </form>
                 <form action="{{ route('checkout.show', ['id' => $nuocHoa->id]) }}" method="POST">
                     @csrf
                     <input type="hidden" id="hidden-quantity-checkout" name="quantity" value="1">
                     <input type="hidden" name="selectedPrice" id="selectedPriceCheckout" value="{{ $nuocHoa->giaTienLon }}">
+                    <input type="hidden" id="hidden-quantity-small-checkout" name="soLuongDungTichNho" value="0"> 
                     <button type="submit"  class="buy-now">MUA NGAY</button>
                 </form>
             </div>
@@ -742,7 +836,7 @@
     </div>
 <script src="http://127.0.0.1:8000/assets/js/scriptabout.js"></script>
 @include('footer')
-<script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function () {
     const minusButton = document.querySelector('.minus');
     const plusButton = document.querySelector('.plus');
@@ -762,69 +856,7 @@
         }
     });
 });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const mainSizeBtn = document.getElementById('mainSizeBtn');
-        const smallSizeBtn = document.getElementById('smallSizeBtn');
-        const priceElement = document.getElementById('price');
-        const selectedVolumeInput = document.getElementById('selectedVolume');
-        const selectedPriceInput = document.getElementById('selectedPrice');
-        const selectedPriceInputCheckout = document.getElementById('selectedPriceCheckout');
-
-
-        const mainPrice = "{{ $nuocHoa->giaTienLon }}";
-        const smallPrice = "{{ $nuocHoa->giaTienNho }}";
-        const mainVolume = "{{ $nuocHoa->dungTich }}";
-        const smallVolume = "{{ $nuocHoa->dungTichNho }}";
-
-        // Set default to main size
-        mainSizeBtn.style.border = '0.2rem solid red';
-
-        mainSizeBtn.addEventListener('click', () => {
-            mainSizeBtn.style.border = '0.2rem solid red';
-            if (smallSizeBtn) smallSizeBtn.style.border = 'none';
-            priceElement.textContent = parseInt(mainPrice).toLocaleString() + ' ₫';
-            selectedVolumeInput.value = mainVolume;
-            selectedPriceInput.value = mainPrice;
-            selectedPriceInputCheckout.value = mainPrice;
-        });
-
-        if (smallSizeBtn) {
-            smallSizeBtn.addEventListener('click', () => {
-                smallSizeBtn.style.border = '0.2rem solid red';
-                mainSizeBtn.style.border = 'none';
-                priceElement.textContent = parseInt(smallPrice).toLocaleString() + ' ₫';
-                selectedVolumeInput.value = smallVolume;
-                selectedPriceInput.value = smallPrice;
-                selectedPriceInputCheckout.value = smallPrice;
-                
-            });
-        }
-    });
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const soluong = document.getElementById('so-luong');
-    const hiddenQuantityCart = document.getElementById('hidden-quantity-cart');
-    const hiddenQuantityCheckout = document.getElementById('hidden-quantity-checkout');
-
-    document.querySelector('.minus').addEventListener('click', () => {
-        if (parseInt(soluong.value) >= 1) {
-            soluong.value = parseInt(soluong.value) ;
-            hiddenQuantityCart.value = soluong.value; // Update cart form's hidden field
-            hiddenQuantityCheckout.value = soluong.value; // Update checkout form's hidden field
-        }
-    });
-
-    document.querySelector('.plus').addEventListener('click', () => {
-        soluong.value = parseInt(soluong.value) ;
-        hiddenQuantityCart.value = soluong.value; // Update cart form's hidden field
-        hiddenQuantityCheckout.value = soluong.value; // Update checkout form's hidden field
-    });
-});
-
-</script>
+</script> -->
 <script>
     document.querySelectorAll('.tab-item').forEach(tab => {
     tab.addEventListener('click', function () {
@@ -906,4 +938,93 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 </script>
 </body>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const mainSizeBtn = document.getElementById('mainSizeBtn');
+    const smallSizeBtn = document.getElementById('smallSizeBtn');
+    const priceElement = document.getElementById('price');
+    const selectedVolumeInput = document.getElementById('selectedVolume');
+    const selectedPriceInput = document.getElementById('selectedPrice');
+    const selectedPriceInputCheckout = document.getElementById('selectedPriceCheckout');
+    const hiddenQuantityCart = document.getElementById('hidden-quantity-cart');
+    const hiddenQuantityCheckout = document.getElementById('hidden-quantity-checkout');
+    const hiddenQuantityCheckoutSmall = document.getElementById('hidden-quantity-small-checkout');
+    const hiddenQuantityCartSmall = document.getElementById('hidden-quantity-small-cart');
+    const soluong = document.getElementById('so-luong');
+
+    const mainPrice = "{{ $nuocHoa->giaTienLon }}";
+    const smallPrice = "{{ $nuocHoa->giaTienNho }}";
+    const mainVolume = "{{ $nuocHoa->dungTich }}";
+    const smallVolume = "{{ $nuocHoa->dungTichNho }}";
+
+    // Hàm cập nhật giá trị số lượng
+    function updateQuantity() {
+        const quantity = parseInt(soluong.value) || 1; // Nếu giá trị không hợp lệ, mặc định là 1
+        hiddenQuantityCart.value = quantity;
+        hiddenQuantityCheckout.value = quantity;
+
+        if (smallSizeBtn && smallSizeBtn.style.border === '0.2rem solid red') {
+            hiddenQuantityCheckoutSmall.value = quantity; // Đồng bộ số lượng cho dung tích nhỏ
+            hiddenQuantityCartSmall.value = quantity; // Đồng bộ số lượng cho dung tích nhỏ
+        } else {
+            hiddenQuantityCheckoutSmall.value = 0; // Giá trị là 0 nếu chọn dung tích lớn
+            hiddenQuantityCartSmall.value = 0; // Giá trị là 0 nếu chọn dung tích lớn
+        }
+
+        console.log("hiddenQuantityCart:", hiddenQuantityCart.value);
+        console.log("hiddenQuantityCheckout:", hiddenQuantityCheckout.value);
+        console.log("hiddenQuantityCheckoutSmall:", hiddenQuantityCheckoutSmall.value);
+        console.log("hiddenQuantityCartSmall:", hiddenQuantityCartSmall.value);
+    }
+
+    // Mặc định chọn dung tích lớn
+    mainSizeBtn.style.border = '0.2rem solid red';
+    hiddenQuantityCheckoutSmall.value = 0;
+
+    // Sự kiện click cho nút dung tích lớn
+    mainSizeBtn.addEventListener('click', () => {
+        mainSizeBtn.style.border = '0.2rem solid red';
+        if (smallSizeBtn) smallSizeBtn.style.border = 'none';
+        priceElement.textContent = parseInt(mainPrice).toLocaleString() + ' ₫';
+        selectedVolumeInput.value = mainVolume;
+        selectedPriceInput.value = mainPrice;
+        selectedPriceInputCheckout.value = mainPrice;
+        hiddenQuantityCheckoutSmall.value = 0;
+        hiddenQuantityCartSmall.value = 0;
+        updateQuantity(); // Cập nhật số lượng
+    });
+
+    // Sự kiện click cho nút dung tích nhỏ
+    if (smallSizeBtn) {
+        smallSizeBtn.addEventListener('click', () => {
+            smallSizeBtn.style.border = '0.2rem solid red';
+            mainSizeBtn.style.border = 'none';
+            priceElement.textContent = parseInt(smallPrice).toLocaleString() + ' ₫';
+            selectedVolumeInput.value = smallVolume;
+            selectedPriceInput.value = smallPrice;
+            selectedPriceInputCheckout.value = smallPrice;
+            hiddenQuantityCheckoutSmall.value = parseInt(soluong.value) || 1;
+            hiddenQuantityCartSmall.value = parseInt(soluong.value) || 1;
+            updateQuantity(); // Cập nhật số lượng
+        });
+    }
+
+    // Sự kiện cho nút giảm số lượng
+    document.querySelector('.minus').addEventListener('click', () => {
+        let currentValue = parseInt(soluong.value) || 1;
+        if (currentValue > 1) {
+            soluong.value = currentValue-1; // Giảm số lượng
+            updateQuantity(); // Cập nhật số lượng
+        }
+    });
+
+    // Sự kiện cho nút tăng số lượng
+    document.querySelector('.plus').addEventListener('click', () => {
+        let currentValue = parseInt(soluong.value) || 1;
+        soluong.value = currentValue+1; // Tăng số lượng
+        updateQuantity(); // Cập nhật số lượng
+    });
+
+});
+</script>
 </html>

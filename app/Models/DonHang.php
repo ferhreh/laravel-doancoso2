@@ -21,6 +21,7 @@ class DonHang extends Model
         'ngayDatHang',
         'tongTien',
         'soLuong',
+        'soLuongDungTichNho',
         'trangThai',
         'ghiChu',
         'image',

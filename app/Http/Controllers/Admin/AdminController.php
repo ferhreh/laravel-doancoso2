@@ -7,6 +7,7 @@ use App\Models\DonHang;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -26,7 +27,34 @@ class AdminController extends Controller
         return view('admin.phan-mem-ban-hang');
     }
     public function showBaoCao() {
-        return view('admin.quan-ly-bao-cao');
+        $hotProducts = DB::table('don_hang')
+            ->join('nuoc_hoa', 'don_hang.order_id', '=', 'nuoc_hoa.id') // Kết hợp với bảng nuoc_hoa
+            ->select(
+                'don_hang.tenDonHang',
+                DB::raw('SUM(don_hang.soLuong) as total_quantity'),
+                'don_hang.image',
+                'don_hang.order_id',
+                'don_hang.thuongHieu',
+                'don_hang.tongTien',
+                'don_hang.soLuong',
+                'nuoc_hoa.giaTienLon', // Lấy giá tiền lớn từ bảng nuoc_hoa
+                'nuoc_hoa.tinh_trang' // Lấy tình trạng từ bảng nuoc_hoa
+            )
+            ->groupBy(
+                'don_hang.tenDonHang',
+                'don_hang.image',
+                'don_hang.order_id',
+                'don_hang.thuongHieu',
+                'don_hang.tongTien',
+                'don_hang.soLuong',
+                'nuoc_hoa.giaTienLon',
+                'nuoc_hoa.tinh_trang'
+            )
+            ->orderBy('total_quantity', 'desc')
+            ->limit(7)
+            ->get();
+    
+        return view('admin.quan-ly-bao-cao', compact('hotProducts'));
     }
     public function showDataOder() {
         return view('admin.table-data-oder');
@@ -229,4 +257,37 @@ public function editDonHang($id)
 
         return redirect()->route('admin.table-data-oder')->with('success', 'Xóa đơn hàng thành công!');
     }
+    public function getRevenueData(Request $request) {
+        $filter = $request->get('filter', 'day'); // Bộ lọc theo 'day', 'month', hoặc 'year'
+    
+        $query = DB::table('don_hang')
+            ->join('nuoc_hoa', 'don_hang.order_id', '=', 'nuoc_hoa.id') // Kết nối bảng
+            ->selectRaw("
+                CASE 
+                    WHEN ? = 'day' THEN DATE(don_hang.ngayDatHang)
+                    WHEN ? = 'month' THEN DATE_FORMAT(don_hang.ngayDatHang, '%Y-%m')
+                    ELSE YEAR(don_hang.ngayDatHang)
+                END AS time_group,
+                SUM(don_hang.tongTien) AS total_revenue,
+                SUM(
+                    CASE 
+                        WHEN don_hang.soLuongDungTichNho = 0 THEN don_hang.soLuong * nuoc_hoa.giaVon
+                        ELSE don_hang.soLuong * nuoc_hoa.giaVonNho
+                    END
+                ) AS total_cost, -- Tính tổng chi phí
+                SUM(
+                    don_hang.tongTien - 
+                    CASE 
+                        WHEN don_hang.soLuongDungTichNho = 0 THEN don_hang.soLuong * nuoc_hoa.giaVon
+                        ELSE don_hang.soLuong * nuoc_hoa.giaVonNho
+                    END
+                ) AS total_profit -- Tính lợi nhuận
+            ", [$filter, $filter])
+            ->groupBy('time_group') // Nhóm theo thời gian
+            ->orderBy('time_group', 'ASC') // Sắp xếp theo thời gian
+            ->get();
+    
+        return response()->json($query);
+    }
+    
 }

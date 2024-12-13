@@ -19,6 +19,7 @@ class CreateCartItemsTable extends Migration
             $table->string('name', 255);
             $table->bigInteger('product_id')->unsigned();
             $table->integer('quantity')->default(1);
+            $table->integer('soLuongDungTichNho')->default(0);
             $table->string('image', 255)->nullable();
             $table->decimal('giaTienLon', 15, 2)->nullable();
             $table->decimal('giaTienNho', 15, 2)->nullable();

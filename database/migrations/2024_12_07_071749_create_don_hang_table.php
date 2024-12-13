@@ -23,6 +23,7 @@ return new class extends Migration
             $table->dateTime('ngayDatHang'); // Ngày đặt hàng
             $table->decimal('tongTien', 15, 2); // Tổng tiền
             $table->integer('soLuong'); // Số lượng
+            $table->integer('soLuongDungTichNho'); // Số lượng
             $table->tinyInteger('trangThai')->default(1); // Trạng thái đơn hàng
             $table->boolean('is_reviewed')->default(1);
             $table->text('ghiChu')->nullable(); // Ghi chú

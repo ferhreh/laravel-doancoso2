@@ -189,21 +189,19 @@ h4 {
             <form action="{{ route('checkout.process', ['id' => $product->id]) }}" method="POST">
                 @csrf
                 <input type="hidden" name="so-luong" value="{{ $quantity }}">
+                <input type="hidden" name="so-luong-dung-tich-nho" value="{{ $soLuongDungTichNho }}">
                 <div class="form-group">
                     <label for="full_name">Họ và tên *</label>
                     <input type="text" class="form-control" id="full_name" name="full_name" required>
                 </div>
-
                 <div class="form-group">
                     <label for="address">Địa chỉ *</label>
                     <input type="text" class="form-control" id="address" name="address" required>
                 </div>
-
                 <div class="form-group">
                     <label for="phone">Số điện thoại *</label>
                     <input type="text" class="form-control" id="phone" name="phone" required>
                 </div>
-
                 <div class="form-group">
                     <label for="notes">Ghi chú đơn hàng (tùy chọn)</label>
                     <textarea class="form-control" id="notes" name="notes"></textarea>

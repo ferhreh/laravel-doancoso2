@@ -194,6 +194,7 @@ h4 {
             <form action="{{ route('checkout.processCart', ['id' => $product->id]) }}" method="POST">
                 @csrf
                 <input type="hidden" name="so-luong" value="{{ $totalQuantity }}">
+                <input type="hidden" name="so-luong-dung-tich-nho" value="{{ $totalSoLuongDungTichNho }}">
                 <div class="form-group">
                     <label for="full_name">Họ và tên *</label>
                     <input type="text" class="form-control" id="full_name" name="full_name" required>

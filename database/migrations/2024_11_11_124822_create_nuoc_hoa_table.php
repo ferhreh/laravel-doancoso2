@@ -1,9 +1,7 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
 class CreateNuocHoaTable extends Migration
 {
     public function up()
@@ -23,9 +21,9 @@ class CreateNuocHoaTable extends Migration
             $table->string('image', 255)->nullable();
             $table->tinyInteger('tinh_trang')->default(1);
             $table->integer('so_luong');
+            $table->decimal('giaVon', 15, 2)->nullable(); // Giá vốn
         });
     }
-
     public function down()
     {
         Schema::dropIfExists('nuoc_hoa');

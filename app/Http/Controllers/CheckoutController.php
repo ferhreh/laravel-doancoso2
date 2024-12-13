@@ -28,11 +28,12 @@ class CheckoutController extends Controller
     // Lấy số lượng và giá trị từ form POST
     $quantity = (int) $request->input('quantity', 1);
     $selectedPrice = (float) $request->input('selectedPrice', $product->giaTienLon);
+    $soLuongDungTichNho = $request->input('soLuongDungTichNho', 0);
 
     // Tính tổng giá
     $totalPrice = $selectedPrice * $quantity;
 
-        return view('checkout', compact('product', 'quantity', 'totalPrice', 'selectedPrice','hotProducts','brands'));
+        return view('checkout', compact('product', 'quantity', 'totalPrice', 'selectedPrice', 'soLuongDungTichNho','hotProducts','brands'));
     }
     
     public function showCartCheckout(Request $request){
@@ -45,13 +46,14 @@ class CheckoutController extends Controller
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
         $user = auth()->user(); 
         $cartItems = CartItem::where('cart_id', $user->cart->id)->get();
-        $product = $cartItems->first()->product; 
+        $product = $cartItems->first()->product;    
         $totalQuantity = $cartItems->sum('quantity');
+        $totalSoLuongDungTichNho = $cartItems->sum('soLuongDungTichNho');
         $totalPrice = $cartItems->sum(function ($item) {
             return $item->giaTienLon * $item->quantity;
         });
         
-        return view('checkoutcart', compact('cartItems', 'totalPrice', 'product','totalQuantity','hotProducts','brands'));
+        return view('checkoutcart', compact('cartItems', 'totalPrice', 'product','totalQuantity','totalSoLuongDungTichNho','hotProducts','brands'));
 }
 public function processCheckout(Request $request, $id)
 {
@@ -67,7 +69,7 @@ public function processCheckout(Request $request, $id)
     $quantity = $request->input('so-luong', 1);
     $totalPrice = $request->input('tong-tien');
     DB::table('don_hang')->insert([
-        'user_id' => Auth::id(), 
+        'user_id' => Auth::id(),
         'order_id' => $product->id,
         'maDonHang' => uniqid('DH'), // Tạo mã đơn hàng tự động
         'hinhThucMua' => $request->input('payment_method'),
@@ -76,6 +78,7 @@ public function processCheckout(Request $request, $id)
         'trangThai' => 1, // Trạng thái mặc định (1: Mới tạo)
         'ghiChu' => $request->input('notes'),
         'soLuong' => $quantity,
+        'soLuongDungTichNho'=>$request->input('so-luong-dung-tich-nho'),
         'tenKhachHang' => $request->input('full_name'),
         'thuongHieu'=>$product->thuongHieu,
         'tenDonHang' => $product->name, // Tên sản phẩm
@@ -148,6 +151,7 @@ public function processCartCheckout(Request $request, $id)
             'trangThai' => 1, // Trạng thái mặc định (1: Mới tạo)
             'ghiChu' => $request->input('notes'),
             'soLuong' => $quantity,
+            'soLuongDungTichNho'=>$request->input('so-luong-dung-tich-nho'),
             'tenKhachHang' => $request->input('full_name'),
             'thuongHieu'=>$product->thuongHieu,
             'tenDonHang' => $product->name, // Tên sản phẩm

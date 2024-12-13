@@ -19,7 +19,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 
 </head>
-
+<style>
+    #revenueChart {
+    width: 100%;
+    height: 300px;
+}
+</style>
 <body onload="time()" class="app sidebar-mini rtl">
   <!-- Navbar-->
   <header class="app-header">
@@ -95,7 +100,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>  
         <div class="row">
             <div class="col-md-6 col-lg-3">
                 <div class="widget-small primary coloured-icon"><i class='icon fa-3x bx bxs-chart' ></i>
@@ -127,40 +132,24 @@
                                     <th>Mã sản phẩm</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Giá tiền</th>
-                                    <th>Danh mục</th>
+                                    <th>Tình trạng</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($hotProducts as $product)
                                 <tr>
-                                    <td>71309005</td>
-                                    <td>Bàn ăn gỗ Theresa</td>
-                                    <td>5.600.000 đ</td>
-                                    <td>Bàn ăn</td>
+                                    <td>{{$product->order_id}}</td>
+                                    <td>{{ $product->tenDonHang }}</td>
+                                    <td>{{ number_format($product->giaTienLon, 0, ',', '.') }} ₫</td>
+                                    <td>
+                                        @if($product->tinh_trang == 1)
+                                            Còn hàng
+                                        @else
+                                            Hết hàng
+                                        @endif
+                                    </td>
                                 </tr>
-                                <tr>
-                                    <td>62304003</td>
-                                    <td>Bàn ăn Vitali mặt đá</td>
-                                    <td>33.235.000 đ</td>
-                                    <td>Bàn ăn</td>
-                                </tr>
-                                <tr>
-                                    <td>72109004</td>
-                                    <td>Ghế làm việc Zuno</td>
-                                    <td>3.800.000 đ</td>
-                                    <td>Ghế gỗ</td>
-                                </tr>
-                                <tr>
-                                    <td>83826226</td>
-                                    <td>Tủ ly - tủ bát</td>
-                                    <td>2.450.000 đ</td>
-                                    <td>Tủ</td>
-                                </tr>
-                                <tr>
-                                    <td>71304041</td>
-                                    <td>Bàn ăn mở rộng Vegas</td>
-                                    <td>21.550.000 đ</td>
-                                    <td>Bàn thông minh</td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -168,125 +157,27 @@
             </div>
         </div>
         <div class="row">
-                <div class="col-md-12">
-                    <div class="tile">
-                        <div>
-                            <h3 class="tile-title">TỔNG ĐƠN HÀNG</h3>
-                        </div>
-                        <div class="tile-body">
-                            <table class="table table-hover table-bordered" id="sampleTable">
-                                <thead>
-                                    <tr>
-                                            <th>ID đơn hàng</th>
-                                            <th>Khách hàng</th>
-                                            <th>Đơn hàng</th>
-                                            <th>Số lượng</th>
-                                            <th>Tổng tiền</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                            <td>MD0837</td>
-                                            <td>Triệu Thanh Phú</td>
-                                            <td>Ghế làm việc Zuno, Bàn ăn gỗ Theresa</td>
-                                            <td>2 sản phẩm</td>
-                                            <td>9.400.000 đ</td>
-                                    </tr>
-                                    <tr>
-                                            <td>MĐ8265</td>
-                                            <td>Nguyễn Thị Ngọc Cẩm</td>
-                                            <td>Ghế ăn gỗ Lucy màu trắng</td>
-                                            <td>1 sản phẩm</td>
-                                            <td>3.800.000 đ</td>   
-                                    </tr>
-                                    <tr>
-                                            <td>MT9835</td>
-                                            <td>Đặng Hoàng Phúc</td>
-                                            <td>Giường ngủ Jimmy, Bàn ăn mở rộng cao cấp Dolas, Ghế làm việc Zuno</td>
-                                            <td>3 sản phẩm</td>
-                                            <td>40.650.000 đ</td>
-                                    </tr>
-                                    <tr>
-                                            <td>ER3835</td>
-                                            <td>Nguyễn Thị Mỹ Yến</td>
-                                            <td>Bàn ăn mở rộng Gepa</td>
-                                            <td>1 sản phẩm</td>
-                                            <td>16.770.000 đ</td>
-                                    </tr>
-                                    <tr>
-                                            <td>AL3947</td>
-                                            <td>Phạm Thị Ngọc</td>
-                                            <td>Bàn ăn Vitali mặt đá, Ghế ăn gỗ Lucy màu trắng</td>
-                                            <td>2 sản phẩm</td>
-                                            <td>19.770.000 đ</td>
-                                    </tr>
-                                    <tr>
-                                            <td>QY8723</td>
-                                            <td>Ngô Thái An</td>
-                                            <td>Giường ngủ Kara 1.6x2m</td>
-                                            <td>1 sản phẩm</td>
-                                            <td>14.500.000 đ</td>
-                                    </tr>
-                                    <tr>
-                                       <th colspan="4">Tổng cộng:</th>
-                                        <td>104.890.000 đ</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <div class="row">
-                <div class="col-md-12">
-                    <div class="tile">
-                        <div>
-                            <h3 class="tile-title">SẢN PHẨM ĐÃ HẾT</h3>
-                        </div>
-                        <div class="tile-body">
-                            <table class="table table-hover table-bordered" id="sampleTable">
-                                <thead>
-                                    <tr>
-                                            <th>Mã sản phẩm</th>
-                                            <th>Tên sản phẩm</th>
-                                            <th>Ảnh</th>
-                                            <th>Số lượng</th>
-                                            <th>Tình trạng</th>
-                                            <th>Giá tiền</th>
-                                            <th>Danh mục</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                            <td>83826226</td>
-                                            <td>Tủ ly - tủ bát</td>
-                                            <td><img src="/img-sanpham/tu.jpg" alt="" width="100px;"></td>
-                                            <td>0</td>
-                                            <td><span class="badge bg-danger">Hết hàng</span></td>
-                                            <td>2.450.000 đ</td>
-                                            <td>Tủ</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="tile">
-                    <h3 class="tile-title">DỮ LIỆU HÀNG THÁNG</h3>
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <canvas class="embed-responsive-item" id="lineChartDemo"></canvas>
-                    </div>
+                    <div>
+                        <h3 class="tile-title">SẢN PHẨM ĐÃ HẾT</h3>
+                    </div> 
                 </div>
             </div>
-            <div class="col-md-6">
+        </div>
+        <div class="row">
+           <div class="col-md-6">
                 <div class="tile">
-                    <h3 class="tile-title">THỐNG KÊ DOANH SỐ</h3>
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <canvas class="embed-responsive-item" id="barChartDemo"></canvas>
+                    <h3 class="tile-title">TỔNG DOANH THU</h3>
+                    <div>
+                        <label for="filter">Xem doanh thu theo:</label>
+                        <select id="filter" class="form-control">
+                            <option value="day">Ngày</option>
+                            <option value="month">Tháng</option>
+                            <option value="year">Năm</option>
+                        </select>
                     </div>
+                    <canvas id="revenueChart" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
@@ -297,42 +188,10 @@
     <script src="http://127.0.0.1:8000/assets/js/bootstrap.min.js"></script>
     <script src="http://127.0.0.1:8000/assets/js/main.js"></script>
     <!-- The javascript plugin to display page loading on top-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="http://127.0.0.1:8000/assets/js/plugins/pace.min.js"></script>
     <!-- Page specific javascripts-->
-    <script type="text/javascript" src="http://127.0.0.1:8000/assets/js/plugins/chart.js"></script>
-    <script type="text/javascript">
-    var data = {
-      labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
-      datasets: [{
-          label: "Dữ liệu đầu tiên",
-          fillColor: "rgba(255, 255, 255, 0.158)",
-          strokeColor: "black",
-          pointColor: "rgb(220, 64, 59)",
-          pointStrokeColor: "#fff",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "green",
-          data: [20, 59, 90, 51, 56, 100, 40, 60, 78, 53, 33, 81]
-        },
-        {
-          label: "Dữ liệu kế tiếp",
-          fillColor: "rgba(255, 255, 255, 0.158)",
-          strokeColor: "rgb(220, 64, 59)",
-          pointColor: "black",
-          pointStrokeColor: "#fff",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "green",
-          data: [48, 48, 49, 39, 86, 10, 50, 70, 60, 70, 75, 90]
-        }
-      ]
-    };
 
-
-        var ctxl = $("#lineChartDemo").get(0).getContext("2d");
-        var lineChart = new Chart(ctxl).Line(data);
-
-        var ctxb = $("#barChartDemo").get(0).getContext("2d");
-        var barChart = new Chart(ctxb).Bar(data);
-    </script>
     <!-- Google analytics script-->
     <script type="text/javascript">
         if (document.location.hostname == 'pratikborsadiya.in') {
@@ -350,6 +209,131 @@
             ga('create', 'UA-72504830-1', 'auto');
             ga('send', 'pageview');
         }
+    </script>
+<script> 
+document.addEventListener("DOMContentLoaded", function () {
+    const ctx = document.getElementById("revenueChart").getContext("2d");
+    let chart;
+    // Hàm lấy dữ liệu từ API
+    async function fetchRevenueData(filter) {
+        const response = await fetch(`/admin/revenue?filter=${filter}`);
+        const data = await response.json();
+        return data;
+    }
+    // Hàm render biểu đồ
+    function renderChart(revenueData, costData, profitData, labels) {
+        if (chart) {
+            chart.destroy(); // Xóa biểu đồ cũ nếu có
+        }
+        chart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: labels, // Gán thời gian làm nhãn (trục x)
+                datasets: [
+                    {
+                        label: "Doanh thu (VNĐ)",
+                        data: revenueData, // Giá trị doanh thu
+                        backgroundColor: "rgba(75, 192, 192, 0.5)", // Màu nền
+                        borderColor: "rgba(75, 192, 192, 1)", // Màu viền
+                        borderWidth: 1,
+                    },
+                    {
+                        label: "Chi phí (VNĐ)",
+                        data: costData, // Giá trị chi phí
+                        backgroundColor: "rgba(255, 159, 64, 0.5)",
+                        borderColor: "rgba(255, 159, 64, 1)",
+                        borderWidth: 1,
+                    },
+                    {
+                        label: "Lợi nhuận (VNĐ)",
+                        data: profitData, // Giá trị lợi nhuận
+                        backgroundColor: "rgba(54, 162, 235, 0.5)",
+                        borderColor: "rgba(54, 162, 235, 1)",
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Thời gian",
+                        },
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: "VNĐ",
+                        },
+                    },
+                },
+            },
+        });
+    }
+
+    // Xử lý khi thay đổi bộ lọc
+    async function updateChart(filter) {
+        const revenueData = await fetchRevenueData(filter);
+        const labels = revenueData.map((item) => item.time_group);
+        const revenues = revenueData.map((item) => parseFloat(item.total_revenue)); // Doanh thu
+        const costs = revenueData.map((item) => parseFloat(item.total_cost)); // Chi phí
+        const profits = revenueData.map((item) => parseFloat(item.total_profit)); // Lợi nhuận
+        renderChart(revenues, costs, profits, labels);
+    }
+
+    document.getElementById("filter").addEventListener("change", function () {
+        const selectedFilter = this.value;
+        updateChart(selectedFilter);
+    });
+
+    updateChart("day"); // Hiển thị dữ liệu mặc định theo ngày
+});
+    
+</script>
+        <script type="text/javascript">
+      //Thời Gian
+      function time() {
+        var today = new Date();
+        var weekday = new Array(7);
+        weekday[0] = "Chủ Nhật";
+        weekday[1] = "Thứ Hai";
+        weekday[2] = "Thứ Ba";
+        weekday[3] = "Thứ Tư";
+        weekday[4] = "Thứ Năm";
+        weekday[5] = "Thứ Sáu";
+        weekday[6] = "Thứ Bảy";
+        var day = weekday[today.getDay()];
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        nowTime = h + " giờ " + m + " phút " + s + " giây";
+        if (dd < 10) {
+          dd = '0' + dd
+        }
+        if (mm < 10) {
+          mm = '0' + mm
+        }
+        today = day + ', ' + dd + '/' + mm + '/' + yyyy;
+        tmp = '<span class="date"> ' + today + ' - ' + nowTime +
+          '</span>';
+        document.getElementById("clock").innerHTML = tmp;
+        clocktime = setTimeout("time()", "1000", "Javascript");
+  
+        function checkTime(i) {
+          if (i < 10) {
+            i = "0" + i;
+          }
+          return i;
+        }
+      }
     </script>
 </body>
 

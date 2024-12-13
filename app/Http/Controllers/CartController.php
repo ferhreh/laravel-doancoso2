@@ -25,6 +25,7 @@ class CartController extends Controller
         $selectedPrice = $request->input('selectedPrice', $nuocHoa->giaTienLon); // Default to 'giaTienLon' if not selected
             // Lấy số lượng từ request, mặc định là 1 nếu không có
         $quantity = $request->input('quantity', 1);
+        $soLuongDungTichNho = $request->input('soLuongDungTichNho', 0);
         if (!$nuocHoa) {
             return redirect()->back()->with('error', 'Sản phẩm không tồn tại.');
         }
@@ -40,6 +41,7 @@ class CartController extends Controller
         if ($cartItem) {
             // Nếu sản phẩm đã có trong giỏ hàng, tăng số lượng
             $cartItem->quantity += $quantity;
+            // $cartItem->soLuongDungTichNho += $soLuongDungTichNho;
             // Cập nhật lại giá và dung tích nếu cần
             $cartItem->giaTienLon = $selectedPrice;
             $cartItem->dungTich = $selectedVolume;
@@ -52,6 +54,7 @@ class CartController extends Controller
                 'name' => $nuocHoa->name, // Lưu tên sản phẩm
                 'image' => $nuocHoa->image, // Lưu hình ảnh sản phẩm
                 'quantity' => $quantity,
+                'soLuongDungTichNho' => $soLuongDungTichNho,
                 'giaTienLon' => $selectedPrice, // Lưu giá tương ứng
                 'giaTienNho' => $nuocHoa->giaTienNho, // Lưu giá nhỏ nếu cần
                 'dungTich' => $selectedVolume, // Lưu dung tích đã chọn

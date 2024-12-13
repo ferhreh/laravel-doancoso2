@@ -279,6 +279,138 @@ input[type="checkbox"]:checked::after {
     font-weight: bold;
     color: #ccc;
 }
+@media (min-width: 1200px) {
+  .header-inner {
+    justify-content: space-between;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .header-inner {
+    flex-direction: column;
+  }
+}
+
+/* Mobile */
+#toggle-filter {
+    display: none;
+}
+@media (max-width: 768px) {
+    .filter-section {
+        display: none;
+        position: fixed;
+        left: -100%;
+        top: 0;
+        width: 70%;
+        height: 100%;
+        z-index: 10;
+        background: #fff;
+        overflow-y: auto;
+        padding: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: left 0.3s ease-in-out;
+    }
+
+    .filter-section.active {
+        display: block;
+        left: 0;
+    }
+    .close-button {
+        background: none;
+        border: none;
+        font-size: 24px;
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        cursor: pointer;
+    }
+
+    .product-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #toggle-filter {
+        display: block;
+        position: fixed;
+        top: 240px;
+        width: 1px;
+        height: 2px;
+        border: none;
+        background-color: #fff;
+        z-index: 1;
+        transition: transform 0.3s ease, left 0.3s ease;
+        cursor: pointer;
+    }
+    #toggle-filter.active {
+        left: 87%; /* Đặt cạnh `filter-section` */
+        transform: rotate(180deg);
+    }
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .overlay.active {
+        opacity: 1;
+        display: block;
+    }
+}
+@media (max-width: 1200px) {
+    .col-md-9 .product-item-link {
+        flex: 0 0 calc(32% - 1rem);
+    }
+    .product-item>h2 {
+    }
+    .product-item>p {
+        margin: 0;
+    }
+    .product-grid{
+        gap:25px;
+    }
+    .container-product {
+    padding:30px 10px;
+}
+}
+
+/* Adjust for screens smaller than 768px to display 2 products per row */
+@media (max-width: 768px) {
+    .col-md-9 .product-item-link {
+        flex: 0 0 calc(32% - 1rem);
+    }
+    .product-grid{
+        gap:25px;
+        display: flex;
+        justify-content: center;
+    }
+    .col-md-9 {
+        width: 100%;
+    }
+}
+
+/* Adjust for screens smaller than 576px to display 1 product per row */
+@media (max-width: 576px) {
+    .col-md-9 .product-item-link {
+        flex: 0 0 calc(50% - 1rem);
+    }
+}
+@media (max-width: 431px) {
+    #toggle-filter.active {
+        left: 94%; /* Đặt cạnh `filter-section` */
+    }
+}
+@media (max-width: 345px) {
+    #toggle-filter.active {
+        left: 97%; /* Đặt cạnh `filter-section` */
+    }
+}
 
 </style>
 <body>
@@ -296,7 +428,7 @@ input[type="checkbox"]:checked::after {
    <div class="container-product">  
     <form action="{{ route('perfumes') }}" method="GET">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3 filter-section" id="col-md-3">
                 <div class="filter-box">
                     <!-- Lọc theo thương hiệu -->
                     <h5>Tìm theo thương hiệu</h5>
@@ -343,20 +475,21 @@ input[type="checkbox"]:checked::after {
                         @endforeach
                     </ul>
                 </div>
-            <div class="price-filter">
-                <h3>THEO GIÁ</h3>
-                <div class="range-slider">
-                    <input type="range" class="slider-1" min="150000" max="81400000" value="{{ $minPrice }}" id="min-price-slider">
-                    <input type="range" class="slider-2" min="150000" max="81400000" value="{{ $maxPrice }}" id="max-price-slider">
-                </div>
-                <div class="price-labels">
-                    <span class="price-min" id="min-price-label">{{ number_format($minPrice) }} ₫</span>
-                    <span class="price-max" id="max-price-label">{{ number_format($maxPrice) }} ₫</span>
-                </div>
-                <input type="hidden" name="min_price" id="min-price" value="{{ $minPrice }}">
-                <input type="hidden" name="max_price" id="max-price" value="{{ $maxPrice }}">
-            </div>         
+                <div class="price-filter">
+                    <h3>THEO GIÁ</h3>
+                    <div class="range-slider">
+                        <input type="range" class="slider-1" min="150000" max="81400000" value="{{ $minPrice }}" id="min-price-slider">
+                        <input type="range" class="slider-2" min="150000" max="81400000" value="{{ $maxPrice }}" id="max-price-slider">
+                    </div>
+                    <div class="price-labels">
+                        <span class="price-min" id="min-price-label">{{ number_format($minPrice) }} ₫</span>
+                        <span class="price-max" id="max-price-label">{{ number_format($maxPrice) }} ₫</span>
+                    </div>
+                    <input type="hidden" name="min_price" id="min-price" value="{{ $minPrice }}">
+                    <input type="hidden" name="max_price" id="max-price" value="{{ $maxPrice }}">
+                </div>      
             </div>    
+            <button id="toggle-filter" class="toggle-filter" type="button"><img src="http://127.0.0.1:8000/assets/images/logo/arow.png" alt=""></button> 
             <!-- Hiển thị sản phẩm -->
             <div class="col-md-9">
                 <h3>SẢN PHẨM</h3>
@@ -472,6 +605,31 @@ document.addEventListener("DOMContentLoaded", function() {
     
     updatePriceLabels();
     updateSliderBackground();
+});
+</script>
+<!--  -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const filterToggleButton = document.getElementById("toggle-filter");
+    const filter = document.getElementById("col-md-3");
+    const overlay = document.createElement("div");
+
+    overlay.className = "overlay";
+    document.body.appendChild(overlay);
+
+    // Toggle hiển thị bộ lọc
+    filterToggleButton.addEventListener("click", function () {
+        filter.classList.toggle("active");
+        overlay.classList.toggle("active");
+        filterToggleButton.classList.toggle("active");
+    });
+
+    // Ẩn bộ lọc khi nhấn vào overlay
+    overlay.addEventListener("click", function () {
+        filter.classList.remove("active");
+        overlay.classList.remove("active");
+        filterToggleButton.classList.remove("active");
+    });
 });
 </script>
 @include('footer')
