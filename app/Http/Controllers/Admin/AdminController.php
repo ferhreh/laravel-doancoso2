@@ -7,13 +7,101 @@ use App\Models\DonHang;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
     public function showIndex() {
-        return view('admin.index');
+        $phongboSanPham = DB::table('nuoc_hoa')
+        ->select('gioiTinh', DB::raw('COUNT(*) as count'))
+        ->groupBy('gioiTinh')
+        ->get();
+        $reviews = DB::table('danh_gia')
+        ->join('users', 'danh_gia.user_id', '=', 'users.id')
+        ->join('nuoc_hoa', 'danh_gia.nuoc_hoa_id', '=', 'nuoc_hoa.id')
+        ->select(
+            'nuoc_hoa.name as product_name',
+            'users.name as user_name',
+            'danh_gia.rating',
+            'danh_gia.comment',
+            'danh_gia.created_at'
+        )
+        ->orderBy('danh_gia.created_at', 'desc')
+        ->get();
+        // Chuyển created_at thành Carbon
+        $reviews = $reviews->map(function ($review) {
+            $review->created_at = Carbon::parse($review->created_at);
+            return $review;
+        });
+        $tongKhachHang = DB::table('users')->count();
+        $tongSanPham = DB::table('nuoc_hoa')->count();
+        $tongDonHang = DB::table('don_hang')->count();
+        $sapHetHang = DB::table('nuoc_hoa')->where('so_luong', '<=', 10)->count(); // Sản phẩm có số lượng <= 10
+
+        return view('admin.index', compact('tongKhachHang', 'tongSanPham', 'tongDonHang', 'sapHetHang','reviews', 'phongboSanPham'));
     }
+    public function getChartData()
+{
+// Ngày hiện tại
+$now = Carbon::now();
+
+// Xác định khoảng thời gian 6 tháng gần nhất
+$startDate = $now->copy()->subMonths(5)->startOfMonth(); // Bắt đầu từ 6 tháng trước
+$endDate = $now->copy()->endOfMonth(); // Đến cuối tháng hiện tại
+
+// Dữ liệu đầu vào (sản phẩm được thêm mới)
+$inputData = DB::table('nuoc_hoa')
+    ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+    ->whereBetween('created_at', [$startDate, $endDate])
+    ->groupBy('month')
+    ->pluck('count', 'month')
+    ->toArray();
+
+// Doanh thu
+$revenueData = DB::table('don_hang')
+    ->selectRaw('MONTH(ngayDatHang) as month, SUM(tongTien) as revenue')
+    ->whereBetween('ngayDatHang', [$startDate, $endDate])
+    ->groupBy('month')
+    ->pluck('revenue', 'month')
+    ->toArray();
+    // Tên tháng tiếng Việt
+    $monthNames = [
+        1 => 'Tháng 1',
+        2 => 'Tháng 2',
+        3 => 'Tháng 3',
+        4 => 'Tháng 4',
+        5 => 'Tháng 5',
+        6 => 'Tháng 6',
+        7 => 'Tháng 7',
+        8 => 'Tháng 8',
+        9 => 'Tháng 9',
+        10 => 'Tháng 10',
+        11 => 'Tháng 11',
+        12 => 'Tháng 12',
+    ];
+// Chuẩn bị dữ liệu cho biểu đồ
+$labels = [];
+$inputCounts = [];
+$revenues = [];
+
+foreach (range(0, 5) as $i) {
+    $currentMonth = $now->copy()->subMonths($i)->month; 
+    $labels[] = $monthNames[$currentMonth]; // Lấy tên tháng tiếng Việt
+    $inputCounts[] = $inputData[$currentMonth] ?? 0; // Lấy số lượng sản phẩm đầu vào
+    $revenues[] = $revenueData[$currentMonth] ?? 0;  // Lấy doanh thu
+}
+
+// Đảo ngược thứ tự để hiển thị từ tháng cũ đến tháng mới
+$labels = array_reverse($labels);
+$inputCounts = array_reverse($inputCounts);
+$revenues = array_reverse($revenues);
+
+return response()->json([
+    'labels' => $labels,
+    'inputData' => $inputCounts,
+    'revenueData' => $revenues,
+]);
+}
     public function showAddDonHang() {
         return view('admin.form-add-don-hang');
     }
@@ -27,6 +115,10 @@ class AdminController extends Controller
         return view('admin.phan-mem-ban-hang');
     }
     public function showBaoCao() {
+        $tongDoanhThu = DB::table('don_hang')->sum('tongTien'); // Tính tổng toàn bộ cột 'tongTien'
+        $tongSanPham = DB::table('nuoc_hoa')->count();
+        $tongDonHang = DB::table('don_hang')->count();
+        $sapHetHang = DB::table('nuoc_hoa')->where('so_luong', '<=', 10)->count(); 
         $hotProducts = DB::table('don_hang')
             ->join('nuoc_hoa', 'don_hang.order_id', '=', 'nuoc_hoa.id') // Kết hợp với bảng nuoc_hoa
             ->select(
@@ -54,7 +146,7 @@ class AdminController extends Controller
             ->limit(7)
             ->get();
     
-        return view('admin.quan-ly-bao-cao', compact('hotProducts'));
+        return view('admin.quan-ly-bao-cao', compact('hotProducts','tongDoanhThu','tongSanPham','tongDonHang','sapHetHang'));
     }
     public function showDataOder() {
         return view('admin.table-data-oder');
@@ -71,6 +163,7 @@ class AdminController extends Controller
     $validatedData = $request->validate([
         'name' => 'required|string|max:255',
         'thuongHieu' => 'required|string|max:255',
+        'moTa' => 'required|string',
         'gioiTinh' => 'required|string|max:255',
         'nongDo' => 'required|string|max:255',
         'dungTich' => 'required|string|max:255',
@@ -79,12 +172,14 @@ class AdminController extends Controller
         'so_luong' => 'required|integer|min:0',
         'giaTienLon' => 'required|numeric|min:0',
         'giaTienNho' => 'required|numeric|min:0',
+        'giaVon'=> 'required|numeric|min:0',
+        'giaVonNho'=> 'required|numeric|min:0',
         'dungTichNho' => 'required|string|max:255',
-        'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
         'tinh_trang' => 'required|boolean',
     ]);
     $imageName = $request->file('image')->getClientOriginalName();
-    NuocHoa::create([
+    $nuocHoa = NuocHoa::create([
         'name' => $validatedData['name'],
         'thuongHieu' => $validatedData['thuongHieu'],
         'gioiTinh' => $validatedData['gioiTinh'],
@@ -95,9 +190,14 @@ class AdminController extends Controller
         'so_luong' => $validatedData['so_luong'],
         'giaTienLon' => $validatedData['giaTienLon'],
         'giaTienNho' => $validatedData['giaTienNho'],
+        'giaVon' => $validatedData['giaVon'],
+        'giaVonNho' => $validatedData['giaVonNho'],
         'dungTichNho' => $validatedData['dungTichNho'],
         'image' => $imageName, 
         'tinh_trang' => $validatedData['tinh_trang'],
+    ]);
+    $nuocHoa->moTa()->create([
+        'noi_dung' => $validatedData['moTa'],
     ]);
 
     return redirect()->route('admin.table-data-product')->with('success', 'Thêm sản phẩm thành công!');

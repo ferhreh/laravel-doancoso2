@@ -104,6 +104,8 @@ Route::prefix('admin')->middleware('admin')->group(function(){
 });
     //bao cao doanh thu
     Route::get('/admin/revenue', [AdminController::class, 'getRevenueData'])->name('admin.revenue');
+    Route::get('/chart-data', [AdminController::class, 'getChartData']);
+    Route::get('/product-distribution', [AdminController::class, 'showIndex']);
 // loc thuong hieu
 Route::get('/thuong-hieu/{letter?}', function ($letter = null) {
     if ($letter && $letter !== 'All') {

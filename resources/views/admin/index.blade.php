@@ -17,9 +17,57 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 </head>
-
+<style>
+        .review-card {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .review-card:last-child {
+            border: none;
+        }
+        .review-header {
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .stars {
+            color: orange;
+        }
+        .comment {
+            margin: 5px 0;
+        }
+        .mt-4 {
+          overflow-y: auto; /* Hiển thị thanh cuộn nếu vượt quá chiều cao */
+          border: 1px solid #ddd; /* Viền để nhìn rõ vùng đánh giá */
+          padding: 10px; /* Khoảng cách bên trong */
+          background-color: #fff; /* Màu nền */
+          border-radius: 8px; /* Bo góc */
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+          max-height: 450px; /* Giới hạn chiều cao tối đa */  
+        }
+        .review-item {
+            margin-bottom: 15px; /* Khoảng cách giữa các đánh giá */
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee; /* Đường ngăn cách giữa các đánh giá */
+        }
+        
+        .review-item:last-child {
+            border-bottom: none; /* Loại bỏ đường ngăn cách cuối cùng */
+        }
+        
+        .rating span {
+            font-size: 18px; /* Kích thước sao */
+            margin-right: 2px;
+        }
+        .col-md-6{
+          max-width: 10100%;
+        }
+        
+    </style>
 <body onload="time()" class="app sidebar-mini rtl">
   <!-- Navbar-->
   <header class="app-header">
@@ -47,8 +95,8 @@
     </div>
     <hr>
     <ul class="app-menu">
-      <li><a class="app-menu__item haha" href="phan-mem-ban-hang.html"><i class='app-menu__icon bx bx-cart-alt'></i>
-          <span class="app-menu__label">POS Bán Hàng</span></a></li>
+      <!-- <li><a class="app-menu__item haha" href="phan-mem-ban-hang.html"><i class='app-menu__icon bx bx-cart-alt'></i>
+          <span class="app-menu__label">POS Bán Hàng</span></a></li> -->
       <li><a class="app-menu__item active" href="{{route('admin.index')}}"><i class='app-menu__icon bx bx-tachometer'></i><span
             class="app-menu__label">Bảng điều khiển</span></a></li>
       <li><a class="app-menu__item" href="{{route('admin.quan-ly-khach-hang')}}"><i class='app-menu__icon bx bx-user-voice'></i><span
@@ -71,9 +119,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="app-title">
-          <ul class="app-breadcrumb breadcrumb">
-            <li class="breadcrumb-item"><a href="#"><b>Bảng điều khiển</b></a></li>
-          </ul>
+          <p>Bảng điều khiển</p>
           <div id="clock"></div>
         </div>
       </div>
@@ -87,7 +133,7 @@
         <div class="widget-small primary coloured-icon"><i class='icon bx bxs-user-account fa-3x'></i>
           <div class="info">
             <h4>Tổng khách hàng</h4>
-            <p><b>56 khách hàng</b></p>
+            <p><b>{{ $tongKhachHang }}</b></p>
             <p class="info-tong">Tổng số khách hàng được quản lý.</p>
           </div>
         </div>
@@ -97,7 +143,7 @@
             <div class="widget-small info coloured-icon"><i class='icon bx bxs-data fa-3x'></i>
               <div class="info">
                 <h4>Tổng sản phẩm</h4>
-                <p><b>1850 sản phẩm</b></p>
+                <p><b>{{ $tongSanPham }}</b></p>
                 <p class="info-tong">Tổng số sản phẩm được quản lý.</p>
               </div>
             </div>
@@ -107,7 +153,7 @@
             <div class="widget-small warning coloured-icon"><i class='icon bx bxs-shopping-bags fa-3x'></i>
               <div class="info">
                 <h4>Tổng đơn hàng</h4>
-                <p><b>247 đơn hàng</b></p>
+                <p><b>{{ $tongDonHang }}</b></p>
                 <p class="info-tong">Tổng số hóa đơn bán hàng trong tháng.</p>
               </div>
             </div>
@@ -117,7 +163,7 @@
             <div class="widget-small danger coloured-icon"><i class='icon bx bxs-error-alt fa-3x'></i>
               <div class="info">
                 <h4>Sắp hết hàng</h4>
-                <p><b>4 sản phẩm</b></p>
+                <p><b>{{ $sapHetHang }}</b></p>
                 <p class="info-tong">Số sản phẩm cảnh báo hết cần nhập thêm.</p>
               </div>
             </div>
@@ -125,101 +171,39 @@
            <!-- col-12 -->
            <div class="col-md-12">
             <div class="tile">
-                <h3 class="tile-title">Tình trạng đơn hàng</h3>
-              <div>
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th>ID đơn hàng</th>
-                      <th>Tên khách hàng</th>
-                      <th>Tổng tiền</th>
-                      <th>Trạng thái</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>AL3947</td>
-                      <td>Phạm Thị Ngọc</td>
-                      <td>
-                        19.770.000 đ
-                      </td>
-                      <td><span class="badge bg-info">Chờ xử lý</span></td>
-                    </tr>
-                    <tr>
-                      <td>ER3835</td>
-                      <td>Nguyễn Thị Mỹ Yến</td>
-                      <td>
-                        16.770.000 đ	
-                      </td>
-                      <td><span class="badge bg-warning">Đang vận chuyển</span></td>
-                    </tr>
-                    <tr>
-                      <td>MD0837</td>
-                      <td>Triệu Thanh Phú</td>
-                      <td>
-                        9.400.000 đ	
-                      </td>
-                      <td><span class="badge bg-success">Đã hoàn thành</span></td>
-                    </tr>
-                    <tr>
-                      <td>MT9835</td>
-                      <td>Đặng Hoàng Phúc	</td>
-                      <td>
-                        40.650.000 đ	
-                      </td>
-                      <td><span class="badge bg-danger">Đã hủy	</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <h3 class="tile-title">Đánh giá từ khách hàng</h3>
+              <div class="container mt-4">
+               <div class="reviews">
+                    @foreach ($reviews as $review)
+                   <div class="review-card">
+                       <div class="review-header">
+                           <span>{{ $review->product_name }}</span>
+                           <small>{{ $review->created_at->format('h:i A') }}</small>
+                       </div>
+                       <div>
+                           <small><strong>{{ $review->user_name }}</strong>: {{ $review->comment }}</small>
+                       </div>
+                       <div class="stars">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <span class="fa fa-star{{ $i <= $review->rating ? '' : '-o' }}"></span>
+                           @endfor
+                        </div>
+                   </div>
+                   @endforeach
+               </div>
+           </div>
               <!-- / div trống-->
             </div>
            </div>
             <!-- / col-12 -->
              <!-- col-12 -->
             <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="tile">
-                  <h3 class="tile-title">Khách hàng mới</h3>
-                <div>
-                  <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Tên khách hàng</th>
-                        <th>Ngày sinh</th>
-                        <th>Số điện thoại</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>#183</td>
-                        <td>Hột vịt muối</td>
-                        <td>21/7/1992</td>
-                        <td><span class="tag tag-success">0921387221</span></td>
-                      </tr>
-                      <tr>
-                        <td>#219</td>
-                        <td>Bánh tráng trộn</td>
-                        <td>30/4/1975</td>
-                        <td><span class="tag tag-warning">0912376352</span></td>
-                      </tr>
-                      <tr>
-                        <td>#627</td>
-                        <td>Cút rang bơ</td>
-                        <td>12/3/1999</td>
-                        <td><span class="tag tag-primary">01287326654</span></td>
-                      </tr>
-                      <tr>
-                        <td>#175</td>
-                        <td>Hủ tiếu nam vang</td>
-                        <td>4/12/20000</td>
-                        <td><span class="tag tag-danger">0912376763</span></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                    <h3 class="tile-title">Phân bố doanh mục sản phẩm</h3>
+                    <canvas id="productDistributionChart"></canvas>
                 </div>
-
-              </div>
+            </div>
             </div>
              <!-- / col-12 -->
         </div>
@@ -245,18 +229,7 @@
             </div>
           </div>
         </div>
-
       </div>
-      <!--END right-->
-    </div>
-
-
-    <div class="text-center" style="font-size: 13px">
-      <p><b>Copyright
-          <script type="text/javascript">
-            document.write(new Date().getFullYear());
-          </script> Phần mềm quản lý bán hàng | Dev By Trường
-        </b></p>
     </div>
   </main>
   <script src="http://127.0.0.1:8000/assets/js/jquery-3.2.1.min.js"></script>
@@ -272,37 +245,114 @@
   <!--===============================================================================================-->
   <script type="text/javascript" src="http://127.0.0.1:8000/assets/js/plugins/chart.js"></script>
   <!--===============================================================================================-->
-  <script type="text/javascript">
-    var data = {
-      labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6"],
-      datasets: [{
-        label: "Dữ liệu đầu tiên",
-        fillColor: "rgba(255, 213, 59, 0.767), 212, 59)",
-        strokeColor: "rgb(255, 212, 59)",
-        pointColor: "rgb(255, 212, 59)",
-        pointStrokeColor: "rgb(255, 212, 59)",
-        pointHighlightFill: "rgb(255, 212, 59)",
-        pointHighlightStroke: "rgb(255, 212, 59)",
-        data: [20, 59, 90, 51, 56, 100]
-      },
-      {
-        label: "Dữ liệu kế tiếp",
-        fillColor: "rgba(9, 109, 239, 0.651)  ",
-        pointColor: "rgb(9, 109, 239)",
-        strokeColor: "rgb(9, 109, 239)",
-        pointStrokeColor: "rgb(9, 109, 239)",
-        pointHighlightFill: "rgb(9, 109, 239)",
-        pointHighlightStroke: "rgb(9, 109, 239)",
-        data: [48, 48, 49, 39, 86, 10]
-      }
-      ]
-    };
-    var ctxl = $("#lineChartDemo").get(0).getContext("2d");
-    var lineChart = new Chart(ctxl).Line(data);
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Dữ liệu mẫu (dữ liệu này cần lấy từ Backend Laravel)
+    fetch('/chart-data')
+    .then(response => response.json())
+    .then(data => {
+        const labels = data.labels;
+        const inputData = data.inputData;
+        const revenueData = data.revenueData;
 
-    var ctxb = $("#barChartDemo").get(0).getContext("2d");
-    var barChart = new Chart(ctxb).Bar(data);
-  </script>
+        // Cập nhật biểu đồ Line (Dữ liệu đầu vào)
+        const ctx1 = document.getElementById("lineChartDemo").getContext("2d");
+        new Chart(ctx1, {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Số lượng đầu vào (sp)",
+                    data: inputData,
+                    borderColor: "rgba(75, 192, 192, 1)",
+                    backgroundColor: "rgba(75, 192, 192, 0.2)",
+                    tension: 0.4,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true, position: "top" },
+                },
+                scales: {
+                    x: { title: { display: true, text: "Tháng" } },
+                    y: { title: { display: true, text: "Số lượng sản phẩm" } }
+                }
+            }
+        });
+
+        // Cập nhật biểu đồ Bar (Doanh thu)
+        const ctx2 = document.getElementById("barChartDemo").getContext("2d");
+        new Chart(ctx2, {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Doanh thu (VND)",
+                    data: revenueData,
+                    backgroundColor: "rgba(54, 162, 235, 0.5)",
+                    borderColor: "rgba(54, 162, 235, 1)",
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true, position: "top" },
+                },
+                scales: {
+                    x: { title: { display: true, text: "Tháng" } },
+                    y: {
+                        title: { display: true, text: "Doanh thu (VND)" },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString("vi-VN");
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+<script>
+    // Lấy dữ liệu từ backend
+    const data = @json($phongboSanPham);
+    
+    // Chuẩn bị labels và dữ liệu cho biểu đồ
+    const labels = data.map(item => item.gioiTinh);
+    const counts = data.map(item => item.count);
+
+    // Vẽ biểu đồ
+    const ctx = document.getElementById('productDistributionChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie', // Dạng biểu đồ (pie = tròn)
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Số lượng sản phẩm',
+                data: counts,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'], // Màu sắc cho các mục
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return `${tooltipItem.label}: ${tooltipItem.raw}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
   <script type="text/javascript">
     //Thời Gian
     function time() {

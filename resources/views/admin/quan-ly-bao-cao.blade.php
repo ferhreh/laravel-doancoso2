@@ -52,8 +52,8 @@
     </div>
     <hr>
     <ul class="app-menu">
-      <li><a class="app-menu__item haha" href="phan-mem-ban-hang.html"><i class='app-menu__icon bx bx-cart-alt'></i>
-          <span class="app-menu__label">POS Bán Hàng</span></a></li>
+      <!-- <li><a class="app-menu__item haha" href="phan-mem-ban-hang.html"><i class='app-menu__icon bx bx-cart-alt'></i>
+          <span class="app-menu__label">POS Bán Hàng</span></a></li> -->
       <li><a class="app-menu__item active" href="{{route('admin.index')}}"><i class='app-menu__icon bx bx-tachometer'></i><span
             class="app-menu__label">Bảng điều khiển</span></a></li>
       <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
@@ -88,7 +88,7 @@
                 <div class="widget-small info coloured-icon"><i class='icon bx bxs-purchase-tag-alt fa-3x' ></i>
                     <div class="info">
                         <h4>Tổng sản phẩm</h4>
-                        <p><b>8580 sản phẩm</b></p>
+                        <p><b>{{ $tongSanPham }}</b></p>
                     </div>
                 </div>
             </div>
@@ -96,17 +96,15 @@
                 <div class="widget-small warning coloured-icon"><i class='icon fa-3x bx bxs-shopping-bag-alt'></i>
                     <div class="info">
                         <h4>Tổng đơn hàng</h4>
-                        <p><b>457 đơn hàng</b></p>
+                        <p><b>{{$tongDonHang}}</b></p>
                     </div>
                 </div>
             </div>
-        </div>  
-        <div class="row">
             <div class="col-md-6 col-lg-3">
                 <div class="widget-small primary coloured-icon"><i class='icon fa-3x bx bxs-chart' ></i>
                     <div class="info">
                         <h4>Tổng thu nhập</h4>
-                        <p><b>104.890.000 đ</b></p>
+                        <p><b>{{ number_format($tongDoanhThu) }} ₫</b></p>
                     </div>
                 </div>
             </div>
@@ -114,11 +112,11 @@
                 <div class="widget-small warning coloured-icon"><i class='icon fa-3x bx bxs-tag-x' ></i>
                     <div class="info">
                         <h4>Hết hàng</h4>
-                        <p><b>1 sản phẩm</b></p>
+                        <p><b>{{ $sapHetHang}}</b></p>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>  
         <div class="row">
             <div class="col-md-12">
                 <div class="tile">
@@ -131,6 +129,7 @@
                                 <tr>
                                     <th>Mã sản phẩm</th>
                                     <th>Tên sản phẩm</th>
+                                    <th>Hình ảnh</th>
                                     <th>Giá tiền</th>
                                     <th>Tình trạng</th>
                                 </tr>
@@ -140,6 +139,7 @@
                                 <tr>
                                     <td>{{$product->order_id}}</td>
                                     <td>{{ $product->tenDonHang }}</td>
+                                    <td><img width="100" src="http://127.0.0.1:8000/assets/images/anhnuochoa/all/{{$product->image}}" alt=""></td>
                                     <td>{{ number_format($product->giaTienLon, 0, ',', '.') }} ₫</td>
                                     <td>
                                         @if($product->tinh_trang == 1)

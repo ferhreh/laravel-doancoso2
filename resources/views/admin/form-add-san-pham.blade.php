@@ -171,8 +171,8 @@
     </div>
     <hr>
     <ul class="app-menu">
-      <li><a class="app-menu__item haha" href="phan-mem-ban-hang.html"><i class='app-menu__icon bx bx-cart-alt'></i>
-          <span class="app-menu__label">POS Bán Hàng</span></a></li>
+      <!-- <li><a class="app-menu__item haha" href="phan-mem-ban-hang.html"><i class='app-menu__icon bx bx-cart-alt'></i>
+          <span class="app-menu__label">POS Bán Hàng</span></a></li> -->
       <li><a class="app-menu__item active" href="{{route('admin.index')}}"><i class='app-menu__icon bx bx-tachometer'></i><span
             class="app-menu__label">Bảng điều khiển</span></a></li>
       <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
@@ -217,6 +217,10 @@
                     <input type="text" class="form-control" id="thuongHieu" name="thuongHieu" placeholder="Nhập thương hiệu" required>
                 </div>
                 <div class="form-group">
+                   <label for="moTa">Mô tả</label>
+                   <textarea class="form-control" id="moTa" name="moTa" rows="4" placeholder="Nhập mô tả sản phẩm" required></textarea>
+                </div>
+                <div class="form-group">
                     <label for="gioiTinh">Giới tính</label>
                     <select class="form-control" id="gioiTinh" name="gioiTinh" required>
                         <option value="Nam">Nam</option>
@@ -257,6 +261,14 @@
                     <input type="number" class="form-control" id="giaTienLon" name="giaTienLon" placeholder="Nhập giá tiền" required>
                 </div>
                 <div class="form-group">
+                    <label for="giaTienLon">Giá Vốn</label>
+                    <input type="number" class="form-control" id="giaTienLon" name="giaVon" placeholder="Nhập giá vốn" required>
+                </div>
+                <div class="form-group">
+                    <label for="giaTienLon">Giá Vốn nhỏ</label>
+                    <input type="number" class="form-control" id="giaTienLon" name="giaVonNho" placeholder="Nhập giá vốn nhỏ" required>
+                </div>
+                <div class="form-group">
                     <label for="image">Hình ảnh</label>
                     <input type="file" class="form-control" id="image" name="image" required>
                 </div>
@@ -279,5 +291,4 @@
   <script src="http://127.0.0.1:8000/assets/js/main.js"></script>
   <script src="http://127.0.0.1:8000/assets/js/plugins/pace.min.js"></script>
 </body>
-
 </html>

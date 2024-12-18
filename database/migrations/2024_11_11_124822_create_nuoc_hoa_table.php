@@ -22,6 +22,7 @@ class CreateNuocHoaTable extends Migration
             $table->tinyInteger('tinh_trang')->default(1);
             $table->integer('so_luong');
             $table->decimal('giaVon', 15, 2)->nullable(); // Giá vốn
+            $table->decimal('giaVonNho', 15, 2)->nullable(); // Giá vốn
         });
     }
     public function down()
