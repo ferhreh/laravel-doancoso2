@@ -19,7 +19,10 @@ class DanhGiaController extends Controller
         ->get();
         $donHang = DonHang::findOrFail($donHangId);
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-        return view('danhgia.form', compact('donHang','brands','hotProducts'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('danhgia.form', compact('donHang','brands','hotProducts','nongDoList','dungTichList','gioiTinhList'));
     }
 
     public function store(Request $request, $donHangId)
@@ -27,7 +30,7 @@ class DanhGiaController extends Controller
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'required|string|min:10',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'video' => 'nullable|mimetypes:video/avi,video/mpeg,video/quicktime,video/mp4|max:10000',
         ]);
 

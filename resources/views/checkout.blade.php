@@ -215,10 +215,10 @@ h4 {
 
                 <div class="payment-method">
                     <label>Chọn phương thức thanh toán:</label><br>
-                    <input type="radio" id="cash_on_delivery" name="payment_method" value="cash_on_delivery" checked>
+                    <input type="radio" id="cash_on_delivery" name="payment_method" value="Trả tiền mặt" checked>
                     <label for="cash_on_delivery">Trả tiền mặt khi nhận hàng</label><br>
 
-                    <input type="radio" id="qr_transfer" name="payment_method" value="qr_transfer">
+                    <input type="radio" id="qr_transfer" name="payment_method" value="Chuyển khoảng">
                     <label for="qr_transfer">Chuyển khoản ngân hàng (Quét mã QR)</label>
                 </div>
                 <input type="hidden" name="tong-tien" value="{{$totalPrice}}">

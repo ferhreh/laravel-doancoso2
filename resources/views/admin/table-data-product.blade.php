@@ -30,6 +30,33 @@ table th, table td {
     text-align: center;
     padding: 8px;
 }
+td{
+  height: 10%;
+  text-align: center; 
+  vertical-align: middle; 
+}
+img {
+  display: block; /* Loại bỏ khoảng trống dưới hình ảnh */
+  margin: 0 auto; /* Canh giữa hình ảnh theo chiều ngang */
+}
+.sell{
+  margin-left: 20px;
+}
+.sell button{
+  display: flex;
+  border: none;
+  width: 150px;
+  height: 30px;
+  border-radius: 5px;
+}
+.sell button> img{
+  position: absolute;
+  margin: 2px 0 0 5px
+}
+.sell button> a{
+  margin: 2px 0 0 30px;
+}
+
 
       </style>
 
@@ -43,15 +70,17 @@ table th, table td {
 
 
       <!-- User Menu-->
-      <li><a class="app-nav__item" href="{{route('admin.index')}}"><i class='bx bx-log-out bx-rotate-180'></i> </a>
-
-      </li>
+      <form action="{{ route('logout') }}" method="POST" class="form-logout">
+      @csrf
+      <button><li><a class="app-nav__item" href=""><i class='bx bx-log-out bx-rotate-180'></i> </a>
+      </li></button>
+      </form>
     </ul>
   </header>
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
   <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/images/hay.jpg" width="50px"
+    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" with="50" src="http://127.0.0.1:8000/assets/images/logo/download.jpg" width="50px"
         alt="User Image">
       <div>
         <p class="app-sidebar__user-name"><b>Admin</b></p>
@@ -62,11 +91,11 @@ table th, table td {
     <ul class="app-menu">
       <!-- <li><a class="app-menu__item haha" href="phan-mem-ban-hang.html"><i class='app-menu__icon bx bx-cart-alt'></i>
           <span class="app-menu__label">POS Bán Hàng</span></a></li> -->
-      <li><a class="app-menu__item active" href="{{route('admin.index')}}"><i class='app-menu__icon bx bx-tachometer'></i><span
+      <li><a class="app-menu__item " href="{{route('admin.index')}}"><i class='app-menu__icon bx bx-tachometer'></i><span
             class="app-menu__label">Bảng điều khiển</span></a></li>
       <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
             class="app-menu__label">Quản lý khách hàng</span></a></li>
-      <li><a class="app-menu__item" href="{{route('admin.table-data-product')}}"><i
+      <li><a class="app-menu__item active" href="{{route('admin.table-data-product')}}"><i
             class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
       </li>
       <li><a class="app-menu__item" href="{{route('admin.table-data-oder')}}"><i 
@@ -101,6 +130,9 @@ table th, table td {
                               <a class="btn btn-add btn-sm" href="{{route('admin.form-add-san-pham')}}" title="Thêm"><i class="fas fa-plus"></i>
                                 Tạo mới sản phẩm</a>
                             </div>
+                            <div class="sell">
+                              <button style="background-color: #17a2b8;" class="btn-sell"><img width="20px" src="http://127.0.0.1:8000/assets/images/logo/cart.png" alt=""><a href="{{route('admin.ban-hang')}}">Bán hàng</a></button>
+                            </div>
                         </div>
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
@@ -121,7 +153,7 @@ table th, table td {
                                     <td>{{ $product->id }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>
-                                        <img src=" http://127.0.0.1:8000/assets/images/anhnuochoa/all/{{$product->image}}" alt="{{ $product->name }}" style="width: 50px; height: 50px;">
+                                        <img src=" http://127.0.0.1:8000/assets/images/anhnuochoa/all/{{$product->image}}" alt="{{ $product->name }}" style="width: 80px; height: 80px;">
                                     </td>
                                     <td>{{ $product->so_luong }}</td>
                                      <td><span style="background-color: #00FF99; padding:5px ">{{ $product->tinh_trang ? 'Còn hàng' : 'Hết hàng' }}</span></td>

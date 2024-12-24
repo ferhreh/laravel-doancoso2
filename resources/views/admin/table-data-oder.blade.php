@@ -20,7 +20,23 @@
       
 
 </head>
-
+<style>
+  .filter-status{
+    display: flex;
+    width: 350px;
+    align-items: center;
+    left: 500px;
+    top: 180px;
+    z-index: 100;
+  }
+  .filter-status label{
+    width: 250px;
+    margin-top: 10px;
+  }
+  .filter-status #filter-status {
+    height: 35px;
+  }
+</style>
 <body onload="time()" class="app sidebar-mini rtl">
   <!-- Navbar-->
   <header class="app-header">
@@ -31,15 +47,17 @@
 
 
       <!-- User Menu-->
-      <li><a class="app-nav__item" href="{{route('admin.index')}}"><i class='bx bx-log-out bx-rotate-180'></i> </a>
-
-      </li>
+      <form action="{{ route('logout') }}" method="POST" class="form-logout">
+      @csrf
+      <button><li><a class="app-nav__item" href=""><i class='bx bx-log-out bx-rotate-180'></i> </a>
+      </li></button>
+      </form>
     </ul>
   </header>
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
   <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/images/hay.jpg" width="50px"
+    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="http://127.0.0.1:8000/assets/images/logo/download.jpg" width="50px"
         alt="User Image">
       <div>
         <p class="app-sidebar__user-name"><b>Admin</b></p>
@@ -50,14 +68,14 @@
     <ul class="app-menu">
       <!-- <li><a class="app-menu__item haha" href="phan-mem-ban-hang.html"><i class='app-menu__icon bx bx-cart-alt'></i>
           <span class="app-menu__label">POS Bán Hàng</span></a></li> -->
-      <li><a class="app-menu__item active" href="{{route('admin.index')}}"><i class='app-menu__icon bx bx-tachometer'></i><span
+      <li><a class="app-menu__item " href="{{route('admin.index')}}"><i class='app-menu__icon bx bx-tachometer'></i><span
             class="app-menu__label">Bảng điều khiển</span></a></li>
-      <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
+      <li><a class="app-menu__item " href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
             class="app-menu__label">Quản lý khách hàng</span></a></li>
       <li><a class="app-menu__item" href="{{route('admin.table-data-product')}}"><i
             class='app-menu__icon bx bx-purchase-tag-alt'></i><span class="app-menu__label">Quản lý sản phẩm</span></a>
       </li>
-      <li><a class="app-menu__item" href="{{route('admin.table-data-oder')}}"><i 
+      <li><a class="app-menu__item active" href="{{route('admin.table-data-oder')}}"><i 
             class='app-menu__icon bx bx-task'></i><span class="app-menu__label">Quản lý đơn hàng</span></a></li>
       <li><a class="app-menu__item" href="{{route('admin.quan-ly-bao-cao')}}"><i
             class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
@@ -81,7 +99,18 @@
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
-<table class="table table-striped" id="sampleTable">
+<form class="filter-status" method="GET" action="{{ route('admin.table-data-oder') }}">
+    <label for="filter-status">Lọc theo trạng thái: </label>
+    <select id="filter-status" name="status" class="form-control" onchange="this.form.submit()">
+        <option value="">Tất cả</option>
+        <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Đang xử lý</option>
+        <option value="2" {{ request('status') == '2' ? 'selected' : '' }}>Đã xác nhận</option>
+        <option value="3" {{ request('status') == '3' ? 'selected' : '' }}>Đã hủy</option>
+        <option value="4" {{ request('status') == '4' ? 'selected' : '' }}>Đang giao hàng</option>
+        <option value="5" {{ request('status') == '5' ? 'selected' : '' }}>Đã hoàn thành</option>
+    </select>
+</form>
+    <table class="table table-striped" id="sampleTable">
     <thead>
         <tr>
             <th>Mã đơn hàng</th>
@@ -126,7 +155,7 @@
             </tr>
         @endforeach
     </tbody>
-</table>
+    </table>
 </div>
     </main>
     <!-- Essential javascripts for application to work-->
@@ -185,7 +214,6 @@
         return i;
       }
     }
-
   </script>
 </body>
 

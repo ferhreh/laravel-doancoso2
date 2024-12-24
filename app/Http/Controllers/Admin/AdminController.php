@@ -102,6 +102,9 @@ return response()->json([
     'revenueData' => $revenues,
 ]);
 }
+public function banHang() {
+    return view('admin.banHang');
+}
     public function showAddDonHang() {
         return view('admin.form-add-don-hang');
     }
@@ -147,9 +150,6 @@ return response()->json([
             ->get();
     
         return view('admin.quan-ly-bao-cao', compact('hotProducts','tongDoanhThu','tongSanPham','tongDonHang','sapHetHang'));
-    }
-    public function showDataOder() {
-        return view('admin.table-data-oder');
     }
     public function showDataProduct() {
             // Lấy danh sách sản phẩm từ cơ sở dữ liệu
@@ -323,9 +323,13 @@ public function destroyNguoiDung($id)
     return redirect()->route('admin.quan-ly-khach-hang')->with('success', 'Xóa khách hàng thành công.');
 }
 // đơn hàng
-public function QuanLyDonHang()
+public function QuanLyDonHang(Request $request)
 {
-    $orders = DonHang::orderBy('ngayDatHang', 'desc')->get();
+    $status = $request->get('status');
+    
+    $orders = DonHang::when($status, function ($query) use ($status) {
+        return $query->where('trangThai', $status);
+    })->get();
     return view('admin.table-data-oder', compact('orders'));
 }
 public function editDonHang($id)

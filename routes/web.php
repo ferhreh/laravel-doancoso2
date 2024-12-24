@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BanHangController;
 use App\Http\Controllers\ChinhSachController;
 use App\Http\Controllers\DanhGiaController;
 use App\Models\NuocHoa;
@@ -19,7 +20,7 @@ use App\Models\NuocHoa;
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
-|
+|danhGia.showForm
 */
 
 Route::get('/', [PageController::class, 'form'])->name('form');
@@ -80,10 +81,15 @@ Route::get('/chinh-sach/thanh-Toan', [ChinhSachController::class, 'thanhToan'])-
 Route::get('/chinh-sach/bao-hanh', [ChinhSachController::class, 'baoHanh'])->name('baoHanh');
 // admin
 Route::prefix('admin')->middleware('admin')->group(function(){
-
+   //banhang
+   Route::get('/search-products', [BanHangController::class, 'search'])->name('products.search');
+   Route::post('/customers', [BanHangController::class, 'store']);
+   Route::get('customers/search', [BanHangController::class, 'search_kh']);
+   Route::post('/order/save', [BanHangController::class, 'saveOrder'])->name('order.save');
     Route::get('/index', [AdminController::class, 'showIndex'])->name('admin.index');
     Route::get('/don-hang', [AdminController::class, 'showAddDonHang'])->name('admin.form-add-don-hang');
     Route::get('/add-san-pham', [AdminController::class, 'showAddSanPham'])->name('admin.form-add-san-pham');
+    Route::post('/ban-hang', [AdminController::class, 'banHang'])->name('admin.ban-hang');
     Route::post('/add-san-pham', [AdminController::class, 'AddSanPham'])->name('admin.add-san-pham');
     Route::get('/edit-san-pham/{id}', [AdminController::class, 'editSanPham'])->name('admin.edit-san-pham');
     Route::post('/update-san-pham/{id}', [AdminController::class, 'updateSanPham'])->name('admin.update-san-pham');
@@ -100,7 +106,7 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/admin/khach-hang/{id}/edit', [AdminController::class, 'editNguoiDung'])->name('admin.edit-khach-hang');
     Route::put('/admin/khach-hang/{id}', [AdminController::class, 'updateNguoiDung'])->name('admin.update-khach-hang');
     Route::delete('/admin/khach-hang/{id}', [AdminController::class, 'destroyNguoiDung'])->name('admin.destroy-khach-hang');
-
+ 
 });
     //bao cao doanh thu
     Route::get('/admin/revenue', [AdminController::class, 'getRevenueData'])->name('admin.revenue');
@@ -120,6 +126,8 @@ Route::get('/thuong-hieu/{letter?}', function ($letter = null) {
 
 Route::get('don-hang/{id}/danh-gia', [DanhGiaController::class, 'showForm'])->name('danhGia.showForm');
 Route::post('don-hang/{id}/danh-gia', [DanhGiaController::class, 'store'])->name('danhGia.store');
-
-
+use App\Http\Controllers\EventController;
+Route::get('/events', [EventController::class, 'index']);
+Route::post('/events', [EventController::class, 'store']);
+Route::get('/events', [EventController::class, 'getEvents']);
 

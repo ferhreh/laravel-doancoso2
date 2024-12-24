@@ -17,7 +17,10 @@ class PageController extends Controller
         ->limit(7)
         ->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-        return view('form', compact('hotProducts','brands'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('form', compact('hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
     }
 
     public function about()
@@ -29,7 +32,10 @@ class PageController extends Controller
         ->limit(7)
         ->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-        return view('about', compact('hotProducts','brands'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('about', compact('hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
     }
 
     public function brands()
@@ -41,7 +47,10 @@ class PageController extends Controller
         ->limit(7)
         ->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-        return view('brands', compact('hotProducts','brands'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('brands', compact('hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
     }
 
     public function perfumes()
@@ -53,7 +62,10 @@ class PageController extends Controller
         ->limit(7)
         ->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-        return view('perfumes', compact('hotProducts','brands'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('perfumes', compact('hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
     }
     public function contact()
     {
@@ -64,6 +76,9 @@ class PageController extends Controller
         ->limit(7)
         ->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-        return view('contact', compact('hotProducts','brands'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('contact', compact('hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
     }
 }

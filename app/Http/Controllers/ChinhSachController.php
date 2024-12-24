@@ -16,7 +16,10 @@ class ChinhSachController extends Controller
         ->limit(7)
         ->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-        return view('chinhsach.kiemHang', compact('hotProducts','brands'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('chinhsach.kiemHang', compact('hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
     }
     public function baoMat()
     {
@@ -27,7 +30,10 @@ class ChinhSachController extends Controller
         ->limit(7)
         ->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-        return view('chinhsach.baoMat', compact('hotProducts','brands'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('chinhsach.baoMat', compact('hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
     }
     public function vanChuyen()
     {
@@ -38,7 +44,10 @@ class ChinhSachController extends Controller
         ->limit(7)
         ->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-        return view('chinhsach.vanChuyen', compact('hotProducts','brands'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('chinhsach.vanChuyen', compact('hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
     }
     public function khieuNai()
     {
@@ -49,7 +58,10 @@ class ChinhSachController extends Controller
         ->limit(7)
         ->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-        return view('chinhsach.khieuNai', compact('hotProducts','brands'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('chinhsach.khieuNai', compact('hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
     }
     public function thanhToan()
     {
@@ -60,7 +72,10 @@ class ChinhSachController extends Controller
         ->limit(7)
         ->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-        return view('chinhsach.thanhToan', compact('hotProducts','brands'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('chinhsach.thanhToan', compact('hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
     }
     public function baoHanh()
     {
@@ -71,6 +86,9 @@ class ChinhSachController extends Controller
         ->limit(7)
         ->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-        return view('chinhsach.baoHanh', compact('hotProducts','brands'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('chinhsach.baoHanh', compact('hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
     }
 }

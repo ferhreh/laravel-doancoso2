@@ -240,7 +240,7 @@ a {
 }
 .Nuochoa .menu-mega {
     width: 45rem;
-    height: 28rem;
+    height: 30rem;
     right: -11rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transition: 0.5s;
@@ -505,7 +505,9 @@ body.no-scroll {
             0.2
         ); /* Màu nền của track (đường trượt) */
     }
-
+    .nav-menu.active .ic-Toolbar .ic-cart {
+        display: none;
+    }
     .nav-menu::-webkit-scrollbar-thumb {
         background-color: white; /* Màu của thanh cuộn (thumb) */
         border-radius: 10px; /* Độ bo góc của thanh cuộn */
@@ -514,6 +516,7 @@ body.no-scroll {
     .nav-menu ul {
         display: block;
         padding: 0;
+        margin-top: -30px;
     }
     .nav-menu ul li {
         border-bottom: 1px solid #ccc;
@@ -2092,6 +2095,9 @@ body.no-scroll {
     }
 }
 @media (max-width: 768px) {
+    .nav-menu ul {
+        margin-top: -50px;
+    }
     .container {
         margin-top: 9rem;
         padding: 0 1rem;
@@ -2417,14 +2423,30 @@ body.no-scroll {
 }
 
 .btn-view-cart {
-    background-color: #e0e0e0;
-    color: #333;
+    background-color: #a07a6e;
+    color: #fff;
     margin-right: 5px;
     margin-left: 4rem;
+}
+.btn-view-cart-tt {
+    background-color: #a07a6e;
+    color: #fff;
+    margin-right: 5rem;
 }
 
 .btn-checkout {
     background-color: #a07a6e;
     color: #fff;
     margin-right: 4rem;
+}
+@media (max-width: 500px) {
+    .cart-modal {
+        width: 250px;
+    }
+    .btn-view-cart {
+        margin-left: 0;
+    }
+    .btn-view-cart-tt {
+        margin-right: 3rem;
+    }
 }

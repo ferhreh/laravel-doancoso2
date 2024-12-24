@@ -172,34 +172,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     });
-    //tintuc
-    const tintucMenu = document.querySelector(".tintuc");
-    const menuMega_tt = tintucMenu.querySelector(".menu-mega");
-    const toggleArrowL_tt = tintucMenu.querySelector(".toggle-arrow-L");
-
-    if (toggleArrowL_tt && menuMega_tt) {
-        tintucMenu.addEventListener("click", function (e) {
-            if (e.target === toggleArrowL_tt) {
-                e.stopPropagation();
-                menuMega_tt.classList.toggle("active");
-
-                if (menuMega_tt.classList.contains("active")) {
-                    toggleArrowL_tt.style.transform = "rotate(180deg)";
-                } else {
-                    toggleArrowL_tt.style.transform = "rotate(0deg)";
-                }
-            }
-        });
-
-        document.addEventListener("click", function (e) {
-            if (!tintucMenu.contains(e.target)) {
-                tintucMenu.classList.remove("active");
-                toggleArrowL_tt.classList.remove("active");
-                menuMega_tt.classList.remove("active");
-                toggleArrowL_tt.style.transform = "rotate(0deg)";
-            }
-        });
-    }
 });
 // thanh dieu huong
 // Select the back-to-top button
@@ -228,7 +200,7 @@ function closeCart() {
 
 function handleCartClick(event) {
     event.preventDefault(); // Ngăn chặn mặc định của thẻ <a>
-    if (window.innerWidth > 1000) {
+    if (window.innerWidth > 100) {
         openCart();
     } else {
         window.location.href = ""; // Điều hướng đến trang giỏ hàng

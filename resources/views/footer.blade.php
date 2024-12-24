@@ -24,8 +24,8 @@
                 </div>
                 <div class="footer-we">
                     <h3>VỀ CHÚNG TÔI</h3>
-                    <a href="">Trang Chủ</a>
-                    <a href="">Sản Phẩm</a>
+                    <a href="{{route('form')}}">Trang Chủ</a>
+                    <a href="{{route('perfumes')}}">Sản Phẩm</a>
                 </div>
                 <div class="footer-service">
                     <h3>DỊCH VỤ KHÁCH HÀNG</h3>

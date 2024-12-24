@@ -31,9 +31,11 @@
 
 
       <!-- User Menu-->
-      <li><a class="app-nav__item" href="{{route('admin.index')}}"><i class='bx bx-log-out bx-rotate-180'></i> </a>
-
-      </li>
+      <form action="{{ route('logout') }}" method="POST" class="form-logout">
+      @csrf
+      <button><li><a class="app-nav__item" href=""><i class='bx bx-log-out bx-rotate-180'></i> </a>
+      </li></button>
+      </form>
     </ul>
   </header>
   <style>
@@ -81,7 +83,7 @@
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
   <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/images/hay.jpg" width="50px"
+    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="http://127.0.0.1:8000/assets/images/logo/download.jpg" width="50px"
         alt="User Image">
       <div>
         <p class="app-sidebar__user-name"><b>Admin</b></p>

@@ -35,15 +35,17 @@
 
 
       <!-- User Menu-->
-      <li><a class="app-nav__item" href="{{route('admin.index')}}"><i class='bx bx-log-out bx-rotate-180'></i> </a>
-
-      </li>
+      <form action="{{ route('logout') }}" method="POST" class="form-logout">
+      @csrf
+      <button><li><a class="app-nav__item" href=""><i class='bx bx-log-out bx-rotate-180'></i> </a>
+      </li></button>
+      </form>
     </ul>
   </header>
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
   <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/images/hay.jpg" width="50px"
+    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="http://127.0.0.1:8000/assets/images/logo/download.jpg" width="50px"
         alt="User Image">
       <div>
         <p class="app-sidebar__user-name"><b>Admin</b></p>
@@ -54,7 +56,7 @@
     <ul class="app-menu">
       <!-- <li><a class="app-menu__item haha" href="phan-mem-ban-hang.html"><i class='app-menu__icon bx bx-cart-alt'></i>
           <span class="app-menu__label">POS Bán Hàng</span></a></li> -->
-      <li><a class="app-menu__item active" href="{{route('admin.index')}}"><i class='app-menu__icon bx bx-tachometer'></i><span
+      <li><a class="app-menu__item " href="{{route('admin.index')}}"><i class='app-menu__icon bx bx-tachometer'></i><span
             class="app-menu__label">Bảng điều khiển</span></a></li>
       <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
             class="app-menu__label">Quản lý khách hàng</span></a></li>
@@ -63,7 +65,7 @@
       </li>
       <li><a class="app-menu__item" href="{{route('admin.table-data-oder')}}"><i 
             class='app-menu__icon bx bx-task'></i><span class="app-menu__label">Quản lý đơn hàng</span></a></li>
-      <li><a class="app-menu__item" href="{{route('admin.quan-ly-bao-cao')}}"><i
+      <li><a class="app-menu__item active" href="{{route('admin.quan-ly-bao-cao')}}"><i
             class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
       </li>
       <li><a class="app-menu__item" href="{{route('admin.page-calendar')}}"><i class='app-menu__icon bx bx-calendar-check'></i><span
@@ -127,7 +129,7 @@
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
                                 <tr>
-                                    <th>Mã sản phẩm</th>
+                                    <th>MSP</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Hình ảnh</th>
                                     <th>Giá tiền</th>
@@ -276,13 +278,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Xử lý khi thay đổi bộ lọc
     async function updateChart(filter) {
-        const revenueData = await fetchRevenueData(filter);
-        const labels = revenueData.map((item) => item.time_group);
-        const revenues = revenueData.map((item) => parseFloat(item.total_revenue)); // Doanh thu
-        const costs = revenueData.map((item) => parseFloat(item.total_cost)); // Chi phí
-        const profits = revenueData.map((item) => parseFloat(item.total_profit)); // Lợi nhuận
-        renderChart(revenues, costs, profits, labels);
-    }
+    const revenueData = await fetchRevenueData(filter);
+
+    // Sắp xếp dữ liệu từ ngày mới nhất đến cũ nhất (giả sử dữ liệu đã có định dạng ngày)
+    const sortedData = revenueData.sort((a, b) => new Date(b.time_group) - new Date(a.time_group));
+
+    // Giới hạn dữ liệu chỉ tối đa 5 phần tử
+    const maxItems = 5; // Số lượng khung thời gian tối đa
+    const limitedData = sortedData.slice(0, maxItems); // Lấy 5 phần tử đầu tiên (mới nhất)
+
+    // Lấy dữ liệu cho biểu đồ
+    const labels = limitedData.map((item) => item.time_group); // Lấy nhãn
+    const revenues = limitedData.map((item) => parseFloat(item.total_revenue)); // Doanh thu
+    const costs = limitedData.map((item) => parseFloat(item.total_cost)); // Chi phí
+    const profits = limitedData.map((item) => parseFloat(item.total_profit)); // Lợi nhuận
+
+    renderChart(revenues, costs, profits, labels); // Render biểu đồ với dữ liệu đã giới hạn
+}
 
     document.getElementById("filter").addEventListener("change", function () {
         const selectedFilter = this.value;

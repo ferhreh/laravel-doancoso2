@@ -38,9 +38,12 @@ class WishlistController extends Controller
 
     public function index()
     {
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
         $wishlistItems = Wishlist::where('user_id', Auth::id())->get();
-        return view('wishlist', compact('wishlistItems','brands'));
+        return view('wishlist', compact('wishlistItems','brands','nongDoList','dungTichList','gioiTinhList'));
     }
 
     public function remove($productId)

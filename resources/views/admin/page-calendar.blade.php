@@ -17,7 +17,18 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+      <!-- Essential javascripts for application to work-->
+      <script src="http://127.0.0.1:8000/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="http://127.0.0.1:8000/assets/js/popper.min.js"></script>
+    <script src="http://127.0.0.1:8000/assets/js/bootstrap.min.js"></script>
+    <script src="http://127.0.0.1:8000/assets/js/main.js"></script>
+    <!-- The javascript plugin to display page loading on top-->
+    <script src="http://127.0.0.1:8000/assets/js/plugins/pace.min.js"></script>
+    <!-- Page specific javascripts-->
+    <script type="text/javascript" src="http://127.0.0.1:8000/assets/js/plugins/moment.min.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8000/assets/js/plugins/jquery-ui.custom.min.js"></script>
+    <script type="text/javascript" src="http://127.0.0.1:8000/assets/js/plugins/fullcalendar.min.js"></script>
 </head>
 
 <body onload="time()" class="app sidebar-mini rtl">
@@ -30,15 +41,17 @@
 
 
       <!-- User Menu-->
-      <li><a class="app-nav__item" href="{{route('admin.index')}}"><i class='bx bx-log-out bx-rotate-180'></i> </a>
-
-      </li>
+      <form action="{{ route('logout') }}" method="POST" class="form-logout">
+      @csrf
+      <button><li><a class="app-nav__item" href=""><i class='bx bx-log-out bx-rotate-180'></i> </a>
+      </li></button>
+      </form>
     </ul>
   </header>
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
   <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/images/hay.jpg" width="50px"
+    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="http://127.0.0.1:8000/assets/images/logo/download.jpg" width="50px"
         alt="User Image">
       <div>
         <p class="app-sidebar__user-name"><b>Admin</b></p>
@@ -49,7 +62,7 @@
     <ul class="app-menu">
       <!-- <li><a class="app-menu__item haha" href="phan-mem-ban-hang.html"><i class='app-menu__icon bx bx-cart-alt'></i>
           <span class="app-menu__label">POS Bán Hàng</span></a></li> -->
-      <li><a class="app-menu__item active" href="{{route('admin.index')}}"><i class='app-menu__icon bx bx-tachometer'></i><span
+      <li><a class="app-menu__item " href="{{route('admin.index')}}"><i class='app-menu__icon bx bx-tachometer'></i><span
             class="app-menu__label">Bảng điều khiển</span></a></li>
       <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-user-voice'></i><span
             class="app-menu__label">Quản lý khách hàng</span></a></li>
@@ -61,7 +74,7 @@
       <li><a class="app-menu__item" href="{{route('admin.quan-ly-bao-cao')}}"><i
             class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh thu</span></a>
       </li>
-      <li><a class="app-menu__item" href="{{route('admin.page-calendar')}}"><i class='app-menu__icon bx bx-calendar-check'></i><span
+      <li><a class="app-menu__item active" href="{{route('admin.page-calendar')}}"><i class='app-menu__icon bx bx-calendar-check'></i><span
             class="app-menu__label">Lịch công tác </span></a></li>
       <li><a class="app-menu__item" href="#"><i class='app-menu__icon bx bx-cog'></i><span class="app-menu__label">Cài
             đặt hệ thống</span></a></li>
@@ -106,58 +119,64 @@
           </div>
         </div>
       </div>
+    </div>
+    </div>
     </main>
-    <!-- Essential javascripts for application to work-->
-    <script src="http://127.0.0.1:8000/assets/js/jquery-3.2.1.min.js"></script>
-    <script src="http://127.0.0.1:8000/assets/js/popper.min.js"></script>
-    <script src="http://127.0.0.1:8000/assets/js/bootstrap.min.js"></script>
-    <script src="http://127.0.0.1:8000/assets/js/main.js"></script>
-    <!-- The javascript plugin to display page loading on top-->
-    <script src="http://127.0.0.1:8000/assets/js/plugins/pace.min.js"></script>
-    <!-- Page specific javascripts-->
-    <script type="text/javascript" src="http://127.0.0.1:8000/assets/js/plugins/moment.min.js"></script>
-    <script type="text/javascript" src="http://127.0.0.1:8000/assets/js/plugins/jquery-ui.custom.min.js"></script>
-    <script type="text/javascript" src="http://127.0.0.1:8000/assets/js/plugins/fullcalendar.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function() {
-      
-      	$('#external-events .fc-event').each(function() {
-      
-      		// store data so the calendar knows to render an event upon drop
-      		$(this).data('event', {
-      			title: $.trim($(this).text()), // use the element's text as the event title
-      			stick: true // maintain when user navigates (see docs on the renderEvent method)
-      		});
-      
-      		// make the event draggable using jQuery UI
-      		$(this).draggable({
-      			zIndex: 999,
-      			revert: true,      // will cause the event to go back to its
-      			revertDuration: 0  //  original position after the drag
-      		});
-      
-      	});
-      
-      	$('#calendar').fullCalendar({
-      		header: {
-      			left: 'prev,next today',
-      			center: 'title',
-      			right: 'month,agendaWeek,agendaDay'
-      		},
-      		editable: true,
-      		droppable: true, // this allows things to be dropped onto the calendar
-      		drop: function() {
-      			// is the "remove after drop" checkbox checked?
-      			if ($('#drop-remove').is(':checked')) {
-      				// if so, remove the element from the "Draggable Events" list
-      				$(this).remove();
-      			}
-      		}
-      	});
-      
-      
-      });
-    </script>
+    <script>
+    $(document).ready(function () {
+    // Cấu hình AJAX
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        },
+    });
+    // Xử lý kéo/thả sự kiện
+    $('#external-events .fc-event').each(function () {
+        $(this).data('event', {
+            title: $.trim($(this).text()), // Lấy nội dung làm tiêu đề sự kiện
+            stick: true, // Sự kiện sẽ giữ nguyên trên lịch
+        });
+
+        // Cho phép sự kiện được kéo thả
+        $(this).draggable({
+            zIndex: 999,
+            revert: true, // Quay lại vị trí ban đầu nếu không được thả
+            revertDuration: 0, // Thời gian quay lại
+        });
+    });
+    
+    // Cấu hình FullCalendar
+    $('#calendar').fullCalendar({
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay',
+        },
+        editable: true, // Cho phép chỉnh sửa sự kiện
+        droppable: true, // Kích hoạt tính năng kéo/thả
+        events: '/events', // Lấy danh sách sự kiện từ API
+        eventReceive: function (event) {
+            // Xử lý khi sự kiện được kéo từ danh sách vào lịch
+            $.ajax({
+                url: '/events',
+                method: 'POST',
+                data: {
+                    title: event.title,
+                    start_date: event.start.format(),
+                },
+                success: function () {
+                    alert('Sự kiện đã được lưu!');
+                },
+                error: function (xhr) {
+                    alert('Lỗi khi lưu sự kiện: ' + xhr.responseJSON.message);
+                },
+            });
+        },
+    });
+});
+
+</script>
+
     <script type="text/javascript">
       //Thời Gian
       function time() {

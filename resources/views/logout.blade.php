@@ -266,7 +266,7 @@
             <label class="name-group">
                 Ngày sinh
                 <br>
-                <input class="date" name="your-birthday" value="{{ old('your-birthday', $user->birthDay) }}" placeholder="Ngày sinh">
+                <input class="date" name="your-birthday" value="{{ old('your-birthday', $user->birthDay) }}" placeholder="năm/tháng/ngày">
             </label>
         </div>
         <div class="group-form">

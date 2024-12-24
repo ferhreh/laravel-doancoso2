@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\NuocHoa;
 use App\Models\DanhGia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class NuocHoaController extends Controller
@@ -13,7 +13,6 @@ class NuocHoaController extends Controller
     {
             // Khởi tạo query
             $query = NuocHoa::query();
-
             // Áp dụng bộ lọc nếu các checkbox được chọn
             if ($request->has('volumes') && !empty($request->volumes)) {
                 $query->whereIn('dungTich', $request->volumes);
@@ -22,7 +21,8 @@ class NuocHoaController extends Controller
                 $query->whereIn('nongDo', $request->concentrations); 
             }
             if ($request->has('thuongHieu') && !empty($request->thuongHieu)) {
-                $query->whereIn('thuongHieu', $request->thuongHieu);
+                $thuongHieu = Arr::flatten((array) $request->thuongHieu); // Làm phẳng mảng
+                $query->whereIn('thuongHieu', $thuongHieu);
             }
             if ($request->has('genders') && !empty($request->genders)) {
                 $query->whereIn('gioiTinh', $request->genders);
@@ -52,7 +52,10 @@ class NuocHoaController extends Controller
             ->orderBy('total_quantity', 'desc')
             ->limit(7)
             ->get();
-            return view('perfumes', compact('perfumes', 'brands','nameProduct', 'genders', 'concentrations', 'volumes', 'minPrice', 'maxPrice','hotProducts'));
+            $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+            $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+            $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+            return view('perfumes', compact('perfumes', 'brands','nameProduct', 'genders', 'concentrations', 'volumes', 'minPrice', 'maxPrice','hotProducts','nongDoList','dungTichList','gioiTinhList'));
     }
     public function show($id)
     {
@@ -75,7 +78,10 @@ class NuocHoaController extends Controller
         })
         ->take(7)
         ->get();
-        return view('product.detail', compact('nuocHoa','brands','danhGia','similarProducts'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('product.detail', compact('nuocHoa','brands','danhGia','similarProducts','nongDoList','dungTichList','gioiTinhList'));
     }
     public function search(Request $request)
     {

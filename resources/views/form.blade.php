@@ -474,32 +474,32 @@
                 <div class="info-img"><img src="http://127.0.0.1:8000/assets/images/bgr/bgr18.webp" alt=""></div>
                 <h3>Chanel</h3>
                 <p>Đây là thương hiệu nước hoa Pháp đẳng cấp hàng đầu thế giới và được nhiều khách hàng yêu thích. Perfume Chanel không chỉ mang lại một mùi hương dễ chịu và quyến rũ, mà còn thể hiện được cá tính của người dùng khiến hàng triệu cô nàng phải săn đuổi. Với thiết kế sang trọng, đường nét tinh tế cùng những hương liệu thiên nhiên là lý do khiến Chanel đã tạo nên tiếng vang trong ngành công nghiệp này.</p>
-                <div class="info-img"><img src="" alt=""></div>
+                <div class="info-img"><img src="https://theperfume.vn/wp-content/uploads/2013/12/banner-nuoc-hoa-chanel.jpg" alt=""></div>
                 <h3>Dior</h3>
                 <p>Khi nhắc đến thương hiệu Dior, người ta thường liên tưởng ngay đến mùi hương dịu nhẹ, cổ điển và thanh lịch. Dior cung cấp nhiều dòng với các mùi hương dành cho cả nam và nữ. Theo đó, nước hoa Dior thường được điều chế từ các thành phần tự nhiên, lành tính nên không gây hại cho sức khỏe người dùng. Các thiết kế của hãng đều mang đậm nét tinh tế, tối giản nhưng vô cùng đẳng cấp. Đây cũng là một trong những lý do khiến Dior này luôn được săn đón.</p>
-                <div class="info-img"><img src="" alt=""></div>
+                <div class="info-img"><img src="https://bizweb.dktcdn.net/100/348/157/files/nuoc-hoa-sauvage-gia-bao-nhieu-2.gif?v=1700013900231" alt=""></div>
                 <h3>Dolce & Gabbana</h3>
                 <p>Sau khi đã thành công trên thị trường thời trang, thương hiệu Dolce & Gabbana (D&G) đã lấn sang ngành công nghiệp nước hoa. Cho đến thời điểm hiện tại, Perfume Dolce & Gabbana vẫn luôn là một trong những cái tên khiến nhiều thương hiệu luxury khá dè chừng. Các dòng sản phẩm của Dolce & Gabbana được rất nhiều ngôi sao nổi tiếng trên thế giới ưu tiên lựa chọn và sử dụng.</p>
-                <div class="info-img"><img src="" alt=""></div>
+                <div class="info-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmwnhl9t3vjdmbmKNAlD_mEVmwZgCvo9ytYLWSNgG0JGBWx3RZ2dnOwOgRiAWHM6elyTA&usqp=CAU" alt=""></div>
                 <h3>Gucci</h3>
                 <p>Gucci là thương hiệu dầu thơm cao cấp đến từ nước Ý, được sáng lập vào năm 1921 bởi Guccio Gucci. Điểm nổi bật của Gucci là sự sáng tạo trong việc điều chế mùi hương. Cụ thể, hãng tạo ra những hương thơm dịu dàng, quyến rũ dành cho phái nữ nhưng cũng pha chế những mùi hương nam tính, mạnh mẽ để phù hợp với phái mạnh. Chính vì vậy, bộ sưu tập Perfume Gucci thực sự thể hiện rõ sự đa dạng qua mỗi sản phẩm.</p>
-                <div class="info-img"><img src="" alt=""></div>
+                <div class="info-img"><img src="https://fanciko.com/wp-content/uploads/2017/08/nuoc-hoa-gucci-guilty-pour-homme-90ml-1.png" alt=""></div>
                 <h3>Tom Ford</h3>
                 <p>Có thể nói, Tom Ford là thương hiệu phù hợp với những ai yêu thích phong cách tinh tế và thanh lịch. Không chỉ ở thiết kế, Perfume Tom Ford còn nổi tiếng với sự kết hợp đa dạng những nốt hương từ hương liệu tự nhiên, mang lại sự tự tin tuyệt đối cho người dùng. Với gần 90 mùi hương khác nhau, chắc chắn rằng Tom Ford perfume sẽ phù hợp cho cả nam, nữ và phi giới tính.</p>
-                <div class="info-img"><img src="" alt=""></div>
+                <div class="info-img"><img src="https://mfparis.vn/wp-content/uploads/2023/02/nuoc-hoa-nam-tom-ford-ban-chay-nhat.jpg" alt=""></div>
                 <h3>Montblanc</h3>
                 <p>Chắc chắn rằng Montblanc sẽ mang đến cho người dùng trải nghiệm thượng lưu và tinh tế. Tương tự như phong cách của thương hiệu, các loại Perfume Montblanc nổi tiếng với sản phẩm chất lượng cao, thể hiện sự tinh tế và sang trọng. Để tạo ra các mùi hương độc đáo, thương hiệu Montblanc đã hợp tác với các nhà điều chế mùi hương danh tiếng như Nathalie Lorson, Antoine Maisondieu, Olivier Pescheux,... Chính vì thế, Montblanc thường được đánh giá cao bởi sự tươi mát và thanh khiết.</p>
-                <div class="info-img"><img src="" alt=""></div>
+                <div class="info-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRua8pXNHvhG9Xi1XklIIXnHsw1eqh5eJTdYQ&s" alt=""></div>
                 <h3>Louis Vuitton</h3>
                 <p>Louis Vuitton là một trong những thương hiệu đẳng cấp đến từ nước Pháp mà bạn không thể bỏ qua. Không chỉ đứng đầu về lĩnh vực thời trang cao cấp, mà Perfume Louis Vuitton cũng đã mang đến cho người dùng một rừng hương thơm độc đáo, tinh tế. Dù đắt đỏ nhưng perfume của Louis Vuitton luôn nhận được sự quan tâm yêu thích từ các tín đồ mùi hương trên toàn thế giới.</p>
-                <div class="info-img"><img src="" alt=""></div>
+                <div class="info-img"><img src="https://media.vneconomy.vn/w800/images/upload/2021/10/11/lv1.jpg" alt=""></div>
             </div>
             <button id="toggle-btn" onclick="toggleContent()">Xem thêm</button>
         </div>
         <div class="fixed-nav">
             <ul class="fixed-nav-list">    
                 <li class="fixed-nav-item"> <a class="link-items" href="tel:0917513519"><i class="fa-solid fa-phone-volume"></i></a></li>
-                <li class="fixed-nav-item"> <a class="link-items" href=""><i class="fa-brands fa-facebook-messenger"></i></a></li>
+                <li class="fixed-nav-item"> <a class="link-items" target="_blank" href="https://www.messenger.com/t/100047471269699/"><i class="fa-brands fa-facebook-messenger"></i></a></li>
                 <li class="fixed-nav-item">
                     <div class="back-to-top"> <i class="fa-solid fa-arrow-up"></i></div>
                 </li>

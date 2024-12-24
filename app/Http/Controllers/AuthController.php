@@ -23,7 +23,10 @@ class AuthController extends Controller
         ->limit(7)
         ->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-        return view('register', compact('hotProducts','brands'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('register', compact('hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
     }
 
     // Xử lý đăng ký
@@ -58,7 +61,10 @@ class AuthController extends Controller
         ->limit(7)
         ->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-        return view('login', compact('hotProducts','brands'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('login', compact('hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
     }
 
     // Xử lý đăng nhập
@@ -92,9 +98,12 @@ class AuthController extends Controller
     // Đăng xuất
     public function showLogout()
     {
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
         $brands = NuocHoa::select('thuongHieu')->distinct()->get();
         $user = Auth::user(); // Lấy thông tin người dùng đang đăng nhập
-        return view('logout', compact('user','brands'));
+        return view('logout', compact('user','brands','nongDoList','dungTichList','gioiTinhList'));
     }
     public function logout()
     {
@@ -125,6 +134,9 @@ class AuthController extends Controller
     } 
     public function showEmailForm()
 {
+    $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+    $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+    $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
     $hotProducts = DB::table('don_hang')
     ->select('tenDonHang', DB::raw('SUM(soLuong) as total_quantity'), 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào select
     ->groupBy('tenDonHang', 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào groupBy
@@ -132,7 +144,7 @@ class AuthController extends Controller
     ->limit(7)
     ->get();
     $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-    return view('forgot-pass', compact('hotProducts','brands'));
+    return view('forgot-pass', compact('hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
 }
 
 // Gửi mã xác thực đến email
@@ -171,8 +183,11 @@ public function sendResetCode(Request $request)
 // Hiển thị form nhập mã xác thực và mật khẩu mới
 public function showResetForm()
 {
+    $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+    $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+    $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
     $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-    return view('reset-password',compact('brands'));
+    return view('reset-password',compact('brands','nongDoList','dungTichList','gioiTinhList'));
 }
 // Xác minh mã và đặt lại mật khẩu
 public function resetPassword(Request $request)

@@ -208,7 +208,7 @@
                                     <button class="btn btn-view-cart">Xem Giỏ Hàng</button>
                                     <form action="{{ route('checkout.cart') }}" method="get">
                                         @csrf
-                                        <button class="btn btn-view-cart">Thanh toán</button>
+                                        <button class="btn btn-view-cart-tt">Thanh toán</button>
                                     </form>
                                 </div>
                             @endif
@@ -223,71 +223,87 @@
                         <li><a href="{{ route('form') }}">Trang Chủ</a></li>
                         <li><a href="{{ route('about') }}">About</a></li>
                         <li class="Thuonghieu">
-                            <a href="{{ route('brands') }}">Thương hiệu</a><span class="toggle-arrow-L">&#9660;</span>
-                            <div class="menu-mega"> 
-                                <div class="menu-mega-left">
-                                    <div class="menu-mega-item">
-                                        <a href="" class="menu-header">Thương hiệu bán chạy</a><span class="toggle-arrow">&#9660;</span>
-                                        <ul class="menu-list">
-                                        @if(isset($hotProducts) && $hotProducts->isNotEmpty())
-                                        @foreach ($hotProducts as $product)
-                                            @php
-                                                // Lấy các query string hiện tại
-                                                $currentQuery = request()->query();
-                                                // Tạo hoặc cập nhật giá trị của `thuongHieu[]`
-                                                $thuongHieu = $currentQuery['thuongHieu'] ?? [];
-                                               if (!in_array($product->thuongHieu, $thuongHieu)) {
-                                                    $thuongHieu[] = $product->thuongHieu; // Thêm thương hiệu mới
-                                                }
+    <a href="{{ route('brands') }}">Thương hiệu</a><span class="toggle-arrow-L">&#9660;</span>
+    <div class="menu-mega">
+        <div class="menu-mega-left">
+            <div class="menu-mega-item">
+                <a href="" class="menu-header">Thương hiệu bán chạy</a><span class="toggle-arrow">&#9660;</span>
+                <ul class="menu-list">
+                    @if(isset($hotProducts) && $hotProducts->isNotEmpty())
+                    @foreach ($hotProducts as $product)
+                        @php
+                            // Lấy các query string hiện tại
+                            $currentQuery = request()->query();
 
-                                                // Xây dựng query mới
-                                                $newQuery = array_merge($currentQuery, ['thuongHieu' => $thuongHieu]);
+                            // Đảm bảo `$thuongHieu` luôn là một mảng
+                            $thuongHieu = isset($currentQuery['thuongHieu']) ? (array) $currentQuery['thuongHieu'] : [];
 
-                                                // Tạo URL
-                                                $url = route('perfumes', $newQuery);
-                                            @endphp
+                            if (!in_array($product->thuongHieu, $thuongHieu)) {
+                                $thuongHieu[] = $product->thuongHieu; // Thêm thương hiệu mới
+                            }
 
-                                            <li class="menu-item">
-                                                <a href="{{ $url }}">{{ $product->thuongHieu }}</a>
-                                            </li>
-                                        @endforeach
-                                        @else
-                                            <li class="menu-item">Không có sản phẩm</li>
-                                        @endif
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="menu-mega-right">
-                                    <a href="" class="menu-header">Thương hiệu nước hoa</a><span class="toggle-arrow">&#9660;</span>
-                                    <div class="word-nav">
-                                        <ul class="word-list">
-                                             <!-- Nút "All" -->
-                                            <li class="word-it" data-tab="All">
-                                                <label for="w-all">
-                                                    <input type="radio" name="w-all" id="w-all">
-                                                    <div class="box"><span class="txt">All</span></div>
-                                                </label>
-                                            </li>
-                                             <!-- Các chữ cái -->
-                                            @foreach (range('A', 'Z') as $letter)
-                                                <li class="word-it" data-tab="{{ $letter }}">
-                                                    <label for="w-{{ $letter }}">
-                                                           <input type="radio" id="w-{{ $letter }}" value="{{ $letter }}">
-                                                        <div class="box"><span class="txt">{{ $letter }}</span></div>
-                                                    </label>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                    <ul class="brand-list" id="Perfume">
-                                        @foreach ($brands as $brand)
-                                            <li class="brand-it">
-                                                <a href="">{{ is_object($brand) ? $brand->thuongHieu : $brand }}</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
+                            // Xây dựng query mới
+                            $newQuery = array_merge($currentQuery, ['thuongHieu' => $thuongHieu]);
+
+                            // Tạo URL
+                            $url = route('perfumes', $newQuery);
+                        @endphp
+
+                        <li class="menu-item">
+                            <a href="{{ $url }}">{{ $product->thuongHieu }}</a>
+                        </li>
+                    @endforeach
+                    @else
+                        <li class="menu-item">Không có sản phẩm</li>
+                    @endif
+                </ul>
+            </div>
+        </div>
+        <div class="menu-mega-right">
+            <a href="" class="menu-header">Thương hiệu nước hoa</a><span class="toggle-arrow">&#9660;</span>
+            <div class="word-nav">
+                <ul class="word-list">
+                    <!-- Nút "All" -->
+                    <li class="word-it" data-tab="All">
+                        <label for="w-all">
+                            <input type="radio" name="w-all" id="w-all">
+                            <div class="box"><span class="txt">All</span></div>
+                        </label>
+                    </li>
+                    <!-- Các chữ cái -->
+                    @foreach (range('A', 'Z') as $letter)
+                        <li class="word-it" data-tab="{{ $letter }}">
+                            <label for="w-{{ $letter }}">
+                                <input type="radio" id="w-{{ $letter }}" value="{{ $letter }}">
+                                <div class="box"><span class="txt">{{ $letter }}</span></div>
+                            </label>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+            <ul class="brand-list" id="Perfume">
+                @foreach ($brands as $brand)
+                    @php
+                        $thuongHieu = (array) request('thuongHieu', []);
+
+                        // Lấy tên thương hiệu (giả sử là `$brand->thuongHieu` nếu là đối tượng Eloquent)
+                        $brandName = is_object($brand) ? $brand->thuongHieu : $brand;
+
+                        // Kiểm tra nếu tên thương hiệu chưa có trong danh sách hiện tại
+                        if (!in_array($brandName, $thuongHieu)) {
+                            $thuongHieu[] = $brandName; // Thêm tên thương hiệu vào danh sách query
+                        }
+
+                        // Tạo URL với danh sách thương hiệu
+                        $url = route('perfumes', ['thuongHieu' => $thuongHieu]);
+                    @endphp
+                    <li class="brand-it">
+                        <a href="{{ $url }}">{{ $brandName }}</a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
                         </li>
                         <li class="Nuochoa">
                             <a href="{{ route('perfumes') }}">Nước hoa</a><span class="toggle-arrow-L">&#9660;</span>
@@ -295,9 +311,9 @@
                                 <div class="menu-mega-item">
                                     <a href="" class="menu-header">Nước hoa</a><span class="toggle-arrow">&#9660;</span>
                                     <ul class="menu-list">
-                                        <li class="menu-item"><a href="">Nước Hoa Unisex</a></li>
-                                        <li class="menu-item"><a href="">Nước Hoa Nữ</a></li>
-                                        <li class="menu-item"><a href="">Nước Hoa Nam</a></li>    
+                                        @foreach($gioiTinhList as $gioiTinh)
+                                            <li class="menu-item"><a href="{{ route('perfumes', ['genders[]' => $gioiTinh->gioiTinh]) }}">Nước hoa {{ $gioiTinh->gioiTinh }}</a></li>
+                                        @endforeach
                                     </ul>
                                 </div>
                                 <div class="menu-mega-item">
@@ -311,25 +327,17 @@
                                 <div class="menu-mega-item">
                                     <a href="#" class="menu-header">Nồng Độ </a><span class="toggle-arrow">&#9660;</span>
                                     <ul class="menu-list">
-                                        <li class="menu-item"><a href="">Eau de Cologne</a></li>
-                                        <li class="menu-item"><a href="">Eau De Parfum</a></li>
-                                        <li class="menu-item"><a href="">Eau de Toilette</a></li>
-                                        <li class="menu-item"><a href="">Eau Fraiche</a></li>    
-                                        <li class="menu-item"><a href="">Extrait de Parfum</a></li>    
-                                        <li class="menu-item"><a href="">Parfum</a></li>    
-                                        <li class="menu-item"><a href="">Parfum Enfant</a></li>    
+                                        @foreach($nongDoList as $nongDo)
+                                            <li class="menu-item"><a href="{{ route('perfumes', ['concentrations[]' => $nongDo->nongDo]) }}">{{ $nongDo->nongDo }}</a></li>
+                                        @endforeach
                                     </ul>
                                 </div>
                                 <div class="menu-mega-item">
                                     <a href="#" class="menu-header">Dung Tích</a> <span class="toggle-arrow">&#9660;</span>
                                     <ul class="menu-list">
-                                        <li class="menu-item"><a href="">100Ml</a></li>
-                                        <li class="menu-item"><a href="">10Ml</a></li>
-                                        <li class="menu-item"><a href="">125Ml</a></li>
-                                        <li class="menu-item"><a href="">35Ml</a></li>    
-                                        <li class="menu-item"><a href="">50Ml</a></li>    
-                                        <li class="menu-item"><a href="">5Ml</a></li>    
-                                        <li class="menu-item"><a href="">75Ml</a></li>    
+                                        @foreach($dungTichList as $dungTich)
+                                            <li class="menu-item"><a href="{{ route('perfumes', ['volumes[]' =>  $dungTich->dungTich]) }}">{{ $dungTich->dungTich }}</a></li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </div>
@@ -391,11 +399,24 @@ document.getElementById('search').addEventListener('focus', function () {
 
 </script>
 <script>
-    document.querySelectorAll('.word-it').forEach(item => {
+document.getElementById('Perfume').addEventListener('click', function (event) {
+    const target = event.target;
+
+    // Kiểm tra nếu phần tử được click là một liên kết trong danh sách
+    if (target.tagName === 'A' && target.closest('.brand-it')) {
+        event.preventDefault(); // Ngăn hành động mặc định nếu cần
+        const href = target.getAttribute('href');
+        console.log('Link clicked:', href);
+        // Thực hiện hành động khác nếu cần, hoặc điều hướng:
+        window.location.href = href;
+    }
+});
+
+document.querySelectorAll('.word-it').forEach(item => {
     item.addEventListener('click', function () {
-        const letter = this.getAttribute('data-tab') || 'All'; // Lấy chữ cái hoặc 'All'
+        const letter = this.getAttribute('data-tab') || 'All';
         const perfumeList = document.getElementById('Perfume');
-        
+
         // Hiển thị trạng thái loading
         perfumeList.innerHTML = '<li>Loading...</li>';
 
@@ -406,7 +427,7 @@ document.getElementById('search').addEventListener('focus', function () {
                 perfumeList.innerHTML = ''; // Xóa "Loading..."
                 if (data.length) {
                     data.forEach(brand => {
-                        perfumeList.innerHTML += `<li class="brand-it"><a href="#">${brand.thuongHieu}</a></li>`;
+                        perfumeList.innerHTML += `<li class="brand-it"><a href="/perfumes?thuongHieu[]=${brand.thuongHieu}">${brand.thuongHieu}</a></li>`;
                     });
                 } else {
                     perfumeList.innerHTML = '<li>No brands found</li>';

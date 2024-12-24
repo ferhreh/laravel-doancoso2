@@ -32,8 +32,10 @@ class CheckoutController extends Controller
 
     // Tính tổng giá
     $totalPrice = $selectedPrice * $quantity;
-
-        return view('checkout', compact('product', 'quantity', 'totalPrice', 'selectedPrice', 'soLuongDungTichNho','hotProducts','brands'));
+    $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+    $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+    $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('checkout', compact('product', 'quantity', 'totalPrice', 'selectedPrice', 'soLuongDungTichNho','hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
     }
     
     public function showCartCheckout(Request $request){
@@ -52,8 +54,10 @@ class CheckoutController extends Controller
         $totalPrice = $cartItems->sum(function ($item) {
             return $item->giaTienLon * $item->quantity;
         });
-        
-        return view('checkoutcart', compact('cartItems', 'totalPrice', 'product','totalQuantity','totalSoLuongDungTichNho','hotProducts','brands'));
+        $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+        $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+        $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
+        return view('checkoutcart', compact('cartItems', 'totalPrice', 'product','totalQuantity','totalSoLuongDungTichNho','hotProducts','brands','nongDoList','dungTichList','gioiTinhList'));
 }
 public function processCheckout(Request $request, $id)
 {
@@ -109,7 +113,10 @@ public function processCheckout(Request $request, $id)
     // Gửi email xác nhận (tùy chọn)
     Mail::to(Auth::user()->email)->send(new OrderConfirmation($orderData,$thu_nghiem));
     // Thêm đơn hàng vào bảng don_hang
- 
+
+    $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+    $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+    $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
     // Truyền dữ liệu trực tiếp vào view mà không dùng session
     return view('confirmation', [
         'product' => $product,
@@ -119,10 +126,13 @@ public function processCheckout(Request $request, $id)
         'quantity' => $quantity,
         'totalPrice' => $totalPrice, // Số tiền tổng cộng
         'processCheckout' => true, // Đánh dấu đây là processCheckout
-    ],compact('hotProducts','brands','totalPrice'));
+    ],compact('hotProducts','brands','totalPrice','nongDoList','dungTichList','gioiTinhList'));
 }
 public function processCartCheckout(Request $request, $id)
 {
+    $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+    $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+    $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
     $hotProducts = DB::table('don_hang')
     ->select('tenDonHang', DB::raw('SUM(soLuong) as total_quantity'), 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào select
     ->groupBy('tenDonHang', 'image', 'order_id', 'thuongHieu') // Thêm thuongHieu vào groupBy
@@ -194,14 +204,17 @@ public function processCartCheckout(Request $request, $id)
         'quantity' => $quantity,
         'totalPrice' => $totalPrice,
         'processCartCheckout' => true, // Đánh dấu đây là processCartCheckout
-    ],compact('hotProducts','brands','totalPrice','thu_nghiem'));
+    ],compact('hotProducts','brands','totalPrice','thu_nghiem','nongDoList','dungTichList','gioiTinhList'));
 }
 public function lichSuDonHang()
 {
+    $nongDoList = NuocHoa::select('nongDo')->distinct()->get();
+    $dungTichList = NuocHoa::select('dungTich')->distinct()->get();
+    $gioiTinhList = NuocHoa::select('gioiTinh')->distinct()->get();
     $user = Auth::user(); // Lấy thông tin người dùng đăng nhập
     $donHangs = DonHang::where('user_id', $user->id)->get();
     $brands = NuocHoa::select('thuongHieu')->distinct()->get();
-    return view('lich_su_don_hang', compact('donHangs','brands'));
+    return view('lich_su_don_hang', compact('donHangs','brands','nongDoList','dungTichList','gioiTinhList'));
 }
 // Hàm tạo mã đơn hàng
 private function generateOrderCode()
