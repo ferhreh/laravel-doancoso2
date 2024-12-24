@@ -1,0 +1,12 @@
+file hướng dẫn
+em chào thầy ạ!
+web em dùng chung phần đăng nhập nên khi text thầy dùng tài khoảng admin để vừa text chức năng của shop vừa mua hàng vừa quản trị ạ
+link admin:http://127.0.0.1:8000/admin/index
+link người dùng :http://127.0.0.1:8000/
+tài khoảng:manhtuan23022005@gmail.com
+password:12345678
+khi đăng nhập nó vào admin nên thầy lấy đường link người dùng dán vào tab mới để text song song các chức năng giữa admin và người dùng ạ!
+link github đầy đủ sourcode: https://github.com/ferhreh/laravel-doancoso2
+link video chạy thử:https://drive.google.com/file/d/19WEoAg-bVo6bIZFDj7cdwYpB7wccMfw0/view?usp=sharing
+về phần database thầy tạo bảng có tên trong xampp là database và import vào và chạy thử file database nằm trong file hướng dẫn trong sourcode 
+
